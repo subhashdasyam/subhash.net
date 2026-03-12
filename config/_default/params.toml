@@ -1,6 +1,6 @@
-colorScheme = "blowfish"
+colorScheme = "subhash"
 defaultAppearance = "dark"
-autoSwitchAppearance = true
+autoSwitchAppearance = false
 
 enableSearch = true
 enableCodeCopy = true

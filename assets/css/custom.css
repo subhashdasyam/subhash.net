@@ -1,0 +1,131 @@
+/* Custom fonts: Space Grotesk (headings), Inter (body), JetBrains Mono (code) */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Headings use Space Grotesk */
+h1, h2, h3, h4, h5, h6,
+.article-title,
+header h1 {
+  font-family: 'Space Grotesk', var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+/* Site title in nav */
+.site-title {
+  font-family: 'Space Grotesk', var(--font-sans);
+  letter-spacing: 0.05em;
+}
+
+/* Terminal-style grid background for dark mode */
+.dark body {
+  background-image:
+    linear-gradient(rgba(255, 77, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 77, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Code blocks - terminal feel */
+pre {
+  border: 1px solid rgba(255, 77, 0, 0.15) !important;
+  border-radius: 4px !important;
+}
+
+.dark pre {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+code {
+  font-family: 'JetBrains Mono', var(--font-mono);
+}
+
+/* Inline code */
+:not(pre) > code {
+  border-radius: 3px;
+  padding: 0.15em 0.4em;
+}
+
+.dark :not(pre) > code {
+  background-color: rgba(255, 77, 0, 0.1);
+  color: rgb(255, 170, 110);
+}
+
+/* Terminal-style link hover */
+.dark a:hover {
+  text-shadow: 0 0 8px rgba(255, 77, 0, 0.3);
+}
+
+/* Tag pills - terminal style */
+.dark article a[href*="/tags/"] {
+  border: 1px solid rgba(255, 77, 0, 0.3);
+}
+
+.dark article a[href*="/tags/"]:hover {
+  background-color: rgba(255, 77, 0, 0.15);
+  border-color: rgba(255, 77, 0, 0.6);
+}
+
+/* Reading progress bar */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, rgb(255, 77, 0), rgb(255, 150, 50));
+  z-index: 9999;
+  transition: width 50ms ease-out;
+}
+
+/* Cards hover effect */
+.dark .card:hover {
+  border-color: rgba(255, 77, 0, 0.3);
+  box-shadow: 0 0 20px rgba(255, 77, 0, 0.05);
+}
+
+/* Scrollbar styling for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgb(24, 24, 27);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(63, 63, 70);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(255, 77, 0);
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(255, 77, 0, 0.3);
+  color: white;
+}
+
+/* Blinking cursor after site title - terminal feel */
+.site-title::after {
+  content: '█';
+  animation: blink 1s step-end infinite;
+  opacity: 0.7;
+  margin-left: 2px;
+  color: rgb(255, 77, 0);
+  font-size: 0.8em;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Author headline styling */
+.dark .text-neutral-500 {
+  font-family: 'JetBrains Mono', var(--font-mono);
+  font-size: 0.85rem;
+}
