@@ -1,0 +1,10 @@
+# {{ .Site.Title }}
+
+> {{ .Site.Params.description }}
+
+## Posts
+
+{{ range where .Site.RegularPages "Section" "posts" -}}
+- [{{ .Title }}]({{ .Permalink }}) — {{ .Summary | plainify | truncate 100 }}
+  - Raw Markdown: {{ .Permalink }}index.md
+{{ end }}

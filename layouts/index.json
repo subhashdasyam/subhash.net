@@ -1,0 +1,21 @@
+{{- $pages := where .Site.RegularPages "Section" "posts" -}}
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": {{ .Site.Title | jsonify }},
+  "home_page_url": {{ .Site.BaseURL | jsonify }},
+  "feed_url": {{ (printf "%sindex.json" .Site.BaseURL) | jsonify }},
+  "items": [
+    {{- range $i, $page := $pages }}
+    {{- if $i }},{{ end }}
+    {
+      "id": {{ .Permalink | jsonify }},
+      "url": {{ .Permalink | jsonify }},
+      "title": {{ .Title | jsonify }},
+      "date_published": {{ .Date.Format "2006-01-02T15:04:05Z07:00" | jsonify }},
+      "summary": {{ .Summary | plainify | jsonify }},
+      "tags": {{ .Params.tags | default (slice) | jsonify }},
+      "content_text": {{ .Plain | jsonify }}
+    }
+    {{- end }}
+  ]
+}
