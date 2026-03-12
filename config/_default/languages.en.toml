@@ -1,0 +1,18 @@
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "Subhash Dasyam"
+
+[params]
+  displayName = "English"
+  isoCode = "en"
+  dateFormat = "2 January 2006"
+  description = "Personal blog and notes by Subhash Dasyam"
+
+[params.author]
+  name = "Subhash Dasyam"
+  headline = "Security Researcher & Engineer"
+  bio = "Security researcher, engineer, and builder."
+  links = [
+    { github = "https://github.com/subhashdasyam" },
+  ]

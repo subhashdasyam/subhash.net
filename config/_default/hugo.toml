@@ -1,0 +1,64 @@
+theme = "blowfish"
+baseURL = "https://subhash.net/"
+defaultContentLanguage = "en"
+
+enableRobotsTXT = true
+summaryLength = 30
+buildDrafts = false
+buildFuture = false
+enableEmoji = true
+
+[pagination]
+  pagerSize = 10
+
+[imaging]
+  anchor = 'Center'
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[sitemap]
+  changefreq = 'weekly'
+  filename = 'sitemap.xml'
+  priority = 0.5
+
+# -- Custom Output Formats --
+[mediaTypes]
+  [mediaTypes."text/llms"]
+    suffixes = ["txt"]
+  [mediaTypes."text/markdown"]
+    suffixes = ["md"]
+
+[outputFormats]
+  [outputFormats.llms]
+    mediaType = "text/llms"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.markdown]
+    mediaType = "text/markdown"
+    baseName = "index"
+    isPlainText = true
+    notAlternative = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON", "llms"]
+  section = ["HTML", "RSS"]
+  page = ["HTML", "markdown"]
+
+[related]
+  threshold = 0
+  toLower = false
+
+    [[related.indices]]
+      name = "tags"
+      weight = 100
+
+    [[related.indices]]
+      name = "categories"
+      weight = 100
+
+    [[related.indices]]
+      name = "date"
+      weight = 10
