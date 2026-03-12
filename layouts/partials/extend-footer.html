@@ -1,0 +1,21 @@
+<!-- Reading progress bar -->
+<div class="reading-progress" id="reading-progress"></div>
+<script>
+(function() {
+  var bar = document.getElementById('reading-progress');
+  if (!bar) return;
+  var article = document.querySelector('article') || document.querySelector('main');
+  if (!article) { bar.style.display = 'none'; return; }
+  var total = article.scrollHeight - window.innerHeight;
+  if (total <= 0) { bar.style.display = 'none'; return; }
+  function update() {
+    var rect = article.getBoundingClientRect();
+    var t = rect.height - window.innerHeight;
+    if (t <= 0) { bar.style.width = '100%'; return; }
+    var p = Math.min(Math.max(-rect.top / t, 0), 1);
+    bar.style.width = (p * 100) + '%';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
