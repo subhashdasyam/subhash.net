@@ -331,6 +331,39 @@ font-family: 'JetBrains Mono'; font-size: 0.8rem;
 color: #ff4d00; font-weight: 700; text-decoration: none;
 }
 
+/* --- Search (not in the original theme) --- */
+.search-form {
+display: flex; align-items: stretch; gap: 0;
+border: 1px solid var(--border); background: var(--bg);
+margin: 0 0 1rem;
+}
+.search-form:focus-within { border-color: var(--accent); }
+.search-prompt {
+display: flex; align-items: center; padding: 0 4px 0 16px;
+font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;
+color: var(--accent); user-select: none;
+}
+#search-input {
+flex: 1; min-width: 0;
+background: transparent; border: none; outline: none;
+padding: 16px 16px 16px 8px;
+font-family: var(--font-mono); font-size: 1rem; color: var(--text);
+}
+#search-input::placeholder { color: var(--text-meta); }
+/* Chrome draws a clear "x" that clashes with the terminal look */
+#search-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+
+.search-status {
+font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.5px;
+text-transform: uppercase; color: var(--text-meta);
+}
+
+/* Results reuse .post cards, so they only need spacing from the search box. */
+#search-results { margin-top: 40px; }
+#search-results .post-snippet mark {
+background: var(--accent); color: #fff; padding: 0 2px;
+}
+
 /* --- Post footer (tags on the article itself) --- */
 .post-tags { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px dashed var(--border); }
 .post-tags .protocol-label { margin-bottom: .75rem; }

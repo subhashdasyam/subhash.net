@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.LanguageCode | default "en" }}" dir="ltr">
 {{ partial "head.html" . }}
-<body>
+<body data-search-url="{{ "/search/" | relURL }}">
 
 {{ block "progress" . }}{{ end }}
 
@@ -21,9 +21,11 @@
 
 <button id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">&uarr;</button>
 
-{{ with resources.Get "js/theme.js" }}
-  {{ $js := . | minify | fingerprint }}
-  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
-{{ end }}
+{{/* theme.js + search.js in one request. search.js no-ops off the search page
+     apart from the "/" shortcut, so there is nothing to gain by splitting. */}}
+{{- $theme := resources.Get "js/theme.js" }}
+{{- $search := resources.Get "js/search.js" }}
+{{- $js := slice $theme $search | resources.Concat "js/bundle.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
 </body>
 </html>

@@ -43,9 +43,16 @@ enableEmoji = true
     baseName = "index"
     isPlainText = true
     notAlternative = true
+  # Search index for the theme's client-side search. Separate from the JSON
+  # Feed at /index.json, which is a publishing format and carries full HTML.
+  [outputFormats.searchindex]
+    mediaType = "application/json"
+    baseName = "search-index"
+    isPlainText = true
+    notAlternative = true
 
 [outputs]
-  home = ["HTML", "RSS", "JSON", "llms"]
+  home = ["HTML", "RSS", "JSON", "llms", "searchindex"]
   section = ["HTML", "RSS"]
   page = ["HTML", "markdown"]
 

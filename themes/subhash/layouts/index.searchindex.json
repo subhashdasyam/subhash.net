@@ -1,0 +1,24 @@
+{{- /*
+  Search index consumed by assets/js/search.js.
+
+  Content is plainified and capped per post. Uncapped this would be ~1.1 MB
+  (see /index.json, which carries full HTML) -- too much to hand a visitor who
+  just wants to find a post. The cap keeps it small while still reaching well
+  past the summary into the body.
+*/ -}}
+{{- $limit := 4000 -}}
+{{- $pages := where .Site.RegularPages "Section" "posts" -}}
+[
+{{- range $i, $p := $pages }}
+  {{- if $i }},{{ end }}
+  {
+    "t": {{ $p.Title | jsonify }},
+    "u": {{ $p.RelPermalink | jsonify }},
+    "d": {{ $p.Date.Format "2006-01-02" | jsonify }},
+    "s": {{ $p.Params.system | default "" | jsonify }},
+    "g": {{ (or $p.Params.tags slice) | jsonify }},
+    "e": {{ $p.Summary | plainify | truncate 220 | jsonify }},
+    "b": {{ $p.Content | plainify | truncate $limit | jsonify }}
+  }
+{{- end }}
+]

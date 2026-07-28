@@ -1,0 +1,34 @@
+{{ define "main" }}
+<article class="post">
+  <h1 class="post-title">{{ .Title }}</h1>
+  <div class="post-meta">
+    <span>INDEX: {{ len (where .Site.RegularPages "Section" "posts") }} posts</span>
+    <span class="post-meta-system">HINT: press / anywhere</span>
+  </div>
+
+  <div class="post-body">
+    {{ with .Content }}{{ . }}{{ end }}
+
+    {{/* the index is emitted by the home page, not this one */}}
+    <form id="search-form" class="search-form" role="search"
+          data-index="{{ (.Site.Home.OutputFormats.Get "searchindex").RelPermalink }}">
+      <label class="search-prompt" for="search-input">$</label>
+      <input id="search-input" name="q" type="search" autocomplete="off" spellcheck="false"
+             placeholder="grep posts..." aria-label="Search posts">
+    </form>
+
+    <div id="search-status" class="search-status">JAVASCRIPT REQUIRED</div>
+  </div>
+</article>
+
+<div id="search-results"></div>
+
+<noscript>
+  <article class="post">
+    <div class="post-body">
+      <p>Search needs JavaScript. Browse <a href="{{ "/posts/" | relURL }}">all posts</a>
+         or the <a href="{{ "/tags/" | relURL }}">tag index</a> instead.</p>
+    </div>
+  </article>
+</noscript>
+{{ end }}

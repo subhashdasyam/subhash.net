@@ -9,7 +9,7 @@ summary: "First post on the new site. Why I set this up and what to expect."
 
 I've been meaning to set up a proper personal site for a while. Somewhere to write about the things I work on, share notes, and have a home base on the web that I actually control.
 
-This site is built with [Hugo](https://gohugo.io/) and the [Blowfish](https://blowfish.page/) theme. It's deployed via GitHub Actions to GitHub Pages with a custom domain.
+This site is built with [Hugo](https://gohugo.io/) and a custom theme. It's deployed via GitHub Actions to GitHub Pages with a custom domain.
 
 ## What to Expect
 
@@ -24,7 +24,7 @@ I'll be writing about:
 Nothing fancy:
 
 - Hugo for static site generation
-- Blowfish theme for a clean, dark-mode-first design
+- A custom theme — neo-brutalist, terminal-flavoured, dark-mode-first
 - GitHub Pages for hosting
 - GitHub Actions for CI/CD
 
