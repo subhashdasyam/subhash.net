@@ -142,7 +142,37 @@ Let's walk through the architecture of a production-ready encrypted RAG system.
 ### Search Pipeline Overview
 
 ```text
-┌─────────────────────────────────────────────────────────────┐│                     SEARCH PIPELINE                          │├─────────────────────────────────────────────────────────────┤│                                                              ││  User Query                                                  ││       ↓                                                      ││  Query Embedding (BGE-M3)                                    ││       ↓                                                      ││  Retrieve ALL Encrypted Vectors (PostgreSQL)                ││       ↓                                                      ││  For each encrypted vector:                                 ││    • Compute encrypted dot product (homomorphic)            ││    • Decrypt similarity score only                          ││       ↓                                                      ││  Sort by score, return top-k chunks                         ││       ↓                                                      ││  LLM Answer Generation (Ollama/qwen3:8b)                    ││                                                              │└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐│
+                     SEARCH PIPELINE
+                          │├─────────────────────────────────────────────────────────────┤│
+                                                              ││
+  User Query
+                                                  ││
+       ↓
+                                                      ││
+  Query Embedding (BGE-M3)
+                                    ││
+       ↓
+                                                      ││
+  Retrieve ALL Encrypted Vectors (PostgreSQL)
+                ││
+       ↓
+                                                      ││
+  For each encrypted vector:
+                                 ││
+    • Compute encrypted dot product (homomorphic)
+            ││
+    • Decrypt similarity score only
+                          ││
+       ↓
+                                                      ││
+  Sort by score, return top-k chunks
+                         ││
+       ↓
+                                                      ││
+  LLM Answer Generation (Ollama/qwen3:8b)
+                    ││
+                                                              │└─────────────────────────────────────────────────────────────┘
 ```
 
 ### Component Deep Dive

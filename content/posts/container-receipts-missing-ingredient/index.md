@@ -165,7 +165,7 @@ The SBOM might be small - just 120KB for a 300MB container - but it contains eve
 
 Here's how to integrate container receipts into a Jenkins pipeline:
 
-```yaml
+```groovy
 pipeline {
     agent {
         kubernetes {

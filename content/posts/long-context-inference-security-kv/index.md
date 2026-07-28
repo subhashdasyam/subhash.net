@@ -168,7 +168,17 @@ Evaluate this credit limit increase request.
 Attacker (Tenant B) probes:
 
 ```
-import timeimport openaidef probe_prefix(prefix):    start = time.time()    response = client.completions.create(        model="shared-inference-endpoint",        prompt=prefix,        max_tokens=1    )    return time.time() - start# Systematically probecandidates = ["You are", "You are a", "You are a credit", ...]for c in candidates:    ttft = probe_prefix(c)    if ttft < threshold:  # Cache hit detected        print(f"Found cached prefix: {c}")
+import timeimport openaidef probe_prefix(prefix):
+    start = time.time()
+    response = client.completions.create(
+        model="shared-inference-endpoint",
+        prompt=prefix,
+        max_tokens=1
+    )
+    return time.time() - start# Systematically probecandidates = ["You are", "You are a", "You are a credit", ...]for c in candidates:
+    ttft = probe_prefix(c)
+    if ttft < threshold:  # Cache hit detected
+        print(f"Found cached prefix: {c}")
 ```
 
 Result: Attacker reconstructs the full prompt including customer ID, income, employer, and credit limit request. This is a data breach.
@@ -241,7 +251,11 @@ Real Talk: Hardware side-channels are not theoretical. They work against real ML
 Long contexts use more memory. An attacker can exploit this:
 
 ```
-# Attacker floods the inference clusterfor i in range(1000):    client.completions.create(        prompt="A" * 100000,  # 100K tokens of padding        max_tokens=1    )
+# Attacker floods the inference clusterfor i in range(1000):
+    client.completions.create(
+        prompt="A" * 100000,  # 100K tokens of padding
+        max_tokens=1
+    )
 ```
 
 What happens:
@@ -458,7 +472,19 @@ SafeKV modifies the inference engine:
 4. Access Pattern Monitoring: Alerts on probing attempts
 
 ```python
-class SafeKVCache:    def __init__(self):        self.shared_cache = RadixTree()     # Safe prefixes        self.tenant_caches = {}              # Per-tenant sensitive        self.access_monitor = EntropyMonitor()    def lookup(self, prefix, tenant_id, is_sensitive):        self.access_monitor.record(tenant_id, prefix)        if self.access_monitor.detect_probing(tenant_id):            raise SecurityAlert("Potential timing attack detected")        if is_sensitive:            # Only check tenant's private cache            return self.tenant_caches.get(tenant_id, {}).get(prefix)        else:            # Can use shared cache            return self.shared_cache.get(prefix)
+class SafeKVCache:
+    def __init__(self):
+        self.shared_cache = RadixTree()  # Safe prefixes
+        self.tenant_caches = {}  # Per-tenant sensitive
+        self.access_monitor = EntropyMonitor()
+    def lookup(self, prefix, tenant_id, is_sensitive):
+        self.access_monitor.record(tenant_id, prefix)
+        if self.access_monitor.detect_probing(tenant_id):
+            raise SecurityAlert("Potential timing attack detected")
+        if is_sensitive:  # Only check tenant's private cache
+            return self.tenant_caches.get(tenant_id, {}).get(prefix)
+        else:  # Can use shared cache
+            return self.shared_cache.get(prefix)
 ```
 
 ### 8.3 Results
@@ -490,13 +516,19 @@ Different salt = different cache key = no cache sharing.
 Python client:
 
 ```
-from openai import OpenAIclient = OpenAI(base_url="http://vllm-server:8000/v1")# Per-tenant isolationresponse = client.completions.create(    model="llama-70b",    prompt=user_prompt,    extra_body={        "cache_salt": tenant_id  # Unique per tenant    })
+from openai import OpenAIclient = OpenAI(base_url="http://vllm-server:8000/v1")# Per-tenant isolationresponse = client.completions.create(
+    model="llama-70b",
+    prompt=user_prompt,
+    extra_body={
+        "cache_salt": tenant_id  # Unique per tenant
+    })
 ```
 
 Environment variable:
 
 ```
-# Set globally for the inference serverexport VLLM_CACHE_SALT="${TENANT_ID}"vllm serve meta-llama/Llama-3-70B \    --enable-prefix-caching=true
+# Set globally for the inference serverexport VLLM_CACHE_SALT="${TENANT_ID}"vllm serve meta-llama/Llama-3-70B \
+    --enable-prefix-caching=true
 ```
 
 ### 9.3 Kubernetes Policy Enforcement
@@ -504,13 +536,45 @@ Environment variable:
 Kyverno policy - require cache salt:
 
 ```yaml
-apiVersion: kyverno.io/v1kind: ClusterPolicymetadata:  name: require-vllm-cache-saltspec:  validationFailureAction: Enforce  rules:    - name: require-cache-salt      match:        resources:          kinds:            - Deployment          selector:            matchLabels:              app.kubernetes.io/name: vllm      validate:        message: "vLLM deployments must set VLLM_CACHE_SALT for tenant isolation"        pattern:          spec:            template:              spec:                containers:                  - name: vllm                    env:                      - name: VLLM_CACHE_SALT                        value: "?*"  # Must be non-empty
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-vllm-cache-salt
+spec:
+  validationFailureAction: Enforce
+  rules:
+    - name: require-cache-salt
+      match:
+        resources:
+          kinds:
+            - Deployment
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: vllm
+      validate:
+        message: "vLLM deployments must set VLLM_CACHE_SALT for tenant isolation"
+        pattern:
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: vllm
+                    env:
+                      - name: VLLM_CACHE_SALT
+                        value: "?*"  # Must be non-empty
 ```
 
 OPA policy - deny prefix caching for confidential workloads:
 
 ```rego
-package kubernetes.admissiondeny[msg] {    input.request.kind.kind == "Deployment"    input.request.object.metadata.labels["data-classification"] == "confidential"    container := input.request.object.spec.template.spec.containers[_]    container.name == "vllm"    arg := container.args[_]    contains(arg, "--enable-prefix-caching=true")    msg := "Confidential workloads must not enable prefix caching"}
+package kubernetes.admissiondeny[msg] {
+    input.request.kind.kind == "Deployment"
+    input.request.object.metadata.labels["data-classification"] == "confidential"
+    container := input.request.object.spec.template.spec.containers[_]
+    container.name == "vllm"
+    arg := container.args[_]
+    contains(arg, "--enable-prefix-caching=true")
+    msg := "Confidential workloads must not enable prefix caching"}
 ```
 
 ## 10. Defense: Hardware Isolation
@@ -541,7 +605,16 @@ Properties:
 Kubernetes configuration:
 
 ```yaml
-apiVersion: v1kind: Podmetadata:  name: inference-tenant-aspec:  containers:    - name: vllm      resources:        limits:          nvidia.com/mig-3g.20gb: 1  # Request specific MIG slice
+apiVersion: v1
+kind: Pod
+metadata:
+  name: inference-tenant-a
+spec:
+  containers:
+    - name: vllm
+      resources:
+        limits:
+          nvidia.com/mig-3g.20gb: 1  # Request specific MIG slice
 ```
 
 Real Talk: MIG is the only way to get true hardware isolation on shared GPUs. Software isolation (cache salt, SafeKV) reduces risk but cannot eliminate hardware side-channels.
@@ -617,7 +690,14 @@ Performance:
 Standard LRU (Least Recently Used) eviction is predictable:
 
 ```
-# Attacker can probe eviction behaviordef probe_eviction(target_prefix):    # 1. Fill cache with known content    for i in range(CACHE_SIZE):        send_request(f"padding_{i}")    # 2. Access target to bring it to front    send_request(target_prefix)    # 3. Fill cache again, measure if target is evicted    for i in range(CACHE_SIZE):        send_request(f"padding_{i}")    # 4. Re-probe target, check if cache hit    ttft = measure_ttft(target_prefix)    return ttft < HIT_THRESHOLD  # True = was not evicted = was accessed recently
+# Attacker can probe eviction behaviordef probe_eviction(target_prefix):  # 1. Fill cache with known content
+    for i in range(CACHE_SIZE):
+        send_request(f"padding_{i}")  # 2. Access target to bring it to front
+    send_request(target_prefix)  # 3. Fill cache again, measure if target is evicted
+    for i in range(CACHE_SIZE):
+        send_request(f"padding_{i}")  # 4. Re-probe target, check if cache hit
+    ttft = measure_ttft(target_prefix)
+    return ttft < HIT_THRESHOLD  # True = was not evicted = was accessed recently
 ```
 
 This reveals cache access patterns.
@@ -631,7 +711,11 @@ TensorRT-LLM uses priority-based eviction:
 - Non-deterministic from attacker's view
 
 ```python
-class SecureEvictionPolicy:    def select_victim(self):        candidates = self.get_eviction_candidates()        # Add randomization        weights = [1.0 / (c.priority + random.random()) for c in candidates]        # Probabilistic selection instead of deterministic        return random.choices(candidates, weights=weights)[0]
+class SecureEvictionPolicy:
+    def select_victim(self):
+        candidates = self.get_eviction_candidates()  # Add randomization
+        weights = [1.0 / (c.priority + random.random()) for c in candidates]  # Probabilistic selection instead of deterministic
+        return random.choices(candidates, weights=weights)[0]
 ```
 
 ### 12.3 Entropy-Based Monitoring
@@ -639,7 +723,21 @@ class SecureEvictionPolicy:    def select_victim(self):        candidates = self
 Detect unusual access patterns that indicate probing:
 
 ```python
-class EntropyMonitor:    def __init__(self):        self.access_log = defaultdict(list)    def record_access(self, tenant_id, prefix_hash):        self.access_log[tenant_id].append({            'prefix': prefix_hash,            'time': time.time()        })    def detect_probing(self, tenant_id):        recent = self.access_log[tenant_id][-1000:]        # Check for systematic enumeration        prefix_entropy = self.calculate_entropy([a['prefix'] for a in recent])        time_regularity = self.calculate_time_regularity(recent)        # Low entropy + high regularity = likely probing        if prefix_entropy < ENTROPY_THRESHOLD and time_regularity > REG_THRESHOLD:            return True        return False
+class EntropyMonitor:
+    def __init__(self):
+        self.access_log = defaultdict(list)
+    def record_access(self, tenant_id, prefix_hash):
+        self.access_log[tenant_id].append({
+            'prefix': prefix_hash,
+            'time': time.time()
+        })
+    def detect_probing(self, tenant_id):
+        recent = self.access_log[tenant_id][-1000:]  # Check for systematic enumeration
+        prefix_entropy = self.calculate_entropy([a['prefix'] for a in recent])
+        time_regularity = self.calculate_time_regularity(recent)  # Low entropy + high regularity = likely probing
+        if prefix_entropy < ENTROPY_THRESHOLD and time_regularity > REG_THRESHOLD:
+            return True
+        return False
 ```
 
 ## 13. Implementation Guide
@@ -649,19 +747,31 @@ class EntropyMonitor:    def __init__(self):        self.access_log = defaultdic
 Option A: Disable prefix caching (maximum security)
 
 ```
-vllm serve meta-llama/Llama-3-70B \    --enable-prefix-caching=false \    --kv-cache-dtype=fp16 \    --trust-remote-code=false \    --disable-log-requests  # Don't log prompts
+vllm serve meta-llama/Llama-3-70B \
+    --enable-prefix-caching=false \
+    --kv-cache-dtype=fp16 \
+    --trust-remote-code=false \
+    --disable-log-requests  # Don't log prompts
 ```
 
 Option B: Per-tenant cache salt (balanced)
 
 ```
-# In your inference service wrapperexport VLLM_CACHE_SALT="${TENANT_ID}"vllm serve meta-llama/Llama-3-70B \    --enable-prefix-caching=true \    --kv-cache-dtype=fp16
+# In your inference service wrapperexport VLLM_CACHE_SALT="${TENANT_ID}"vllm serve meta-llama/Llama-3-70B \
+    --enable-prefix-caching=true \
+    --kv-cache-dtype=fp16
 ```
 
 Option C: Full SafeKV integration (best tradeoff)
 
 ```
-# Requires SafeKV-patched vLLMfrom vllm import LLM, SamplingParamsfrom safeKV import SafeKVConfigconfig = SafeKVConfig(    sensitivity_classifier="bert-base-privacy",    tenant_isolation=True,    access_monitoring=True)llm = LLM(    model="meta-llama/Llama-3-70B",    enable_prefix_caching=True,    kv_cache_config=config)
+# Requires SafeKV-patched vLLMfrom vllm import LLM, SamplingParamsfrom safeKV import SafeKVConfigconfig = SafeKVConfig(
+    sensitivity_classifier="bert-base-privacy",
+    tenant_isolation=True,
+    access_monitoring=True)llm = LLM(
+    model="meta-llama/Llama-3-70B",
+    enable_prefix_caching=True,
+    kv_cache_config=config)
 ```
 
 ### 13.2 Kubernetes Policies
@@ -669,13 +779,111 @@ Option C: Full SafeKV integration (best tradeoff)
 Complete Kyverno policy set:
 
 ```yaml
-apiVersion: kyverno.io/v1kind: ClusterPolicymetadata:  name: secure-inference-policiesspec:  validationFailureAction: Enforce  rules:    # Rule 1: Require cache salt    - name: require-cache-salt      match:        resources:          kinds: [Deployment]          selector:            matchLabels:              app.kubernetes.io/component: inference      validate:        message: "Inference deployments must set cache isolation"        anyPattern:          - spec:              template:                spec:                  containers:                    - env:                        - name: VLLM_CACHE_SALT                          value: "?*"          - spec:              template:                spec:                  containers:                    - args:                        - "--enable-prefix-caching=false"    # Rule 2: Require MIG for multi-tenant    - name: require-mig-multitenant      match:        resources:          kinds: [Deployment]          selector:            matchLabels:              tenancy: multi-tenant      validate:        message: "Multi-tenant inference requires MIG isolation"        pattern:          spec:            template:              spec:                containers:                  - resources:                      limits:                        nvidia.com/mig-*: "*"    # Rule 3: Minimum vLLM version    - name: minimum-vllm-version      match:        resources:          kinds: [Deployment]          selector:            matchLabels:              app.kubernetes.io/name: vllm      validate:        message: "vLLM must be >= 0.8.5 (CVE fixes)"        pattern:          spec:            template:              spec:                containers:                  - image: "vllm/vllm-openai:0.8.5* | vllm/vllm-openai:0.9.* | vllm/vllm-openai:1.*"
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: secure-inference-policies
+spec:
+  validationFailureAction: Enforce
+  rules:  # Rule 1: Require cache salt
+    - name: require-cache-salt
+      match:
+        resources:
+          kinds: [Deployment]
+          selector:
+            matchLabels:
+              app.kubernetes.io/component: inference
+      validate:
+        message: "Inference deployments must set cache isolation"
+        anyPattern:
+          - spec:
+              template:
+                spec:
+                  containers:
+                    - env:
+                        - name: VLLM_CACHE_SALT
+                          value: "?*"
+          - spec:
+              template:
+                spec:
+                  containers:
+                    - args:
+                        - "--enable-prefix-caching=false"  # Rule 2: Require MIG for multi-tenant
+    - name: require-mig-multitenant
+      match:
+        resources:
+          kinds: [Deployment]
+          selector:
+            matchLabels:
+              tenancy: multi-tenant
+      validate:
+        message: "Multi-tenant inference requires MIG isolation"
+        pattern:
+          spec:
+            template:
+              spec:
+                containers:
+                  - resources:
+                      limits:
+                        nvidia.com/mig-*: "*"  # Rule 3: Minimum vLLM version
+    - name: minimum-vllm-version
+      match:
+        resources:
+          kinds: [Deployment]
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: vllm
+      validate:
+        message: "vLLM must be >= 0.8.5 (CVE fixes)"
+        pattern:
+          spec:
+            template:
+              spec:
+                containers:
+                  - image: "vllm/vllm-openai:0.8.5* | vllm/vllm-openai:0.9.* | vllm/vllm-openai:1.*"
 ```
 
 NetworkPolicy for inference isolation:
 
 ```yaml
-apiVersion: networking.k8s.io/v1kind: NetworkPolicymetadata:  name: inference-isolation  namespace: ml-inferencespec:  podSelector:    matchLabels:      app.kubernetes.io/component: inference  policyTypes:    - Ingress    - Egress  ingress:    - from:        - podSelector:            matchLabels:              app.kubernetes.io/component: api-gateway      ports:        - port: 8000          protocol: TCP  egress:    - to:        - podSelector:            matchLabels:              app.kubernetes.io/component: model-store      ports:        - port: 9000          protocol: TCP    - to:        - namespaceSelector:            matchLabels:              name: kube-system          podSelector:            matchLabels:              k8s-app: kube-dns      ports:        - port: 53          protocol: UDP
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: inference-isolation
+  namespace: ml-inference
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: inference
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/component: api-gateway
+      ports:
+        - port: 8000
+          protocol: TCP
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/component: model-store
+      ports:
+        - port: 9000
+          protocol: TCP
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
 ```
 
 ### 13.3 Version Requirements
@@ -769,7 +977,14 @@ Properties:
 Anti-pattern 1: Shared prefix caching across tenants
 
 ```
-# WRONG: Default vLLM configapiVersion: apps/v1kind: Deploymentspec:  template:    spec:      containers:        - name: vllm          args:            - "serve"            - "--enable-prefix-caching=true"            # No cache salt = cross-tenant leakage
+# WRONG: Default vLLM configapiVersion: apps/v1kind: Deploymentspec:
+  template:
+    spec:
+      containers:
+        - name: vllm
+          args:
+            - "serve"
+            - "--enable-prefix-caching=true"  # No cache salt = cross-tenant leakage
 ```
 
 Anti-pattern 2: No cache isolation policy
@@ -819,7 +1034,34 @@ Cache hit anomaly detection:
 ### 15.3 Alerting Rules
 
 ```
-groups:  - name: inference-security    rules:      - alert: CacheSaltMissing        expr: |          sum(rate(vllm_request_total{cache_salt=""}[5m]))          / sum(rate(vllm_request_total[5m])) > 0.01        for: 5m        labels:          severity: critical        annotations:          summary: "More than 1% of inference requests missing cache salt"      - alert: TTFTVarianceHigh        expr: |          stddev_over_time(vllm_time_to_first_token_seconds[15m]) > 0.5        for: 10m        labels:          severity: warning        annotations:          summary: "High TTFT variance may indicate timing side-channel"      - alert: CacheHitAnomaly        expr: |          abs(deriv(vllm_cache_hit_ratio[10m])) > 0.01        for: 5m        labels:          severity: warning        annotations:          summary: "Unusual cache hit pattern detected - potential probing"
+groups:
+  - name: inference-security
+    rules:
+      - alert: CacheSaltMissing
+        expr: |
+          sum(rate(vllm_request_total{cache_salt=""}[5m]))
+          / sum(rate(vllm_request_total[5m])) > 0.01
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "More than 1% of inference requests missing cache salt"
+      - alert: TTFTVarianceHigh
+        expr: |
+          stddev_over_time(vllm_time_to_first_token_seconds[15m]) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High TTFT variance may indicate timing side-channel"
+      - alert: CacheHitAnomaly
+        expr: |
+          abs(deriv(vllm_cache_hit_ratio[10m])) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Unusual cache hit pattern detected - potential probing"
 ```
 
 ## 16. Executive Summary and Key Takeaways

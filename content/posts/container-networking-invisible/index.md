@@ -254,7 +254,7 @@ Overlay Network Architecture
 
 She demonstrated with a Kubernetes cluster:
 
-```yaml
+```console
 # Create an overlay network in Kubernetes
 $ kubectl apply -f - <<EOF
 apiVersion: networking.k8s.io/v1
@@ -623,7 +623,7 @@ This allowed DigiLand's containerized services to reliably connect to external p
 
 Finally, Maya deployed a service mesh for their most critical visitor-facing services:
 
-```yaml
+```console
 # Deploy the service mesh control plane
 $ kubectl apply -f istio-operator.yaml
 
@@ -776,7 +776,7 @@ $ kubectl exec -it nginx-<pod-id> -- ip addr show
 
 Implement network policies:
 
-```yaml
+```console
 # Create a namespace for testing
 $ kubectl create namespace netpolicy-test
 
