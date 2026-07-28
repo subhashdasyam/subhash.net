@@ -741,7 +741,7 @@ What logs to collect
 
 When to inform legal / comms
 
-It should fit on 1–2 pages. Humans will read it during stress.
+It should fit on 1-2 pages. Humans will read it during stress.
 
 #### Kill switches
 

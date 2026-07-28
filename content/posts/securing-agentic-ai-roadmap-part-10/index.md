@@ -56,7 +56,7 @@ End goal: you can sit with your CISO, CIO, and lead engineers and say:
 
 Think of this like an autonomy ladder. Not for cars. For agents touching your real systems.
 
-### Level 1 – Assisted
+### Level 1 - Assisted
 
 Human drives, agent suggests
 
@@ -80,7 +80,7 @@ Security posture:
 
 Minimal blast radius
 
-Easy HITL – humans already approve everything by default
+Easy HITL - humans already approve everything by default
 
 Great place to learn how agents behave on your data
 
@@ -94,7 +94,7 @@ This is where almost every enterprise should start.
 
 ---
 
-### Level 2 – Supervised
+### Level 2 - Supervised
 
 Agent drives, human approves
 
@@ -138,7 +138,7 @@ Your logs can show:
 
 ---
 
-### Level 3 – Autonomous with exceptions
+### Level 3 - Autonomous with exceptions
 
 Agent runs, human reviews outliers
 
@@ -178,7 +178,7 @@ There is a clear review workflow for the remaining 10 to 30 percent
 
 ---
 
-### Level 4 – Fully autonomous within hard bounds
+### Level 4 - Fully autonomous within hard bounds
 
 Agent self manages inside strict policy fences
 
@@ -228,7 +228,7 @@ Levels describe “how far”. Phases describe “in which order”.
 
 You can map phases roughly to levels, but they are more about delivery steps.
 
-### Phase 1 – Single agent, single tool, shadow mode
+### Phase 1 - Single agent, single tool, shadow mode
 
 Goal:
 
@@ -302,7 +302,7 @@ Executive Takeaway Phase 1 is about learning on real data with low risk. If Phas
 
 ---
 
-### Phase 2 – Single agent, multi tool, HITL gates
+### Phase 2 - Single agent, multi tool, HITL gates
 
 (Usually Level 2)
 
@@ -380,7 +380,7 @@ No unapproved high impact actions
 
 ---
 
-### Phase 3 – Multi agent, defined handoffs, exception review
+### Phase 3 - Multi agent, defined handoffs, exception review
 
 (Bridge to Level 3)
 
@@ -450,7 +450,7 @@ Errors and weird behavior traceable across the chain
 
 ---
 
-### Phase 4 – Complex orchestration, policy based autonomy
+### Phase 4 - Complex orchestration, policy based autonomy
 
 (Selective Level 3 and 4)
 
@@ -546,7 +546,7 @@ Mix both
 
 There is no single right answer, but there are wrong answers.
 
-### 10.3.1 Build – frameworks like LangChain, LangGraph, AutoGen, CrewAI, custom
+### 10.3.1 Build - frameworks like LangChain, LangGraph, AutoGen, CrewAI, custom
 
 You use:
 
@@ -604,7 +604,7 @@ Developer Note If you already run K8s, service meshes, secret management, and in
 
 ---
 
-### 10.3.2 Buy – managed agent services
+### 10.3.2 Buy - managed agent services
 
 Examples:
 
@@ -658,7 +658,7 @@ Real Talk For mission critical flows that move money, open valves, or change acc
 
 ---
 
-### 10.3.3 Hybrid – best of both, if you keep boundaries clean
+### 10.3.3 Hybrid - best of both, if you keep boundaries clean
 
 Hybrid pattern:
 

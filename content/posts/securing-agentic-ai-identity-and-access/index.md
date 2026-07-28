@@ -182,7 +182,7 @@ Tools receive this token in`ctx` and validate scopes. If stolen, it expires quic
 
 Developer Note: Do not send this token to the model. It is for your backend and tools, not for the LLM.
 
-### 6.2.2 Secret injection patterns – never in context
+### 6.2.2 Secret injection patterns - never in context
 
 Golden rule: Secrets live in the environment or vault, not in prompts.
 

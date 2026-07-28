@@ -5,7 +5,7 @@ lastmod: 2024-09-16T08:24:41.294+04:00
 slug: "vector-venom-vector-injection-how-ai"
 sourceURL: "https://www.subhashdasyam.com/2024/09/vector-venom-vector-injection-how-ai.html"
 ---
-In the ever-evolving landscape of data storage, a new player has entered the game: vector databases. As we bid farewell to traditional SQL injections, are we stepping into a brave new world of uncharted security threats? Buckle up, data enthusiasts – we're about to dive deep into the rabbit hole of database security!
+In the ever-evolving landscape of data storage, a new player has entered the game: vector databases. As we bid farewell to traditional SQL injections, are we stepping into a brave new world of uncharted security threats? Buckle up, data enthusiasts - we're about to dive deep into the rabbit hole of database security!
 
 As database technologies advance, so do the security challenges we face. This post examines the transition from traditional SQL injection attacks to the potential vulnerabilities in modern vector databases. We'll explore these concepts with clear examples to illustrate the importance of adapting our security measures.
 

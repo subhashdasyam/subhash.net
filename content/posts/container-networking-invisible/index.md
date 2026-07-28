@@ -21,11 +21,11 @@ Connie nodded thoughtfully. "Containers may be isolated by default, but they nee
 
 "I understand the basics of networking," Maya said, gesturing to her diagram. "But how does it work when everything is in containers that can start, stop, and move around the cluster at any moment?"
 
-"That's a perfect question," Connie replied. "Let's visit DigiLand's Network Operations Center – our NOC – and see how container networking really works in a distributed system."
+"That's a perfect question," Connie replied. "Let's visit DigiLand's Network Operations Center - our NOC - and see how container networking really works in a distributed system."
 
 ### The Container Network Operations Center
 
-The next morning, Connie led Maya to a section of DigiLand's technical operations she hadn't seen before – a room filled with large network topology displays, traffic visualization screens, and workstations where engineers were configuring and monitoring the invisible connections between containers.
+The next morning, Connie led Maya to a section of DigiLand's technical operations she hadn't seen before - a room filled with large network topology displays, traffic visualization screens, and workstations where engineers were configuring and monitoring the invisible connections between containers.
 
 "Welcome to our Network Operations Center," Connie said. "This is where we ensure all those isolated containers can communicate efficiently and securely."
 
