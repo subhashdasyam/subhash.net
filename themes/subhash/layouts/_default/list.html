@@ -1,0 +1,18 @@
+{{ define "main" }}
+  {{- $pages := .RegularPagesRecursive }}
+  {{- if .IsHome }}{{ $pages = where .Site.RegularPages "Section" "posts" }}{{ end }}
+  {{- $paginator := .Paginate $pages }}
+
+  {{- range $paginator.Pages }}
+    {{ partial "post-card.html" . }}
+  {{- end }}
+
+  {{- if not $paginator.Pages }}
+  <article class="post">
+    <h2 class="post-title">Nothing here yet</h2>
+    <div class="post-body"><p>No posts in this section.</p></div>
+  </article>
+  {{- end }}
+
+  {{ partial "pager.html" . }}
+{{ end }}

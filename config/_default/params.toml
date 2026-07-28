@@ -1,73 +1,14 @@
-colorScheme = "subhash"
-defaultAppearance = "dark"
-autoSwitchAppearance = false
+# Params for the `subhash` theme.
+#
+# The previous Blowfish parameter block (colorScheme, homepage.layout, article.*,
+# list.*, taxonomy.*, term.*, header.layout, footer.*, sharingLinks, smartTOC,
+# enableSearch ...) is gone -- none of those keys mean anything to this theme.
+# Everything visual now lives in themes/subhash/assets/css/.
 
-enableSearch = true
-enableCodeCopy = true
+# "light" or "dark". Read before first paint by the inline script in
+# partials/head.html; a visitor's saved localStorage choice always wins.
+# subhashdasyam.com itself defaults to light -- this preserves subhash.net's
+# existing dark default. Flip this one value to change it.
+defaultAppearance = "dark"
 
 mainSections = ["posts"]
-
-disableImageOptimization = false
-disableTextInHeader = false
-
-highlightCurrentMenuArea = true
-smartTOC = true
-
-[header]
-  layout = "fixed"
-
-[footer]
-  showMenu = true
-  showCopyright = true
-  showThemeAttribution = true
-  showAppearanceSwitcher = true
-  showScrollToTop = true
-
-[homepage]
-  layout = "profile"
-  showRecent = true
-  showRecentItems = 6
-  showMoreLink = true
-  showMoreLinkDest = "posts"
-  cardView = true
-  cardViewScreenWidth = false
-
-[article]
-  showDate = true
-  showDateUpdated = false
-  showAuthor = true
-  showHero = false
-  showBreadcrumbs = true
-  showDraftLabel = true
-  showEdit = false
-  showHeadingAnchors = true
-  showPagination = true
-  showReadingTime = true
-  showTableOfContents = true
-  showRelatedContent = true
-  relatedContentLimit = 3
-  showTaxonomies = true
-  showWordCount = false
-  sharingLinks = ["twitter", "linkedin", "reddit", "email"]
-
-[list]
-  showBreadcrumbs = false
-  showSummary = true
-  showTableOfContents = false
-  showCards = true
-  groupByYear = true
-  cardView = true
-  cardViewScreenWidth = false
-
-[taxonomy]
-  showTermCount = true
-  showBreadcrumbs = false
-  showTableOfContents = false
-  cardView = false
-
-[term]
-  showBreadcrumbs = false
-  showTableOfContents = false
-  groupByYear = false
-  cardView = true
-  cardViewScreenWidth = false

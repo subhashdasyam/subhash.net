@@ -1,0 +1,14 @@
+<article class="post">
+  <h2 class="post-title">
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+  </h2>
+  {{ partial "post-meta.html" . }}
+  <div class="post-body">
+    <div class="post-snippet">
+      {{ .Summary | plainify | truncate 260 }}
+    </div>
+    <div class="read-more">
+      <a href="{{ .RelPermalink }}" aria-label="Read more about this post">$ EXECUTE_READ</a>
+    </div>
+  </div>
+</article>

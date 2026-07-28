@@ -1,0 +1,33 @@
+{{/* Mirrors the two-widget sidebar on subhashdasyam.com. "Popular Posts" there
+     was Blogger's analytics-backed widget; with no analytics here it would be a
+     lie, so this shows the most recent posts under an honest heading. */}}
+<aside id="sidebar-wrapper">
+<div class="sidebar section" id="sidebar">
+
+  <div class="widget PopularPosts" id="PopularPosts1">
+    <h2>Recent Posts</h2>
+    <div class="widget-content popular-posts">
+      <ul>
+        {{- range first 3 (where .Site.RegularPages "Section" "posts") }}
+        <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+        {{- end }}
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  {{- with .Site.Taxonomies.tags }}
+  <div class="widget Label" id="Label1">
+    <h2>System Tags</h2>
+    <div class="widget-content">
+      <ul>
+        {{- range $name, $taxonomy := . }}
+        <li><a href="{{ (site.GetPage (printf "/tags/%s" $name)).RelPermalink }}">{{ $name }}</a></li>
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+  {{- end }}
+
+</div>
+</aside>

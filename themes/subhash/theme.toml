@@ -1,0 +1,9 @@
+name = "Subhash"
+license = "MIT"
+description = "Neo-brutalist terminal theme. Hard borders, offset shadows, graph-paper grid, one hot-orange accent. Ported from the Blogger theme on subhashdasyam.com."
+homepage = "https://github.com/subhashdasyam/subhash.net"
+min_version = "0.128.0"
+
+[author]
+  name = "Subhash Dasyam"
+  homepage = "https://subhash.net"

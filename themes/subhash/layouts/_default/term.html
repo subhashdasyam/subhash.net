@@ -1,0 +1,17 @@
+{{/* /tags/<tag>/ -- posts carrying one tag. */}}
+{{ define "main" }}
+  {{- $paginator := .Paginate .Pages }}
+  <article class="post">
+    <h1 class="post-title">{{ .Title }}</h1>
+    <div class="post-meta">
+      <span>FILTER: {{ .Data.Singular }}</span>
+      <span class="post-meta-system">MATCHES: {{ len .Pages }}</span>
+    </div>
+  </article>
+
+  {{- range $paginator.Pages }}
+    {{ partial "post-card.html" . }}
+  {{- end }}
+
+  {{ partial "pager.html" . }}
+{{ end }}

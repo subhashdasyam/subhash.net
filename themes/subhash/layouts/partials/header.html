@@ -1,0 +1,25 @@
+<div id="header-wrapper">
+  <div class="header section" id="header">
+    <div class="widget Header" id="Header1">
+      <div class="header-bar">
+        <h1>
+          <a href="{{ "/" | relURL }}"><span class="slash">//</span> {{ .Site.Title }}</a>
+        </h1>
+        <div class="header-nav">
+          {{- range .Site.Menus.main }}
+            {{- if ne .Identifier "github" }}
+          <a href="{{ .URL }}">{{ .Name | upper }}</a>
+            {{- end }}
+          {{- end }}
+          {{- range .Site.Menus.main }}
+            {{- if eq .Identifier "github" }}
+          <a href="{{ .URL }}" rel="me noopener" target="_blank">GITHUB</a>
+            {{- end }}
+          {{- end }}
+          <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" role="button" tabindex="0"
+               aria-label="Toggle colour scheme">&#9728;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

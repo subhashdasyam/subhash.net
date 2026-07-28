@@ -1,0 +1,55 @@
+{{ define "progress" }}
+<div class="reading-progress-track">
+  <div id="reading-progress-bar"></div>
+</div>
+{{ end }}
+
+{{ define "main" }}
+<article class="post">
+  <h1 class="post-title">{{ .Title }}</h1>
+  {{ partial "post-meta.html" . }}
+
+  <div class="post-body">
+    {{ .Content }}
+  </div>
+
+  {{- with .Params.tags }}
+  <div class="post-tags">
+    <span class="protocol-label">&gt; TAGS:</span>
+    <ul>
+      {{- range . }}
+      <li><a href="{{ (site.GetPage (printf "/tags/%s" (. | urlize))).RelPermalink }}">{{ . }}</a></li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+
+  {{/* SUGGESTED_PROTOCOL. The original fetched 50 posts from the Atom feed and
+       picked one at random per page load; Hugo resolves this at build time via
+       the [related] indices in hugo.toml.
+
+       The fallback deliberately does NOT just take the newest other post -- that
+       would make nearly every article suggest the same one. Offsetting by the
+       title length spreads the picks deterministically. */}}
+  {{- $others := where (where .Site.RegularPages "Section" "posts") "Permalink" "!=" .Permalink }}
+  {{- $related := first 1 (.Site.RegularPages.Related .) }}
+  {{- if and (not $related) $others }}
+    {{- $related = slice (index $others (mod (len .Title) (len $others))) }}
+  {{- end }}
+  {{- with index $related 0 }}
+  <div class="random-post-container" id="random-post-container">
+    <span class="protocol-label">&gt; SUGGESTED_PROTOCOL:</span>
+    <div class="random-post-card" id="random-post-card">
+      <div class="random-post-inner">
+        <div class="random-post-text">
+          <div class="random-post-title">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </div>
+          <a class="random-post-link" href="{{ .RelPermalink }}">ACCESS NODE &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{- end }}
+</article>
+{{ end }}

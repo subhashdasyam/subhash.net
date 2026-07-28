@@ -1,0 +1,359 @@
+/* ==========================================================================
+   Architecting Secure AI | Subhash Dasyam
+   Neo-brutalist / terminal theme
+
+   Sections 1-11 are the verbatim Blogger page-skin CSS (<style id="page-skin-1">).
+   Section 12 collects the rules that live as inline style="" attributes in the
+   Blogger template, extracted here so the HTML stays clean.
+   ========================================================================== */
+
+/* 1. VARIABLES & THEME ENGINE */
+:root {
+--accent: #ff4d00;
+--bg: #f8f9fa;
+--card-bg: #ffffff;
+--text: #050505;
+--text-meta: #666666;
+--border: #000000;
+--grid: #e5e7eb; /* Light Grid */
+--font-head: 'Space Grotesk', sans-serif;
+--font-mono: 'JetBrains Mono', monospace;
+--font-body: 'Inter', sans-serif;
+}
+/* Dark Mode Overrides */
+[data-theme='dark'] {
+--bg: #0a0a0a;
+--card-bg: #141414;
+--text: #e5e5e5;
+--text-meta: #a3a3a3;
+--border: #404040;
+--grid: #262626; /* Dark Grid */
+}
+
+/* 2. BASE STYLES */
+* { box-sizing: border-box; }
+body {
+margin: 0; padding: 0;
+background-color: var(--bg); color: var(--text);
+font-family: var(--font-body);
+/* Dynamic Grid Color */
+background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+background-size: 40px 40px;
+overflow-x: hidden;
+line-height: 1.6;
+}
+a { color: var(--accent); text-decoration: none; transition: 0.2s; }
+a:hover { text-decoration: underline; }
+/* DARK MODE FORCED OVERRIDES (Fixes Header & Random Post) */
+[data-theme='dark'] #header-wrapper {
+background: var(--card-bg) !important;
+border-bottom-color: var(--border) !important;
+}
+/* Force the header title link to be white in dark mode */
+h1 a { color: var(--text) !important; }
+[data-theme='dark'] .header-nav a { color: var(--text); }
+
+/* 3. LAYOUT GRID */
+#content-wrapper {
+max-width: 1400px; margin: 0 auto; padding: 40px 20px;
+display: grid;
+grid-template-columns: minmax(0, 1fr) 340px;
+gap: 40px;
+}
+
+/* 4. POST CARD */
+.post {
+background: var(--card-bg); border: 1px solid var(--border);
+box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+padding: 40px; margin-bottom: 40px;
+contain: content;
+}
+[data-theme='dark'] .post, [data-theme='dark'] .read-more a {
+box-shadow: 6px 6px 0px rgba(255,255,255,0.05);
+}
+.post-title {
+font-family: var(--font-head); font-size: 2.4rem; line-height: 1.2;
+margin-bottom: 10px; font-weight: 700; color: var(--text);
+word-wrap: break-word; hyphens: auto;
+}
+.post-title a { color: var(--text); text-decoration: none; }
+.post-meta {
+font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-meta);
+margin-bottom: 20px; border-bottom: 1px dashed var(--border); padding-bottom: 15px;
+}
+
+/* 5. TYPOGRAPHY */
+.post-body {
+font-size: 1.15rem; line-height: 1.8; color: var(--text);
+width: 100%;
+}
+.post-body h2 {
+font-family: var(--font-head); font-size: 1.8rem; font-weight: 700;
+margin-top: 3.5rem; margin-bottom: 1.5rem;
+color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 10px;
+display: block; width: 100%;
+}
+.post-body h3 {
+font-family: var(--font-head); font-size: 1.4rem; font-weight: 600;
+margin-top: 2.5rem; margin-bottom: 1rem;
+color: var(--text); border-left: 5px solid var(--accent); padding-left: 15px;
+}
+
+/* 6. CONTENT ELEMENTS */
+.post-body table, .post-body pre, .post-body iframe {
+max-width: 100%; display: block;
+overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.post-body img { max-width: 100%; height: auto; }
+.post-body pre {
+background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--accent);
+padding: 20px; margin: 2.5rem 0; font-family: var(--font-mono); font-size: 0.9rem;
+color: var(--text);
+/* FIX 1 — on subhashdasyam.com `pre` was position:static while
+   .copy-code-button is position:absolute. Because .post sets `contain: content`
+   it became the containing block, so every COPY button stacked in the card's
+   top-right corner instead of sitting on its own code block. */
+position: relative;
+}
+
+/* 7. NAVIGATION & BUTTONS */
+.header-nav a {
+display: inline-block;
+padding: 12px 15px;
+font-family: var(--font-mono); font-weight: 700; color: var(--text);
+}
+/* FIX 4 — the original declared `.read-more a` twice; every property here was
+   overridden by the "TERMINAL BUTTON STYLE" block below with !important, so this
+   copy was dead code. Only the layout properties that actually applied are kept. */
+.read-more a {
+display: inline-block;
+padding: 14px 28px;
+text-decoration: none;
+}
+
+/* 8. SIDEBAR */
+.sidebar .widget {
+background: var(--card-bg); border: 1px solid var(--border);
+padding: 25px; margin-bottom: 30px; box-shadow: 4px 4px 0 rgba(0,0,0,0.05);
+}
+[data-theme='dark'] .sidebar .widget { box-shadow: 4px 4px 0 rgba(255,255,255,0.05); }
+.sidebar h2 {
+font-family: var(--font-head); text-transform: uppercase;
+border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;
+font-size: 1.1rem; color: var(--text);
+}
+.sidebar .widget.Label ul { display: flex; flex-wrap: wrap; gap: 8px; padding:0; margin:0; list-style:none; }
+.sidebar .widget.Label li { width: auto; padding:0; border:none; }
+.sidebar .widget.Label li a {
+display: block; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+padding: 8px 14px;
+font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; text-decoration: none;
+}
+.sidebar .widget.Label li a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.sidebar .widget.Label span { display: none; }
+.copy-code-button {
+position: absolute; top: 0; right: 0; background: var(--border); color: var(--bg);
+border: none; padding: 8px 12px;
+font-family: var(--font-mono); font-size: 10px; cursor: pointer;
+}
+
+/* 9. MOBILE */
+@media (max-width: 900px) {
+#content-wrapper { grid-template-columns: 1fr; padding: 15px; display: block; }
+.post { margin-bottom: 30px; padding: 25px; }
+.post-title { font-size: 1.8rem; word-wrap: break-word; }
+.sidebar { margin-top: 40px; }
+}
+
+/* 10. (was COMMENT SECTION FIXES)
+   Removed. The original rules styled Blogger's hosted comment iframe, including
+   a `filter: invert(1) hue-rotate(180deg)` hack to force it dark. This site has
+   no comment system, so all of it was dead weight. */
+
+/* 11. SUGGESTED PROTOCOL (related post) */
+#random-post-card {
+color: var(--text);
+}
+#random-post-card a {
+color: var(--text);
+}
+/* --- SUGGESTED PROTOCOL HOVER EFFECTS --- */
+/* 1. Add smooth animation so it doesn't "snap" colors */
+#random-post-card,
+#random-post-card a {
+transition: all 0.3s ease;
+cursor: pointer;
+}
+/* 2. Light Mode Hover */
+/* When hovering: Background turns pure white, Border turns Orange, Text turns Orange */
+#random-post-card:hover {
+background-color: #ffffff !important;
+border-color: var(--accent) !important;
+}
+#random-post-card:hover a {
+color: var(--accent) !important;
+}
+/* 3. Dark Mode Hover */
+/* When hovering: Background gets slightly lighter (gray), Border/Text turn Orange */
+[data-theme='dark'] #random-post-card:hover {
+background-color: #262626 !important; /* "Lights up" from the pitch black background */
+border-color: var(--accent) !important;
+}
+[data-theme='dark'] #random-post-card:hover a {
+color: var(--accent) !important;
+}
+/* --- TERMINAL BUTTON STYLE (The "Shell Execution" Look) --- */
+/* NOTE: this block re-declares .read-more a and wins over section 7 via !important,
+   so the button is black-bg / orange-text in BOTH themes. Section 7's
+   background:var(--text) never takes effect. */
+.read-more a {
+/* 1. IDLE STATE: Looks like a Terminal Window */
+background-color: #000000 !important;   /* Pitch Black Background */
+color: #ff4d00 !important;              /* Matrix/Hacker Orange Text */
+border: 1px solid #ff4d00 !important;   /* Hard Border for visibility */
+/* Typography & Layout */
+font-family: 'JetBrains Mono', monospace !important;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+/* Shadow for depth */
+box-shadow: 4px 4px 0 rgba(0,0,0,0.2) !important;
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* 2. HOVER STATE: Looks like a "Block Cursor" Selection */
+.read-more a:hover {
+background-color: #ff4d00 !important;   /* Fills with Orange */
+color: #000000 !important;              /* Text turns Black for max contrast */
+box-shadow: 2px 2px 0 rgba(0,0,0,0.2) !important; /* Button 'presses' down */
+transform: translate(2px, 2px);
+cursor: pointer;
+}
+/* 3. DARK MODE ADJUSTMENT (Subtle Glow) */
+/* In dark mode, we add a faint glow so the black button doesn't vanish into the black card */
+[data-theme='dark'] .read-more a {
+box-shadow: 4px 4px 0 rgba(255, 77, 0, 0.15) !important; /* Orange glow shadow */
+}
+[data-theme='dark'] .read-more a:hover {
+box-shadow: 2px 2px 0 rgba(255, 77, 0, 0.3) !important; /* Brighter glow on hover */
+}
+
+/* ==========================================================================
+   12. EXTRACTED INLINE STYLES
+   On the live Blogger template these are style="" attributes in the markup.
+   Values are copied verbatim, including the hardcoded colours that do not
+   follow the theme (see README "Known defects").
+   ========================================================================== */
+
+/* --- Sticky header (was inline on #header-wrapper) --- */
+#header-wrapper {
+background: #fff;
+border-bottom: 2px solid #ff4d00;
+padding: 15px 0;
+position: sticky;
+top: 0;
+z-index: 1000;
+}
+/* NOTE: named .header-bar, not .header-inner -- Blogger's platform bundle
+   already claims .header-inner (`.header-inner .widget { margin: 0 30px }`). */
+.header-bar {
+max-width: 1400px; margin: 0 auto; padding: 0 20px;
+display: flex; justify-content: space-between; align-items: center;
+}
+#header-wrapper h1 {
+margin: 0;
+font-family: 'Space Grotesk';
+text-transform: uppercase;
+font-size: 1.5rem;
+}
+#header-wrapper h1 a { color: #000; text-decoration: none; }
+#header-wrapper h1 .slash { color: #ff4d00; }
+.theme-toggle {
+cursor: pointer; display: inline-block; margin-left: 15px; padding: 5px;
+}
+
+/* --- Post card bits (were inline) --- */
+.post-meta .post-meta-system { margin-left: 10px; }
+.read-more { margin-top: 20px; }
+
+/* --- Blog pager (was inline on .blog-pager / its link) --- */
+.blog-pager { display: flex; justify-content: space-between; margin-top: 30px; }
+.blog-pager .read-more-link {
+background: #000; color: #ff4d00; border: 1px solid #ff4d00;
+padding: 10px 20px;
+font-family: 'JetBrains Mono'; font-weight: 700; text-decoration: none;
+}
+
+/* --- Back to top --- */
+/* FIX 2 — the original hardcoded background:#fff with no dark override, so the
+   button stayed a white circle in dark mode. */
+#back-to-top {
+position: fixed; bottom: 30px; right: 30px;
+width: 50px; height: 50px;
+background: var(--card-bg); color: var(--text); border: 1px solid var(--accent);
+display: flex; align-items: center; justify-content: center;
+cursor: pointer; opacity: 0; pointer-events: none; transition: 0.3s;
+font-size: 24px; box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+}
+[data-theme='dark'] #back-to-top { box-shadow: 4px 4px 0 rgba(255,255,255,0.05); }
+
+/* --- Reading progress bar (post pages only, was inline) --- */
+.reading-progress-track {
+position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+z-index: 9999; background: transparent;
+}
+#reading-progress-bar {
+height: 100%; background: #ff4d00; width: 0%; transition: width 0.1s;
+}
+
+/* --- Suggested protocol / related post --- */
+/* FIX 3 — the original hardcoded `border-top: 2px solid #000` here and on
+   .comments-wrapper, which vanished against the #0a0a0a dark background. */
+#random-post-container {
+margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--border);
+}
+#random-post-container .protocol-label {
+font-family: 'JetBrains Mono'; color: #ff4d00; font-weight: 700;
+display: block; margin-bottom: 1rem;
+}
+#random-post-card {
+border: 1px solid var(--border); padding: 20px; background: var(--bg);
+}
+.random-post-inner { display: flex; align-items: center; }
+.random-post-thumb { flex-shrink: 0; margin-right: 15px; }
+.random-post-thumb img { width: 80px; height: 80px; object-fit: cover; border: 1px solid #000; }
+.random-post-text { flex: 1; }
+.random-post-title {
+font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.1rem;
+line-height: 1.2; margin-bottom: 5px;
+}
+.random-post-link {
+font-family: 'JetBrains Mono'; font-size: 0.8rem;
+color: #ff4d00; font-weight: 700; text-decoration: none;
+}
+
+/* --- Post footer (tags on the article itself) --- */
+.post-tags { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px dashed var(--border); }
+.post-tags .protocol-label { margin-bottom: .75rem; }
+.post-tags ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.post-tags li { padding: 0; }
+.post-tags li a {
+display: block; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+padding: 8px 14px;
+font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; text-decoration: none;
+}
+.post-tags li a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* --- Table responsive wrapper (created at runtime by theme.js) --- */
+.table-responsive { overflow-x: auto; display: block; width: 100%; }
+
+/* ADDITION (not in the original theme): the horizontal scrollbar on wide code
+   blocks and tables renders as a bright white bar in dark mode. */
+.post-body pre, .table-responsive { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.post-body pre::-webkit-scrollbar, .table-responsive::-webkit-scrollbar { height: 10px; }
+.post-body pre::-webkit-scrollbar-track, .table-responsive::-webkit-scrollbar-track { background: transparent; }
+.post-body pre::-webkit-scrollbar-thumb, .table-responsive::-webkit-scrollbar-thumb { background: var(--border); }
+.post-body pre::-webkit-scrollbar-thumb:hover, .table-responsive::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+/* NOTE: the live theme ships NO table border/padding rules. Tables on the blog
+   are styled by whatever inline markup the post itself carries, falling back to
+   Blogger's widget CSS bundle. Nothing is added here so this file stays a
+   faithful mirror -- add your own table rules if you want them themed. */

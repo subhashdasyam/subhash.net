@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.LanguageCode | default "en" }}" dir="ltr">
+{{ partial "head.html" . }}
+<body>
+
+{{ block "progress" . }}{{ end }}
+
+{{ partial "header.html" . }}
+
+<div id="content-wrapper">
+  <main id="main-wrapper" role="main">
+    <div class="main section" id="main">
+      <div class="widget Blog" id="Blog1">
+        {{ block "main" . }}{{ end }}
+      </div>
+    </div>
+  </main>
+
+  {{ partial "sidebar.html" . }}
+</div>
+
+<button id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">&uarr;</button>
+
+{{ with resources.Get "js/theme.js" }}
+  {{ $js := . | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}
+</body>
+</html>
