@@ -116,7 +116,7 @@ Let's walk through the architecture of a production-ready encrypted RAG system.
 
 ### High-Level Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    INGESTION PIPELINE                        │
 ├─────────────────────────────────────────────────────────────┤
@@ -141,7 +141,7 @@ Let's walk through the architecture of a production-ready encrypted RAG system.
 
 ### Search Pipeline Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐│                     SEARCH PIPELINE                          │├─────────────────────────────────────────────────────────────┤│                                                              ││  User Query                                                  ││       ↓                                                      ││  Query Embedding (BGE-M3)                                    ││       ↓                                                      ││  Retrieve ALL Encrypted Vectors (PostgreSQL)                ││       ↓                                                      ││  For each encrypted vector:                                 ││    • Compute encrypted dot product (homomorphic)            ││    • Decrypt similarity score only                          ││       ↓                                                      ││  Sort by score, return top-k chunks                         ││       ↓                                                      ││  LLM Answer Generation (Ollama/qwen3:8b)                    ││                                                              │└─────────────────────────────────────────────────────────────┘
 ```
 
@@ -211,7 +211,7 @@ The database is a storage layer, not a similarity engine. PostgreSQL excels at t
 
 The search algorithm is surprisingly simple:
 
-```
+```python
 def search(query_text, top_k=5):
     # 1. Generate query embedding (plaintext)
     query_vec = embedder.encode(f"query: {query_text}")
@@ -402,7 +402,7 @@ Want to try it? Here's how to get the system running in under 10 minutes.
 
 1. Clone and install dependencies:
 
-```
+```bash
 git clone https://github.com/subhashdasyam/encrypted-rag
 cd encrypted-rag
 pip install -r requirements.txt

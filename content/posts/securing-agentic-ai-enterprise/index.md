@@ -208,7 +208,7 @@ Implementation at the data access layer:
 
 JavaScript
 
-```
+```typescript
 async function queryDocs(query: string, ctx: AgentContext) {
   const maxLevel = maxDataClassForAgent(ctx.agentId);
 

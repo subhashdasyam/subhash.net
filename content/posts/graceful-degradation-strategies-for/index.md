@@ -210,7 +210,7 @@ Intent-Based Routing: Implement lightweight intent classifiers using small model
 
 Query Pre-Processing Pipeline:
 
-```
+```text
 User Query → Intent Classification (SLM) → Route Decision
 ├── Simple Queries → Database + Templates (No LLM)
 ├── Complex Queries → Financial LLM (BloombergGPT, FinGPT)

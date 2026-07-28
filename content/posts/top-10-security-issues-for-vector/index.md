@@ -62,7 +62,7 @@ model.fit(X_train_poisoned, y_train_poisoned)
 
 ### Code: Unauthorized Data Access via Similarity Search
 
-```
+```python
 
 import faiss
 import numpy as np
@@ -82,7 +82,7 @@ for i in range(10):
 
 ### Code: Model Inversion Attacks
 
-```
+```python
 
 import tensorflow as tf
 
@@ -108,7 +108,7 @@ for _ in range(1000):
 
 ### Code: AI-Enhanced Social Engineering
 
-```
+```python
 
 import openai
 
@@ -137,7 +137,7 @@ print(phishing_email)
 
 ### Code: Membership Inference Attacks
 
-```
+```python
 
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -166,7 +166,7 @@ print("Test set:", accuracy_score(np.zeros_like(y_test), is_member_test))
 
 ### Code: Data Extraction via Large Language Models
 
-```
+```python
 
 import openai
 
@@ -195,7 +195,7 @@ for prompt in prompts:
 
 ### Code: AI Model Theft
 
-```
+```python
 
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
@@ -231,7 +231,7 @@ print(f"Stolen model accuracy: {accuracy:.2f}")
 
 ### Code: Evasion of AI-based Security Systems
 
-```
+```python
 
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
@@ -274,7 +274,7 @@ print(f"Evaded: {evaded_message}")
 
 ### Code: Exploiting AI Bias and Fairness Issues (Continued)
 
-```
+```python
 
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -377,7 +377,7 @@ Protecting vector databases and AI systems requires a multi-faceted approach. He
 
 Implement adversarial training to make models more resistant to attacks.
 
-```
+```python
 
 import tensorflow as tf
 
@@ -402,7 +402,7 @@ for epoch in range(num_epochs):
 
 Implement strict checks on input data, especially for vector databases.
 
-```
+```python
 
 def validate_vector(vector, expected_dim=100, min_val=-1, max_val=1):
     if len(vector) != expected_dim:
@@ -426,7 +426,7 @@ except ValueError as e:
 
 Implement fine-grained access controls. Here's an example using decorators in Python:
 
-```
+```python
 
 from functools import wraps
 from flask import abort, session
@@ -473,7 +473,7 @@ y_pred = clf.predict(X_test)
 
 Implement logging and monitoring for unusual patterns. Here's a basic example:
 
-```
+```python
 
 import logging
 from collections import Counter
@@ -498,7 +498,7 @@ monitor_predictions(predictions)
 
 Implement ethics checks in your AI development process. Here's a simplified checklist:
 
-```
+```python
 
 def ethical_ai_checklist(model, dataset):
     checks = {
@@ -522,7 +522,7 @@ if not is_ethical:
 
 Use federated learning to train models without centralizing data. Here's a conceptual example using TensorFlow Federated:
 
-```
+```python
 
 import tensorflow_federated as tff
 
@@ -581,7 +581,7 @@ print(f"The sum is: {decrypted_sum}")
 
 Conduct regular security audits. Here's a basic template for a security assessment report:
 
-```
+```python
 
 def generate_security_report(system):
     report = {
@@ -612,7 +612,7 @@ if security_report["vulnerabilities"]:
 
 Implement methods to make AI decision-making more transparent. Here's an example using SHAP (SHapley Additive exPlanations):
 
-```
+```python
 
 import shap
 

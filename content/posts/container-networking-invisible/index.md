@@ -43,7 +43,7 @@ Container Network Namespaces
 
 "Let me demonstrate how network namespaces work," Connie said, typing commands into a terminal:
 
-```
+```console
 # Create two network namespaces
 $ sudo ip netns add container1
 $ sudo ip netns add container2
@@ -93,7 +93,7 @@ Container Network Interface Architecture
 
 She showed Maya a CNI configuration file:
 
-```
+```json
 {
   "cniVersion": "1.0.0",
   "name": "digiland-network",
@@ -116,7 +116,7 @@ She showed Maya a CNI configuration file:
 
 She demonstrated the process:
 
-```
+```console
 # Simulating what a container runtime does when creating a container
 $ cat > /tmp/netconf.json << EOF
 {
@@ -177,7 +177,7 @@ Bridge Network Architecture
 
 She demonstrated a bridge network in action:
 
-```
+```console
 # Create a bridge network
 $ docker network create --driver bridge digiland-local
 
@@ -254,7 +254,7 @@ Overlay Network Architecture
 
 She demonstrated with a Kubernetes cluster:
 
-```
+```yaml
 # Create an overlay network in Kubernetes
 $ kubectl apply -f - <<EOF
 apiVersion: networking.k8s.io/v1
@@ -320,7 +320,7 @@ Macvlan Network Architecture
 
 She demonstrated a macvlan configuration:
 
-```
+```console
 # Create a macvlan network
 $ docker network create -d macvlan \
   --subnet=192.168.50.0/24 \
@@ -357,7 +357,7 @@ Container Service Discovery Architecture
 
 "The simplest approach is DNS-based discovery," Connie said, showing Maya a terminal:
 
-```
+```console
 # Start a service with a name
 $ docker run -d --name ticketing-db postgres
 
@@ -370,7 +370,7 @@ Address:   172.17.0.2
 
 "In Kubernetes, this gets more sophisticated," Connie continued, switching to a Kubernetes example:
 
-```
+```console
 # Create a service that selects pods by label
 $ kubectl create deployment nginx --image=nginx --replicas=3
 $ kubectl expose deployment nginx --port=80
@@ -396,7 +396,7 @@ Address:   10.96.43.172  # Cluster IP that load balances to any matching pod
 
 "For more complex scenarios, especially spanning multiple environments, we use key-value stores for service registration and discovery," Connie explained, showing a Consul dashboard:
 
-```
+```console
 # Register a service manually
 $ curl -X PUT -d '{
   "ID": "ticket-api-1",
@@ -441,7 +441,7 @@ Service Mesh Architecture
 
 She showed Maya a configuration example:
 
-```
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -483,7 +483,7 @@ In the weeks following her networking exploration, Maya put her new understandin
 
 First, Maya secured their Kubernetes environment with network policies:
 
-```
+```yaml
 # Default deny all ingress and egress
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -548,7 +548,7 @@ This micro-segmentation approach significantly improved security by enforcing th
 
 Next, Maya addressed their cross-datacenter performance issues:
 
-```
+```yaml
 # Configure CoreDNS to keep traffic local when possible
 apiVersion: v1
 kind: ConfigMap
@@ -582,7 +582,7 @@ This configuration ensured that pod-to-pod communication would prefer local zone
 
 For services outside the container environment, Maya implemented a service entry system:
 
-```
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -623,7 +623,7 @@ This allowed DigiLand's containerized services to reliably connect to external p
 
 Finally, Maya deployed a service mesh for their most critical visitor-facing services:
 
-```
+```yaml
 # Deploy the service mesh control plane
 $ kubectl apply -f istio-operator.yaml
 
@@ -682,7 +682,7 @@ Ready to dive deeper into container networking yourself? Here are some beginner-
 
 Explore network namespaces:
 
-```
+```console
 # Create network namespaces
 $ sudo ip netns add container1
 $ sudo ip netns add container2
@@ -710,7 +710,7 @@ $ sudo ip netns exec container1 ping 192.168.1.2
 
 Experiment with Docker networks:
 
-```
+```console
 # Create different network types
 $ docker network create --driver bridge bridge-demo
 $ docker network create --driver overlay overlay-demo
@@ -729,7 +729,7 @@ $ docker network inspect macvlan-demo
 
 Implement service discovery:
 
-```
+```console
 # Simple DNS-based discovery with Docker Compose
 $ cat > docker-compose.yml << EOF
 version: '3'
@@ -759,7 +759,7 @@ $ docker-compose exec api curl db:5432
 
 Explore Kubernetes networking:
 
-```
+```console
 # Create a simple application
 $ kubectl create deployment nginx --image=nginx --replicas=3
 $ kubectl expose deployment nginx --port=80
@@ -776,7 +776,7 @@ $ kubectl exec -it nginx-<pod-id> -- ip addr show
 
 Implement network policies:
 
-```
+```yaml
 # Create a namespace for testing
 $ kubectl create namespace netpolicy-test
 

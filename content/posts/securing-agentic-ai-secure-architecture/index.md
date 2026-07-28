@@ -126,7 +126,7 @@ Example: intercept tool calls in a LangChain style agent (Python):
 
 Python
 
-```
+```python
 from langchain_core.callbacks import BaseCallbackHandler
 
 class ToolGuardCallback(BaseCallbackHandler):
@@ -177,7 +177,7 @@ Example: validating a payment tool (Node):
 
 JavaScript
 
-```
+```typescript
 async function executePaymentTool(args: any, ctx: AgentContext) {
   const { amount, currency, beneficiaryId } = args;
 
@@ -237,7 +237,7 @@ Simple Node style DLP filter:
 
 JavaScript
 
-```
+```typescript
 function maskPII(text: string): string {
   // very simplified example
   const maskedId = text.replace(/\b\d{11,14}\b/g, "[ID_MASKED]");
@@ -325,7 +325,7 @@ Example trace log record:
 
 JSON
 
-```
+```json
 {
   "trace_id": "abc123",
   "span_id": "span-7",
@@ -354,7 +354,7 @@ Example:
 
 JSON
 
-```
+```json
 {
   "trace_id": "abc123",
   "timestamp": "2025-12-07T10:16:01Z",

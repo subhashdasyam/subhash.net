@@ -243,7 +243,7 @@ Programming Languages & Tools:
 
 ### The Execution Flow Truth
 
-```
+```text
 User Input → LLM Query Parser → Database Lookup → API Orchestrator 
     ↓
 Data Collection (15+ APIs) → Data Processing Pipeline → Analytics Engine

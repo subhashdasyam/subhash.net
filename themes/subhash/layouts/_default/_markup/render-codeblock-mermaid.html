@@ -1,0 +1,9 @@
+{{- /*
+  ```mermaid fences render as diagrams instead of code.
+
+  Flags the page via .Page.Store so baseof.html only pulls in mermaid.js on
+  pages that actually contain a diagram -- it is a ~1 MB module and only one
+  post uses it.
+*/ -}}
+<pre class="mermaid">{{- .Inner | htmlEscape | safeHTML -}}</pre>
+{{- .Page.Store.Set "hasMermaid" true -}}

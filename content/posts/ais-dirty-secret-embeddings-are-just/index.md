@@ -31,7 +31,7 @@ System stores: "5f4dcc3b5aa765d61d8327deb882cf99"
 
 ```
 
-Looks secure, right? Until someone builds a rainbow table—a massive pre-computed database of password hashes. Then it's game over:
+Looks secure, right? Until someone builds a rainbow table - a massive pre-computed database of password hashes. Then it's game over:
 
 ```
 Attacker steals: "5f4dcc3b5aa765d61d8327deb882cf99"
@@ -44,7 +44,7 @@ Now here's the kicker: AI embeddings work exactly the same way.
 
 ## What Are Embeddings? (The 30-Second Explanation)
 
-When you type text into an AI system, it doesn't store your words directly. It converts them into a "fingerprint"—a long list of numbers called an embedding:
+When you type text into an AI system, it doesn't store your words directly. It converts them into a "fingerprint" - a long list of numbers called an embedding:
 
 ```
 You type: "My credit card is 4532-1234-5678-9010"
@@ -79,8 +79,8 @@ Step 1: Build the rainbow table
 ```
 Pre-compute hashes for common passwords:
 "password123" → "5f4dcc3b..."
-"admin123"    → "0192023a..."
-"letmein"     → "0d107d09..."
+"admin123" → "0192023a..."
+"letmein" → "0d107d09..."
 ... millions more ...
 
 ```
@@ -106,8 +106,8 @@ Step 1: Build the embedding table
 
 ```
 Pre-compute embeddings for common texts:
-"Password: admin123"  → [0.12, -0.45, 0.78, ...]
-"Password: letmein"   → [0.23, -0.12, 0.45, ...]
+"Password: admin123" → [0.12, -0.45, 0.78, ...]
+"Password: letmein" → [0.23, -0.12, 0.45, ...]
 "Card: 4532-1234-..." → [0.34, -0.67, 0.12, ...]
 ... millions more ...
 
@@ -140,7 +140,7 @@ Hashes can be salted (random data added) to prevent rainbow tables:
 
 ```
 Without salt: "password123" → "5f4dcc3b..." (always the same)
-With salt:    "password123" + "x7k2p9" → "a9f3e2d1..." (unique every time)
+With salt: "password123" + "x7k2p9" → "a9f3e2d1..." (unique every time)
 
 ```
 
@@ -158,8 +158,8 @@ It's like using a filing cabinet as a safe. Wrong tool for the job.
 Hashes require exact matches. Embeddings use distance matching, which is actually easier:
 
 ```
-Hash attack:  Need exact "5f4dcc3b..." match
-Embedding:    Any embedding within distance 0.01 works
+Hash attack: Need exact "5f4dcc3b..." match
+Embedding: Any embedding within distance 0.01 works
 
 ```
 
@@ -225,8 +225,8 @@ Step 2: Attacker breaches your database
 Downloads 1 million embeddings. To you, they look like this:
 
 ```
-[0.234, -0.567, 0.891, ..., 0.123]  # Embedding #1
-[0.456, -0.123, 0.789, ..., 0.456]  # Embedding #2
+[0.234, -0.567, 0.891, ..., 0.123] # Embedding #1
+[0.456, -0.123, 0.789, ..., 0.456] # Embedding #2
 ...
 
 ```
@@ -239,7 +239,7 @@ Step 3: Attacker matches against rainbow table
 for stolen_embedding in your_database:
     for known_text, known_embedding in rainbow_table:
         distance = calculate_distance(stolen_embedding, known_embedding)
-        if distance < 0.01:  # Very close match
+        if distance < 0.01: # Very close match
             print(f"FOUND: {known_text}")
 
 ```
@@ -303,7 +303,7 @@ I built a proof-of-concept rainbow table attack against OpenAI's embeddings API.
 
 ```
 Text A: "The meeting is at 3pm"
-Text B: "The meeting is at 3pm."  (added period)
+Text B: "The meeting is at 3pm." (added period)
 
 Distance between embeddings: 0.123456
 
@@ -317,13 +317,13 @@ Result: ✅ Clearly distinguishable
 
 ```
 Text A: "Credit card: 4532-1234-5678-9010"
-Text B: "Credit card: 4532-1234-5678-9011"  (one digit different)
+Text B: "Credit card: 4532-1234-5678-9011" (one digit different)
 
 Distance: 0.145678
 
 Result: ✅ Different embeddings
         ✅ Both recoverable with rainbow table
-        ⚠️  Even single-digit changes are tracked
+        ⚠️ Even single-digit changes are tracked
 
 ```
 
@@ -375,7 +375,7 @@ Sure! But then you can't use them:
 
 ```
 embedding("cat") is close to embedding("kitten")
-distance("cat", "kitten") = 0.2  ← Small = similar meaning
+distance("cat", "kitten") = 0.2 ← Small = similar meaning
 
 ```
 
@@ -404,7 +404,7 @@ Here's the uncomfortable truth: There's no perfect solution yet. But here's what
 
 1. Audit Your Embedding Storage
 
-```
+```console
 # Find all embedding databases
 $ grep -r "vector_db\|pinecone\|weaviate" ./
 
@@ -438,8 +438,8 @@ Not everyone needs embedding access:
 
 ```
 Engineering team: ✅ Can query vector DB
-Marketing team:   ❌ Cannot access raw embeddings
-Analytics team:   ⚠️  Aggregated stats only
+Marketing team: ❌ Cannot access raw embeddings
+Analytics team: ⚠️ Aggregated stats only
 
 ```
 
@@ -460,9 +460,9 @@ Trades accuracy for privacy. Test carefully.
 Do you really need to keep embeddings forever?
 
 ```
-Raw text:     7 days
-Embeddings:   30 days (was: forever)
-Aggregates:   1 year
+Raw text: 7 days
+Embeddings: 30 days (was: forever)
+Aggregates: 1 year
 
 ```
 
@@ -473,9 +473,9 @@ Less data = less breach risk.
 Like credential rotation:
 
 ```
-Day 1:   Use embedding model v1
-Day 30:  Switch to model v2 (different embeddings)
-Day 60:  Delete v1 embeddings
+Day 1: Use embedding model v1
+Day 30: Switch to model v2 (different embeddings)
+Day 60: Delete v1 embeddings
 
 ```
 

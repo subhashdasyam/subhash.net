@@ -42,7 +42,7 @@ Think of MCP as the universal translator for enterprise AI, enabling your LLM to
 
 When a client application needs to access account balance and Bitcoin price data, something remarkable happens behind the scenes:
 
-```
+```mermaid
 
 graph TB
     subgraph MCPFlow ["MCP Orchestration Flow"]
@@ -195,7 +195,7 @@ The room fell silent as the metaphor landed.
 
 Sarah clicked to her first slide: a simple but powerful diagram that would reshape how GlobalBank thought about AI architecture.
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -299,7 +299,7 @@ Sarah smiled. She had been waiting for this question.
 
 "The beauty of the Validator pattern is that it's non-invasive. We deploy it as a middleware layer between our AI and our existing systems. No changes to your customer databases, no modifications to your market data feeds, no disruption to your core operations."
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -404,7 +404,7 @@ The team faced the classic enterprise challenge: building something that was sim
 
 Sarah drew three horizontal layers on the whiteboard, each representing a critical aspect of enterprise AI architecture:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -487,7 +487,7 @@ The Enterprise Validator architecture supports three primary LLM deployment patt
 
 #### Pattern 1: On-Premises LLM Infrastructure
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -544,7 +544,7 @@ On-Premises Characteristics:
 
 #### Pattern 2: Cloud LLM with Private Network Connectivity
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -604,7 +604,7 @@ Cloud with Private Network Characteristics:
 
 #### Pattern 3: Hybrid LLM Deployment
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -672,7 +672,7 @@ The Head of Operations nodded grimly. "Last month, adding a simple currency conv
 
 Sarah turned to the whiteboard and drew a simple but powerful comparison:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -731,7 +731,7 @@ The Chief Security Officer raised a critical question: "This sounds like it coul
 
 Enterprise Permission Model:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -780,7 +780,7 @@ Sarah smiled. This was where the architecture became truly elegant.
 
 The GitOps Service Discovery Pattern:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph LR
@@ -820,7 +820,7 @@ graph LR
 
 Multi-Region Service Discovery:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -867,7 +867,7 @@ The Chief Operations Officer opened the session with a sobering reminder: "Last 
 
 Sarah sketched the comprehensive resilience strategy that would make their AI platform bulletproof:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -917,7 +917,7 @@ graph TB
 
 Enterprise-Grade Semantic Caching:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -952,7 +952,7 @@ graph TB
 
 ### Global Enterprise Validator Architecture
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -1016,7 +1016,7 @@ graph TB
 
 Adaptive Scaling Architecture:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -1066,7 +1066,7 @@ Monday morning, one week after the architectural design sessions began. The conf
 
 "Level 1 objective: Establish core validator patterns and essential enterprise infrastructure."
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -1102,7 +1102,7 @@ graph TB
 
 "Level 2 objective: Achieve enterprise-grade security architecture and comprehensive regulatory compliance patterns."
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -1139,7 +1139,7 @@ graph TB
 
 "Level 3 objective: Enterprise-scale performance architecture with advanced intelligent optimization patterns."
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB
@@ -1189,7 +1189,7 @@ The transformation wasn't achieved through revolutionary technology, it was acco
 
 The Three-Layer Enterprise Pattern:
 
-```
+```mermaid
 
 %%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f0f9ff", "primaryTextColor": "#1e40af", "primaryBorderColor": "#2563eb", "lineColor": "#64748b", "secondaryColor": "#ecfdf5", "tertiaryColor": "#fef3c7"}}}%%
 graph TB

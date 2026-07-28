@@ -156,7 +156,7 @@ Example in a Node backend:
 
 JavaScript
 
-```
+```typescript
 import jwt from "jsonwebtoken";
 
 function createAgentSessionToken(context: {
@@ -205,7 +205,7 @@ Example with LangChain tools (Python):
 
 Python
 
-```
+```python
 from langchain.tools import tool
 import os
 import psycopg
@@ -281,7 +281,7 @@ Inside a tool:
 
 JavaScript
 
-```
+```typescript
 async function issueRefundTool(args: any, ctx: { scopes: string[] }) {
   const { amount } = args;
   if (amount <= 200) requireScope(ctx, "ISSUE_REFUND_SMALL");
@@ -350,7 +350,7 @@ Rough Python idea:
 
 Python
 
-```
+```python
 def active_scopes(self):
     now = datetime.utcnow()
     if now - self.created_at > timedelta(minutes=15):
@@ -427,7 +427,7 @@ Example in Node:
 
 JavaScript
 
-```
+```typescript
 async function getCustomerTool(args: any, ctx: { tenantId: string; userId: string }) {
   const db = dbForTenant(ctx.tenantId);
   return db.customers.findOne({ id: args.customerId, tenantId: ctx.tenantId });

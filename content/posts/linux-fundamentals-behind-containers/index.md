@@ -49,7 +49,7 @@ Connie pointed to the first station. "Remember how in a hotel, each department h
 
 Maya watched as Connie demonstrated with a command:
 
-```
+```console
 # Host system showing all processes
 $ ps aux | wc -l
 263 processes
@@ -79,7 +79,7 @@ The next station showed different views of the same hotel amenities.
 
 She demonstrated with a command:
 
-```
+```console
 # Host system mount points
 $ mount | wc -l
 42 mounts
@@ -109,7 +109,7 @@ Maya was impressed. "So namespaces create the illusion of separation. But how do
 
 ### Control Groups (cgroups): Resource Limits and Fair Sharing
 
-Connie led Maya to another room filled with gauges, dials, and meters—like a power plant control room.
+Connie led Maya to another room filled with gauges, dials, and meters - like a power plant control room.
 
 "This is where Control Groups (cgroups) come in," Connie said. "While namespaces control what a container can see, cgroups control what it can use."
 
@@ -183,7 +183,7 @@ She pointed to the bottom layer in their diagram:
 
 She demonstrated with a simple example:
 
-```
+```console
 # Create a file in a container
 $ docker exec my-container touch /new-file.txt
 ```
@@ -224,7 +224,7 @@ The Root Directory Control System
 
 She demonstrated with a simple example:
 
-```
+```console
 # Create a minimal filesystem
 $ mkdir -p /container-root/{bin,lib,etc}
 $ cp /bin/bash /container-root/bin/
@@ -325,7 +325,7 @@ For the virtual reality ride containers, she kept them in the same network names
 
 For payment processing containers, she used user namespaces to ensure they ran with minimal privileges on the host.
 
-```
+```console
 # Create container with custom user namespace mapping
 $ docker run --user-namespace-mode=host -d payment-processor
 ```
@@ -336,14 +336,14 @@ Maya implemented advanced cgroup configurations to optimize resource usage:
 
 For the ticketing system, she used CPU pinning to dedicate specific CPU cores during peak hours:
 
-```
+```console
 # Pin container to specific CPUs
 $ docker run --cpuset-cpus=0,1 -d ticketing-system
 ```
 
 For the water attraction controls, she set memory limits with minimum guarantees:
 
-```
+```console
 # Set memory limits and reservations
 $ docker run --memory=512m --memory-reservation=256m -d water-controls
 ```
@@ -356,7 +356,7 @@ She reorganized their container images to maximize layer sharing, reducing the o
 
 She implemented a multi-stage build process that kept development tools in interim layers but excluded them from the final container images, reducing image size by 60%.
 
-```
+```dockerfile
 # Multi-stage build example
 FROM node:14 as builder
 WORKDIR /app
@@ -379,7 +379,7 @@ She created custom seccomp profiles for different container types, limiting avai
 
 She deployed AppArmor profiles for critical containers handling sensitive data:
 
-```
+```console
 # Run container with custom AppArmor profile
 $ docker run --security-opt apparmor=payment-processor-profile -d payment-processor
 ```
@@ -402,7 +402,7 @@ Ready to understand container magic yourself? Here are some beginner-friendly wa
 
 Explore namespaces:
 
-```
+```console
 # Create a new namespace and run a shell inside it
 $ sudo unshare --fork --pid --mount-proc bash
 # Inside the namespace, you'll only see your own processes
@@ -411,7 +411,7 @@ $ ps aux
 
 Experiment with cgroups:
 
-```
+```console
 # Create a cgroup and limit its CPU usage
 $ sudo cgcreate -g cpu:/mycgroup
 $ sudo cgset -r cpu.shares=512 mycgroup
@@ -421,14 +421,14 @@ $ sudo cgexec -g cpu:/mycgroup stress --cpu 2
 
 See union filesystems in action:
 
-```
+```console
 # Inspect layers in a Docker image
 $ docker inspect --format='{{.RootFS.Layers}}' nginx
 ```
 
 Try a basic chroot:
 
-```
+```console
 # Create a minimal chroot environment
 $ mkdir -p /tmp/chroot/{bin,lib64}
 $ cp /bin/bash /tmp/chroot/bin/

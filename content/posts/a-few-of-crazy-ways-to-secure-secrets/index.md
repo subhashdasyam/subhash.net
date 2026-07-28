@@ -117,9 +117,9 @@ Limitations:
 
 For maximum isolation, sidecars can deliver secrets through private inter-process communication channels like named pipes, Unix domain sockets, or localhost connections.
 
-Named Pipe (FIFO) Pattern: A sidecar creates a named pipe file on a shared tmpfs volume. The application opens the FIFO for reading and blocks until data arrives. The sidecar pushes the secret through the pipe and closes it. Because it's a pipe, the data doesn't persist—once read, it's gone.
+Named Pipe (FIFO) Pattern: A sidecar creates a named pipe file on a shared tmpfs volume. The application opens the FIFO for reading and blocks until data arrives. The sidecar pushes the secret through the pipe and closes it. Because it's a pipe, the data doesn't persist - once read, it's gone.
 
-```
+```bash
 # Sidecar creates and writes to pipe
 mkfifo /tmp/secret-pipe
 echo "secret-value" > /tmp/secret-pipe

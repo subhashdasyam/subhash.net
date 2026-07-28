@@ -229,14 +229,14 @@ Default npm Behavior:
 
 When you run`npm install -g @anthropic/claude-code` on macOS:
 
-```
+```console
 # Check current npm prefix
 $ npm config get prefix
-/usr/local  # Intel Macs, Homebrew default
+/usr/local # Intel Macs, Homebrew default
 # OR
-/opt/homebrew  # Apple Silicon Macs, Homebrew default
+/opt/homebrew # Apple Silicon Macs, Homebrew default
 # OR
-/Users/username/.nvm/versions/node/v20.0.0  # If using nvm
+/Users/username/.nvm/versions/node/v20.0.0 # If using nvm
 ```
 
 Problem: These paths are either:
@@ -264,28 +264,28 @@ Standard Locations:
 
 Recommended Enterprise Structure:
 
-```
+```text
 /Library/Application Support/ClaudeCode/
-├── bin/                                 # Executables (root:wheel, 755)
-│   └── claude-code -> node_modules/.bin/claude-code
-├── npm-global/                          # npm global packages (root:wheel, 755)
-│   ├── bin/
-│   ├── lib/
-│   │   └── node_modules/
-│   │       └── @anthropic/
-│   │           └── claude-code/
-│   └── etc/
-│       └── npmrc                        # System npmrc (root:wheel, 444 - read-only)
-├── config/                              # Managed configurations (root:wheel, 755)
-│   ├── managed-settings.json            # (root:wheel, 444 - read-only)
-│   └── security-hooks/                  # (root:wheel, 755)
-│       ├── pre-tool-use-validator.sh    # (root:wheel, 555 - read-only + exec)
-│       ├── post-tool-use-audit.sh
-│       └── file-access-validator.sh
-├── logs/                                # Audit logs (root:wheel, 755)
-│   ├── claude-code-audit.log
-│   └── shadow-detection.log
-└── detection/                           # Shadow installation detection (root:wheel, 755)
+├── bin/ # Executables (root:wheel, 755)
+│ └── claude-code -> node_modules/.bin/claude-code
+├── npm-global/ # npm global packages (root:wheel, 755)
+│ ├── bin/
+│ ├── lib/
+│ │ └── node_modules/
+│ │ └── @anthropic/
+│ │ └── claude-code/
+│ └── etc/
+│ └── npmrc # System npmrc (root:wheel, 444 - read-only)
+├── config/ # Managed configurations (root:wheel, 755)
+│ ├── managed-settings.json # (root:wheel, 444 - read-only)
+│ └── security-hooks/ # (root:wheel, 755)
+│ ├── pre-tool-use-validator.sh # (root:wheel, 555 - read-only + exec)
+│ ├── post-tool-use-audit.sh
+│ └── file-access-validator.sh
+├── logs/ # Audit logs (root:wheel, 755)
+│ ├── claude-code-audit.log
+│ └── shadow-detection.log
+└── detection/ # Shadow installation detection (root:wheel, 755)
     └── detect-shadow-installations.sh
 ```
 
@@ -313,7 +313,7 @@ Enterprise Strategy:
 
 Homebrew Default Behavior:
 
-```
+```console
 # On Apple Silicon
 $ which brew
 /opt/homebrew/bin/brew
@@ -321,7 +321,7 @@ $ brew --prefix
 /opt/homebrew
 # Homebrew changes ownership to user's group
 $ ls -ld /opt/homebrew
-drwxrwxr-x  23 username  admin  736 Oct  7 10:00 /opt/homebrew
+drwxrwxr-x 23 username admin 736 Oct 7 10:00 /opt/homebrew
 ```
 
 Problem: Admin users can install packages to`/opt/homebrew/` without`sudo`.
@@ -337,12 +337,12 @@ Enterprise Mitigation:
 
 nvm Installation:
 
-```
+```console
 # nvm installs to user home directory
 $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 # Creates ~/.nvm/ directory
 $ ls -ld ~/.nvm
-drwxr-xr-x  7 username  staff  224 Oct  7 09:00 /Users/username/.nvm
+drwxr-xr-x 7 username staff 224 Oct 7 09:00 /Users/username/.nvm
 # Each Node.js version has its own npm
 $ nvm install 20
 $ which npm
@@ -354,7 +354,7 @@ $ npm install -g @anthropic/claude-code
 
 nodenv Installation:
 
-```
+```console
 # nodenv similar pattern
 $ brew install nodenv
 $ nodenv install 20.0.0
@@ -437,26 +437,26 @@ Microsoft Intune for macOS:
 
 System Requirements:
 
-```
+```console
 # macOS version
 $ sw_vers
-ProductName:        macOS
-ProductVersion:     14.0
-BuildVersion:       23A344
+ProductName: macOS
+ProductVersion: 14.0
+BuildVersion: 23A344
 # Architecture
 $ uname -m
-arm64  # Apple Silicon
+arm64 # Apple Silicon
 # OR
-x86_64  # Intel
+x86_64 # Intel
 # Available disk space (need 500MB)
 $ df -h /Library/Application\ Support/
-Filesystem      Size   Used  Avail Capacity  iused    ifree %iused  Mounted on
-/dev/disk3s1   228Gi  100Gi  127Gi    45%  1000000 10000000   10%   /
+Filesystem Size Used Avail Capacity iused ifree %iused Mounted on
+/dev/disk3s1 228Gi 100Gi 127Gi 45% 1000000 10000000 10% /
 ```
 
 Required Software:
 
-```
+```console
 # Xcode Command Line Tools (for compilation)
 $ xcode-select --install
 # Node.js 18+ (enterprise managed installation)
@@ -466,13 +466,13 @@ $ npm --version
 10.2.3
 # Verify not using nvm or nodenv
 $ which node
-/usr/local/bin/node  # ✓ System installation
+/usr/local/bin/node # ✓ System installation
 # NOT ~/.nvm/... or ~/.nodenv/...
 ```
 
 Verify MDM Enrollment:
 
-```
+```console
 # Check MDM profile installed
 $ profiles show -type enrollment
 # Expected output:
@@ -485,14 +485,14 @@ Device Enrollment configuration:
 
 Create`/tmp/install-claudecode-enterprise.sh`:
 
-```
+```text
 #!/bin/bash
 #
 # Claude Code Enterprise Installation Script for macOS
 # Version: 2.0
 # Purpose: Install Claude Code at system level with security controls
 #
-set -euo pipefail  # Exit on error, undefined variables, pipe failures
+set -euo pipefail # Exit on error, undefined variables, pipe failures
 # Configuration
 INSTALL_DIR="/Library/Application Support/ClaudeCode"
 NPM_PREFIX="$INSTALL_DIR/npm-global"
@@ -778,32 +778,32 @@ print_summary() {
     log_info "═══════════════════════════════════════════════════════════"
     echo ""
     echo "Installation Details:"
-    echo "  • Installation Path: $INSTALL_DIR"
-    echo "  • npm Prefix: $NPM_PREFIX"
-    echo "  • Configuration: $CONFIG_DIR/managed-settings.json"
-    echo "  • Hooks Directory: $HOOKS_DIR"
-    echo "  • Logs Directory: $LOGS_DIR"
+    echo " • Installation Path: $INSTALL_DIR"
+    echo " • npm Prefix: $NPM_PREFIX"
+    echo " • Configuration: $CONFIG_DIR/managed-settings.json"
+    echo " • Hooks Directory: $HOOKS_DIR"
+    echo " • Logs Directory: $LOGS_DIR"
     echo ""
     echo "Next Steps:"
-    echo "  1. Deploy security hooks (Section 6)"
-    echo "  2. Configure shadow installation detection (Section 8)"
-    echo "  3. Setup monitoring and audit logging (Section 10)"
-    echo "  4. Test the deployment (Section 12)"
-    echo "  5. Deploy via MDM (Section 11)"
+    echo " 1. Deploy security hooks (Section 6)"
+    echo " 2. Configure shadow installation detection (Section 8)"
+    echo " 3. Setup monitoring and audit logging (Section 10)"
+    echo " 4. Test the deployment (Section 12)"
+    echo " 5. Deploy via MDM (Section 11)"
     echo ""
     echo "Users can access Claude Code via:"
-    echo "  \$ $BIN_DIR/claude-code"
+    echo " \$ $BIN_DIR/claude-code"
     echo ""
     echo "Add to user PATH (deploy via MDM or shell profiles):"
-    echo "  export PATH=\"$BIN_DIR:\$PATH\""
+    echo " export PATH=\"$BIN_DIR:\$PATH\""
     echo ""
     log_info "═══════════════════════════════════════════════════════════"
 }
 # Main installation flow
 main() {
     echo "════════════════════════════════════════════════════════════════"
-    echo "  Claude Code Enterprise Installation Script for macOS"
-    echo "  Version: 2.0"
+    echo " Claude Code Enterprise Installation Script for macOS"
+    echo " Version: 2.0"
     echo "════════════════════════════════════════════════════════════════"
     echo ""
     check_root
@@ -821,7 +821,7 @@ main "$@"
 
 ### 4.3 Running the Installation
 
-```
+```text
 # Download and run installation script
 $ sudo bash /tmp/install-claudecode-enterprise.sh
 # Expected output:
@@ -847,20 +847,20 @@ $ sudo bash /tmp/install-claudecode-enterprise.sh
 
 ### 4.4 Verify Installation
 
-```
+```console
 # Check directory structure
 $ ls -la "/Library/Application Support/ClaudeCode/"
 total 0
-drwxr-xr-x  8 root  wheel  256 Oct  7 10:00 .
-drwxr-xr-x  3 root  wheel   96 Oct  7 09:55 ..
-drwxr-xr-x  2 root  wheel   64 Oct  7 10:00 bin
-drwxr-xr-x  3 root  wheel   96 Oct  7 10:00 config
-drwxr-xr-x  2 root  wheel   64 Oct  7 10:00 detection
-drwxr-xr-x  2 root  wheel   64 Oct  7 10:00 logs
-drwxr-xr-x  5 root  wheel  160 Oct  7 10:00 npm-global
+drwxr-xr-x 8 root wheel 256 Oct 7 10:00 .
+drwxr-xr-x 3 root wheel 96 Oct 7 09:55 ..
+drwxr-xr-x 2 root wheel 64 Oct 7 10:00 bin
+drwxr-xr-x 3 root wheel 96 Oct 7 10:00 config
+drwxr-xr-x 2 root wheel 64 Oct 7 10:00 detection
+drwxr-xr-x 2 root wheel 64 Oct 7 10:00 logs
+drwxr-xr-x 5 root wheel 160 Oct 7 10:00 npm-global
 # Verify managed-settings.json is read-only
 $ ls -la "/Library/Application Support/ClaudeCode/config/managed-settings.json"
--r--r--r--  1 root  wheel  2048 Oct  7 10:00 managed-settings.json
+-r--r--r-- 1 root wheel 2048 Oct 7 10:00 managed-settings.json
 # Test Claude Code execution
 $ "/Library/Application Support/ClaudeCode/bin/claude-code" --version
 claude-code version 1.2.3
@@ -879,7 +879,7 @@ Option 1: System-wide Profile (Recommended for MDM)
 
 Create`/etc/profile.d/claudecode.sh`:
 
-```
+```bash
 #!/bin/bash
 # Claude Code Enterprise PATH configuration
 export PATH="/Library/Application Support/ClaudeCode/bin:$PATH"
@@ -887,7 +887,7 @@ export PATH="/Library/Application Support/ClaudeCode/bin:$PATH"
 
 Set permissions:
 
-```
+```console
 $ sudo chmod 644 /etc/profile.d/claudecode.sh
 $ sudo chown root:wheel /etc/profile.d/claudecode.sh
 ```
@@ -896,14 +896,14 @@ Option 2: Deploy via MDM to User Shell Profiles
 
 For each user, append to`~/.zshrc`(macOS default shell):
 
-```
+```bash
 # Claude Code Enterprise (managed by IT)
 export PATH="/Library/Application Support/ClaudeCode/bin:$PATH"
 ```
 
 Option 3: Symlink to /usr/local/bin (Simplest)
 
-```
+```console
 $ sudo ln -sf "/Library/Application Support/ClaudeCode/bin/claude-code" /usr/local/bin/claude-code
 # Verify
 $ which claude-code
@@ -932,7 +932,7 @@ userconfig=/dev/null
 
 Make it immutable (macOS file flag):
 
-```
+```console
 $ sudo chflags uchg ~/.npmrc
 $ sudo chown root:wheel ~/.npmrc
 $ sudo chmod 444 ~/.npmrc
@@ -974,7 +974,7 @@ Block user settings (Priority 5) by:
 
 Full template at`/Library/Application Support/ClaudeCode/config/managed-settings.json`:
 
-```
+```json
 {
   "version": "2.0",
   "managedBy": "Enterprise IT Security",
@@ -1151,7 +1151,7 @@ Full template at`/Library/Application Support/ClaudeCode/config/managed-settings
 
 ### 5.3 Deploy Managed Settings
 
-```
+```bash
 #!/bin/bash
 # deploy-managed-settings.sh
 MANAGED_SETTINGS="/Library/Application Support/ClaudeCode/config/managed-settings.json"
@@ -1164,11 +1164,11 @@ sudo cat > "$MANAGED_SETTINGS" <<'EOF'
 EOF
 # Set ownership and permissions
 sudo chown root:wheel "$MANAGED_SETTINGS"
-sudo chmod 444 "$MANAGED_SETTINGS"  # Read-only
-sudo chflags uchg "$MANAGED_SETTINGS"  # Immutable
+sudo chmod 444 "$MANAGED_SETTINGS" # Read-only
+sudo chflags uchg "$MANAGED_SETTINGS" # Immutable
 # Verify
 ls -la "$MANAGED_SETTINGS"
-# Expected: -r--r--r--  1 root  wheel  ... managed-settings.json
+# Expected: -r--r--r-- 1 root wheel ... managed-settings.json
 # Test immutability
 echo "test" >> "$MANAGED_SETTINGS" 2>&1 | grep -q "Operation not permitted" && echo "✓ Immutable"
 ```
@@ -1177,14 +1177,14 @@ echo "test" >> "$MANAGED_SETTINGS" 2>&1 | grep -q "Operation not permitted" && e
 
 Strategy 1: File Permissions
 
-```
+```bash
 # Create user Library/Application Support/ directory structure
 USER_CONFIG_DIR="$HOME/Library/Application Support/claude-code"
 # Create directory but deny write access
 sudo mkdir -p "$USER_CONFIG_DIR"
 sudo chown root:wheel "$USER_CONFIG_DIR"
-sudo chmod 555 "$USER_CONFIG_DIR"  # Read + execute, no write
-sudo chflags uchg "$USER_CONFIG_DIR"  # Immutable
+sudo chmod 555 "$USER_CONFIG_DIR" # Read + execute, no write
+sudo chflags uchg "$USER_CONFIG_DIR" # Immutable
 # Test - user cannot create settings
 touch "$USER_CONFIG_DIR/settings.json"
 # Expected: touch: /Users/username/Library/Application Support/claude-code/settings.json: Permission denied
@@ -1192,13 +1192,13 @@ touch "$USER_CONFIG_DIR/settings.json"
 
 Strategy 2: ACLs (Access Control Lists)
 
-```
+```bash
 # More granular control with ACLs
 sudo chmod +a "user:username deny write,delete,append,writeattr,writeextattr,chown" "$USER_CONFIG_DIR"
 # Verify ACLs
 ls -lde "$USER_CONFIG_DIR"
 # Expected: drwxr-xr-x+ ... claude-code
-#  0: user:username deny write,delete,append,writeattr,writeextattr,chown
+# 0: user:username deny write,delete,append,writeattr,writeextattr,chown
 ```
 
 Strategy 3: MDM Configuration Profile
@@ -1209,14 +1209,14 @@ Create a Configuration Profile to restrict file creation (requires third-party M
 
 Create`/Library/Application Support/ClaudeCode/config/validate-config.sh`:
 
-```
+```bash
 #!/bin/bash
 #
 # Validate managed-settings.json integrity
 # Run via LaunchDaemon every hour
 #
 MANAGED_SETTINGS="/Library/Application Support/ClaudeCode/config/managed-settings.json"
-EXPECTED_HASH="SHA256_HASH_HERE"  # Replace with actual hash
+EXPECTED_HASH="SHA256_HASH_HERE" # Replace with actual hash
 LOG_FILE="/Library/Application Support/ClaudeCode/logs/config-validation.log"
 log() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
@@ -1233,7 +1233,7 @@ current_hash=$(shasum -a 256 "$MANAGED_SETTINGS" | awk '{print $1}')
 if [[ "$current_hash" != "$EXPECTED_HASH" ]]; then
     log "WARNING: managed-settings.json hash mismatch"
     log "Expected: $EXPECTED_HASH"
-    log "Current:  $current_hash"
+    log "Current: $current_hash"
     logger -t claudecode-security -p user.warning "managed-settings.json tampered"
     # Optionally restore from backup
     # sudo cp /path/to/backup/managed-settings.json "$MANAGED_SETTINGS"
@@ -1241,7 +1241,7 @@ if [[ "$current_hash" != "$EXPECTED_HASH" ]]; then
 fi
 # Verify permissions
 perms=$(stat -f "%Op" "$MANAGED_SETTINGS")
-if [[ "$perms" != "100444" ]]; then  # 444 in octal
+if [[ "$perms" != "100444" ]]; then # 444 in octal
     log "WARNING: managed-settings.json permissions incorrect: $perms"
     sudo chmod 444 "$MANAGED_SETTINGS"
 fi
@@ -1282,7 +1282,7 @@ post-tool-use: Runs after tool execution (auditing, logging)
 
 Hook Configuration:
 
-```
+```json
 {
   "security": {
     "hooks": {
@@ -1295,7 +1295,7 @@ Hook Configuration:
 
 Hook Input (stdin): JSON object with tool execution details:
 
-```
+```json
 {
   "tool": "Read",
   "parameters": {
@@ -1312,7 +1312,7 @@ Hook Input (stdin): JSON object with tool execution details:
 
 Create`/Library/Application Support/ClaudeCode/config/security-hooks/pre-tool-use-validator.sh`:
 
-```
+```bash
 #!/bin/bash
 #
 # Claude Code Pre-Tool-Use Security Validator
@@ -1363,7 +1363,7 @@ if [[ "$TOOL" != "Read" && "$TOOL" != "Write" && "$TOOL" != "Edit" ]]; then
             block "Blocked potential data exfiltration command"
         fi
     fi
-    allow  # Allow other non-file tools
+    allow # Allow other non-file tools
 fi
 # If no file path provided, allow (e.g., Glob tool with pattern only)
 if [[ -z "$FILE_PATH" ]]; then
@@ -1433,7 +1433,7 @@ if [[ "$TOOL" == "Write" || "$TOOL" == "Edit" ]]; then
 fi
 # Check file size limit for Read operations
 if [[ "$TOOL" == "Read" && -f "$REAL_PATH" ]]; then
-    MAX_SIZE=$(jq -r '.security.maxFileSize // 10485760' "$MANAGED_SETTINGS")  # Default 10MB
+    MAX_SIZE=$(jq -r '.security.maxFileSize // 10485760' "$MANAGED_SETTINGS") # Default 10MB
     FILE_SIZE=$(stat -f%z "$REAL_PATH" 2>/dev/null || echo "0")
     if [[ $FILE_SIZE -gt $MAX_SIZE ]]; then
         block "File size ($FILE_SIZE bytes) exceeds limit ($MAX_SIZE bytes)"
@@ -1445,7 +1445,7 @@ allow
 
 Set permissions:
 
-```
+```console
 $ sudo chmod 555 /Library/Application\ Support/ClaudeCode/config/security-hooks/pre-tool-use-validator.sh
 $ sudo chown root:wheel /Library/Application\ Support/ClaudeCode/config/security-hooks/pre-tool-use-validator.sh
 $ sudo chflags uchg /Library/Application\ Support/ClaudeCode/config/security-hooks/pre-tool-use-validator.sh
@@ -1455,7 +1455,7 @@ $ sudo chflags uchg /Library/Application\ Support/ClaudeCode/config/security-hoo
 
 Create`/Library/Application Support/ClaudeCode/config/security-hooks/post-tool-use-audit.sh`:
 
-```
+```bash
 #!/bin/bash
 #
 # Claude Code Post-Tool-Use Audit Hook
@@ -1466,7 +1466,7 @@ set -eo pipefail
 # Configuration
 LOG_FILE="/Library/Application Support/ClaudeCode/logs/audit.log"
 JSON_LOG="/Library/Application Support/ClaudeCode/logs/audit-json.log"
-SIEM_ENABLED=false  # Set via managed-settings.json
+SIEM_ENABLED=false # Set via managed-settings.json
 SIEM_ENDPOINT="https://siem.yourcompany.com/api/logs"
 # Read input from stdin (JSON)
 INPUT=$(cat)
@@ -1477,7 +1477,7 @@ USER=$(echo "$INPUT" | jq -r '.user')
 TIMESTAMP=$(echo "$INPUT" | jq -r '.timestamp')
 WORKING_DIR=$(echo "$INPUT" | jq -r '.workingDirectory')
 SESSION_ID=$(echo "$INPUT" | jq -r '.sessionId')
-STATUS=$(echo "$INPUT" | jq -r '.status // "unknown"')  # success, failed, blocked
+STATUS=$(echo "$INPUT" | jq -r '.status // "unknown"') # success, failed, blocked
 # Get system context
 HOSTNAME=$(hostname)
 PID=$$
@@ -1515,7 +1515,7 @@ if [[ "$SIEM_ENABLED" == "true" ]]; then
 fi
 # Log rotation check (keep last 10 files, 100MB each)
 LOG_SIZE=$(stat -f%z "$LOG_FILE" 2>/dev/null || echo "0")
-MAX_SIZE=$((100 * 1024 * 1024))  # 100MB
+MAX_SIZE=$((100 * 1024 * 1024)) # 100MB
 if [[ $LOG_SIZE -gt $MAX_SIZE ]]; then
     # Rotate log
     for i in {9..1}; do
@@ -1533,14 +1533,14 @@ exit 0
 
 Set permissions:
 
-```
+```console
 $ sudo chmod 555 /Library/Application\ Support/ClaudeCode/config/security-hooks/post-tool-use-audit.sh
 $ sudo chown root:wheel /Library/Application\ Support/ClaudeCode/config/security-hooks/post-tool-use-audit.sh
 ```
 
 ### 6.4 Testing Hooks
 
-```
+```console
 # Test pre-tool-use hook with mock input
 $ echo '{"tool":"Read","parameters":{"file_path":"/Users/jdoe/.ssh/id_rsa"},"user":"jdoe","timestamp":"2025-10-07T10:00:00Z"}' | \
   sudo /Library/Application\ Support/ClaudeCode/config/security-hooks/pre-tool-use-validator.sh
@@ -1561,7 +1561,7 @@ $ sudo cat /Library/Application\ Support/ClaudeCode/logs/pre-tool-use.log
 
 Hooks require`jq` for JSON parsing:
 
-```
+```console
 # Install jq via Homebrew (for testing)
 $ brew install jq
 # Or download binary for enterprise deployment
@@ -1608,7 +1608,7 @@ TCC Configuration Profile Example:
 
 Create`com.apple.TCC.configuration-profile-policy.plist`:
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -1705,7 +1705,7 @@ What is SIP?
 
 SIP Status:
 
-```
+```console
 $ csrutil status
 System Integrity Protection status: enabled.
 ```
@@ -1729,14 +1729,14 @@ What is Gatekeeper?
 
 Gatekeeper Status:
 
-```
+```console
 $ spctl --status
 assessments enabled
 ```
 
 Enterprise Configuration:
 
-```
+```console
 # Require signed code for all executables
 $ sudo spctl --master-enable
 # Check signature of Claude Code (npm package is not signed)
@@ -1758,7 +1758,7 @@ Mitigation: Use hooks and process monitoring to ensure only managed Claude Code 
 
 Enable FileVault:
 
-```
+```console
 # Check FileVault status
 $ fdesetup status
 FileVault is On.
@@ -1784,9 +1784,9 @@ Problem: Claude Code could read SSH keys from Keychain if user grants access.
 
 Mitigation:
 
-```
+```console
 # Lock down SSH keys in Keychain
-$ security set-keychain-settings -l -u -t 3600 login.keychain  # Auto-lock after 1 hour
+$ security set-keychain-settings -l -u -t 3600 login.keychain # Auto-lock after 1 hour
 # Require password for keychain access
 $ security set-keychain-settings -l ~/Library/Keychains/login.keychain-db
 # Export and verify Keychain ACLs
@@ -1856,7 +1856,7 @@ Layer 7: EDR Integration (block and alert)
 
 Create`/Library/Application Support/ClaudeCode/detection/detect-shadow-installations.sh`:
 
-```
+```text
 #!/bin/bash
 #
 # Shadow Installation Detection Script for macOS
@@ -1867,8 +1867,8 @@ set -euo pipefail
 # Configuration
 MANAGED_INSTALL="/Library/Application Support/ClaudeCode/npm-global"
 LOG_FILE="/Library/Application Support/ClaudeCode/logs/shadow-detection.log"
-ALERT_THRESHOLD=1  # Number of violations before alerting
-REMEDIATION_MODE="alert"  # "alert", "remove", or "block"
+ALERT_THRESHOLD=1 # Number of violations before alerting
+REMEDIATION_MODE="alert" # "alert", "remove", or "block"
 # Colors for terminal output
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
@@ -1973,7 +1973,7 @@ check_standalone_binaries() {
                     local target
                     target=$(readlink "$binary")
                     if [[ "$target" == "$MANAGED_INSTALL"* ]]; then
-                        continue  # It's pointing to managed install, OK
+                        continue # It's pointing to managed install, OK
                     fi
                 fi
                 detect_shadow "$binary" "standalone-binary-$username"
@@ -2099,8 +2099,8 @@ block_executions() {
 # Main execution
 main() {
     echo "════════════════════════════════════════════════════════════════"
-    echo "  Claude Code Shadow Installation Detection"
-    echo "  $(date)"
+    echo " Claude Code Shadow Installation Detection"
+    echo " $(date)"
     echo "════════════════════════════════════════════════════════════════"
     echo ""
     log "info" "Starting shadow installation detection scan..."
@@ -2118,7 +2118,7 @@ main() {
         echo -e "${GREEN}✓ No shadow installations detected${NC}"
     else
         echo -e "${RED}✗ Found ${#VIOLATIONS[@]} shadow installation(s)${NC}"
-        echo "  See log: $LOG_FILE"
+        echo " See log: $LOG_FILE"
     fi
     echo "════════════════════════════════════════════════════════════════"
     # Exit with error if violations found
@@ -2129,7 +2129,7 @@ main "$@"
 
 Set permissions:
 
-```
+```console
 $ sudo chmod 555 /Library/Application\ Support/ClaudeCode/detection/detect-shadow-installations.sh
 $ sudo chown root:wheel /Library/Application\ Support/ClaudeCode/detection/detect-shadow-installations.sh
 ```
@@ -2138,7 +2138,7 @@ $ sudo chown root:wheel /Library/Application\ Support/ClaudeCode/detection/detec
 
 Create LaunchDaemon for hourly scans:`/Library/LaunchDaemons/com.yourcompany.claudecode.shadowdetect.plist`
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -2151,7 +2151,7 @@ Create LaunchDaemon for hourly scans:`/Library/LaunchDaemons/com.yourcompany.cla
         <string>/Library/Application Support/ClaudeCode/detection/detect-shadow-installations.sh</string>
     </array>
     <key>StartInterval</key>
-    <integer>3600</integer>  <!-- Run every hour -->
+    <integer>3600</integer> <!-- Run every hour -->
     <key>StandardOutPath</key>
     <string>/Library/Application Support/ClaudeCode/logs/shadow-detection-stdout.log</string>
     <key>StandardErrorPath</key>
@@ -2166,11 +2166,11 @@ Create LaunchDaemon for hourly scans:`/Library/LaunchDaemons/com.yourcompany.cla
 
 Load LaunchDaemon:
 
-```
+```console
 $ sudo launchctl load /Library/LaunchDaemons/com.yourcompany.claudecode.shadowdetect.plist
 # Verify it's loaded
 $ sudo launchctl list | grep claudecode
--    0    com.yourcompany.claudecode.shadowdetect
+- 0 com.yourcompany.claudecode.shadowdetect
 # Test manual execution
 $ sudo launchctl start com.yourcompany.claudecode.shadowdetect
 # Check logs
@@ -2196,7 +2196,7 @@ cache=/Library/Application Support/ClaudeCode/npm-cache
 
 Make it read-only:
 
-```
+```console
 $ sudo chmod 444 /etc/npmrc
 $ sudo chown root:wheel /etc/npmrc
 $ sudo chflags uchg /etc/npmrc
@@ -2206,7 +2206,7 @@ Lock User ~/.npmrc:
 
 Deploy via MDM to each user:
 
-```
+```bash
 #!/bin/bash
 # Deploy locked user npmrc
 for user_home in /Users/*; do
@@ -2231,7 +2231,7 @@ done
 
 Strategy 1: File System Restrictions
 
-```
+```bash
 # Create .nvm and .nodenv directories owned by root, read-only
 for user_home in /Users/*; do
     [[ ! -d "$user_home" ]] && continue
@@ -2254,7 +2254,7 @@ Strategy 2: Monitor .zshrc and .bash_profile
 
 Block nvm/nodenv initialization in shell profiles:
 
-```
+```bash
 #!/bin/bash
 # Monitor and remove nvm/nodenv from shell profiles
 for user_home in /Users/*; do
@@ -2293,7 +2293,7 @@ Tools:
 
 Install osquery:
 
-```
+```console
 # Via Homebrew
 $ brew install osquery
 # Or download PKG from https://osquery.io/downloads
@@ -2306,7 +2306,7 @@ Create osquery Configuration:
 
 File:`/var/osquery/osquery.conf`
 
-```
+```json
 {
   "options": {
     "config_plugin": "filesystem",
@@ -2364,7 +2364,7 @@ Start osquery as LaunchDaemon:
 
 Create`/Library/LaunchDaemons/com.facebook.osqueryd.plist`:
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -2393,7 +2393,7 @@ Create`/Library/LaunchDaemons/com.facebook.osqueryd.plist`:
 
 Load osquery:
 
-```
+```console
 $ sudo launchctl load /Library/LaunchDaemons/com.facebook.osqueryd.plist
 # Query results in real-time
 $ osqueryi
@@ -2406,7 +2406,7 @@ macOS Unified Logging System:
 
 Log from hooks and scripts:
 
-```
+```console
 # Log to unified logging
 $ logger -t claudecode-security -p user.warning "Shadow installation detected"
 # Query logs
@@ -2419,7 +2419,7 @@ Create Unified Logging Configuration:
 
 File:`/Library/Preferences/Logging/Subsystems/com.yourcompany.claudecode.plist`
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -2440,7 +2440,7 @@ File:`/Library/Preferences/Logging/Subsystems/com.yourcompany.claudecode.plist`
 
 Query Claude Code logs:
 
-```
+```console
 # Show all Claude Code logs from last 24 hours
 $ log show --predicate 'process == "node" AND eventMessage CONTAINS "claude-code"' --last 24h --info
 # Export to JSON for SIEM ingestion
@@ -2451,7 +2451,7 @@ $ log show --predicate 'process == "node" AND eventMessage CONTAINS "claude-code
 
 Create`/Library/Application Support/ClaudeCode/detection/realtime-monitor.sh`:
 
-```
+```bash
 #!/bin/bash
 #
 # Real-time Claude Code Process Monitor
@@ -2516,7 +2516,7 @@ Log Format:
 
 JSON Log Format:
 
-```
+```json
 {
   "timestamp": "2025-10-07T14:30:00.000Z",
   "log_version": "2.0",
@@ -2571,15 +2571,15 @@ Rotate Logs with newsyslog:
 Create`/etc/newsyslog.d/claudecode.conf`:
 
 ```
-# logfilename                                          [owner:group]  mode  count  size  when  flags [/pid_file] [sig_num]
-/Library/Application Support/ClaudeCode/logs/audit.log   root:wheel     644   10     100M  *     GZ
-/Library/Application Support/ClaudeCode/logs/pre-tool-use.log  root:wheel  644   10     100M  *     GZ
-/Library/Application Support/ClaudeCode/logs/shadow-detection.log  root:wheel  644   10     50M   *     GZ
+# logfilename [owner:group] mode count size when flags [/pid_file] [sig_num]
+/Library/Application Support/ClaudeCode/logs/audit.log root:wheel 644 10 100M * GZ
+/Library/Application Support/ClaudeCode/logs/pre-tool-use.log root:wheel 644 10 100M * GZ
+/Library/Application Support/ClaudeCode/logs/shadow-detection.log root:wheel 644 10 50M * GZ
 ```
 
 Test newsyslog configuration:
 
-```
+```console
 $ sudo newsyslog -nvv
 # -n: dry run
 # -vv: verbose output
@@ -2589,11 +2589,11 @@ $ sudo newsyslog -F
 
 Manual Log Rotation Script:
 
-```
+```bash
 #!/bin/bash
 # rotate-logs.sh
 LOG_DIR="/Library/Application Support/ClaudeCode/logs"
-MAX_SIZE=$((100 * 1024 * 1024))  # 100MB
+MAX_SIZE=$((100 * 1024 * 1024)) # 100MB
 MAX_FILES=10
 for logfile in "$LOG_DIR"/*.log; do
     [[ ! -f "$logfile" ]] && continue
@@ -2607,7 +2607,7 @@ for logfile in "$LOG_DIR"/*.log; do
         done
         # Compress and move current log
         gzip -c "$logfile" > "$logfile.1.gz"
-        > "$logfile"  # Truncate
+        > "$logfile" # Truncate
         echo "Rotated $logfile"
     fi
 done
@@ -2619,7 +2619,7 @@ Splunk Integration:
 
 Install Splunk Universal Forwarder:
 
-```
+```console
 # Download from splunk.com
 $ sudo installer -pkg splunkforwarder-9.x.pkg -target /
 # Configure inputs
@@ -2634,7 +2634,7 @@ Elasticsearch/Logstash Integration:
 
 Configure Filebeat (`/etc/filebeat/filebeat.yml`):
 
-```
+```yaml
 filebeat.inputs:
   - type: log
     enabled: true
@@ -2657,14 +2657,14 @@ Configure rsyslog to forward to SIEM:
 ```
 # /etc/syslog.conf
 # Forward claudecode logs to remote syslog
-local3.*    @siem.yourcompany.com:514
+local3.* @siem.yourcompany.com:514
 ```
 
 ### 10.5 Compliance Reporting
 
 Generate SOC 2 Compliance Report:
 
-```
+```text
 #!/bin/bash
 # generate-compliance-report.sh
 REPORT_DIR="/Library/Application Support/ClaudeCode/reports"
@@ -2708,7 +2708,7 @@ cat "$REPORT_FILE"
 
 Create Installation Package:
 
-```
+```bash
 #!/bin/bash
 # create-pkg.sh - Create installer package for Jamf Pro
 PACKAGE_DIR="/tmp/claudecode-enterprise-pkg"
@@ -2790,7 +2790,7 @@ Configure:
 
 Script:
 
-```
+```bash
 #!/bin/bash
 CLAUDE_PATH="/Library/Application Support/ClaudeCode/bin/claude-code"
 if [[ -f "$CLAUDE_PATH" ]]; then
@@ -2807,7 +2807,7 @@ Create Extension Attribute for Shadow Installation Detection:
 
 Script:
 
-```
+```bash
 #!/bin/bash
 shadow_count=0
 # Check nvm
@@ -2871,7 +2871,7 @@ Options:
 
 - Execute Command:
 
-```
+```bash
 for user_home in /Users/*; do
 [[ ! -d "$user_home" ]] && continue
 cat > "$user_home/.npmrc" <<'EOF'
@@ -2919,7 +2919,7 @@ Schedule Report Email:
 
 ## Conclusion
 
-This comprehensive guide provides enterprise security teams with the tools and knowledge to deploy Claude Code securely in macOS environments. By implementing the defense-in-depth strategies outlined—including system-level installation, managed configurations, security hooks, shadow installation prevention, and comprehensive monitoring—organizations can maintain control over AI-assisted development tools while meeting compliance requirements.
+This comprehensive guide provides enterprise security teams with the tools and knowledge to deploy Claude Code securely in macOS environments. By implementing the defense-in-depth strategies outlined - including system-level installation, managed configurations, security hooks, shadow installation prevention, and comprehensive monitoring - organizations can maintain control over AI-assisted development tools while meeting compliance requirements.
 
 Key Takeaways:
 

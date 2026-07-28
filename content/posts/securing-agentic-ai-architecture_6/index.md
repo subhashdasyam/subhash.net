@@ -167,7 +167,7 @@ Python - LangChain ReAct style with observation wrapper
 
 Python
 
-```
+```python
 from langchain_openai import ChatOpenAI
 from langchain.tools import tool
 from langchain.agents import create_openai_tools_agent, AgentExecutor
@@ -218,7 +218,7 @@ Even without a framework, you can structure a ReAct loop:
 
 JavaScript
 
-```
+```typescript
 import OpenAI from "openai";
 import { sanitizeObservation, detectPromptInjection } from "./security";
 
@@ -404,7 +404,7 @@ Any unknown or unsafe action type is refused.
 
 Python
 
-```
+```python
 from pydantic import BaseModel, Field, ValidationError
 from typing import List, Literal
 from llm_client import call_model_json
@@ -568,7 +568,7 @@ Policies are fixed from outside.
 
 JavaScript
 
-```
+```typescript
 import OpenAI from "openai";
 import { logEvent } from "./security";
 
@@ -714,7 +714,7 @@ Building on the Node pattern from Section 1, here is a billing focused snippet:
 
 JavaScript
 
-```
+```typescript
 const sendInvoiceArgs = z.object({
   customer_id: z.string(),
   invoice_id: z.string(),
@@ -748,7 +748,7 @@ And the registry entry:
 
 JavaScript
 
-```
+```typescript
 const TOOL_REGISTRY = {
   send_invoice: {
     description: "Send an existing invoice to a customer by email.",
@@ -846,7 +846,7 @@ Review misroutes and tune router prompts or rules.
 
 Python
 
-```
+```python
 from typing import List
 from enum import Enum
 
@@ -950,7 +950,7 @@ At each level, filter branches that clearly contradict policy or safety guidelin
 
 Python
 
-```
+```python
 from typing import List, Callable
 
 class Branch:

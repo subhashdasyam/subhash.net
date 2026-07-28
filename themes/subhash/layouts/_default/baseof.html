@@ -27,5 +27,39 @@
 {{- $search := resources.Get "js/search.js" }}
 {{- $js := slice $theme $search | resources.Concat "js/bundle.js" | minify | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+
+{{/* Mermaid only where a diagram exists (set by the codeblock render hook).
+     Themed to match the site and re-rendered when the light/dark toggle
+     fires, since mermaid bakes colours into the generated SVG. */}}
+{{- if .Store.Get "hasMermaid" }}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  const sources = [...document.querySelectorAll('pre.mermaid')].map(el => el.textContent);
+
+  function draw() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.querySelectorAll('pre.mermaid').forEach((el, i) => {
+      el.removeAttribute('data-processed');
+      el.innerHTML = sources[i];
+    });
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: dark ? 'dark' : 'neutral',
+      fontFamily: "'JetBrains Mono', monospace",
+      themeVariables: { primaryColor: dark ? '#141414' : '#ffffff', lineColor: '#ff4d00' },
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }
+
+  draw();
+
+  // the toggle swaps data-theme; redraw so diagrams follow the site
+  new MutationObserver(draw).observe(document.documentElement, {
+    attributes: true, attributeFilter: ['data-theme'],
+  });
+</script>
+{{- end }}
 </body>
 </html>

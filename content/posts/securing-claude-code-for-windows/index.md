@@ -147,7 +147,7 @@ Recommended Approach: Install Claude Code in a centrally-managed, non-writable l
 
 #### Option 1: ProgramData Installation (Recommended)
 
-```
+```powershell
 # Step 1: Configure npm to use ProgramData for global packages
 npm config set prefix "C:\ProgramData\ClaudeCode\npm-global" --global
 
@@ -180,7 +180,7 @@ Benefits:
 
 #### Option 2: Program Files Installation
 
-```
+```powershell
 # Configure npm prefix to Program Files
 npm config set prefix "C:\Program Files\ClaudeCode" --global
 
@@ -193,7 +193,7 @@ Start-Process powershell -Verb RunAs -ArgumentList "-Command npm install -g @ant
 
 #### Option 3: Native Binary Installation (Beta)
 
-```
+```powershell
 # Download and execute install script with controlled path
 $installPath = "C:\ProgramData\ClaudeCode\bin"
 $env:CLAUDE_INSTALL_DIR = $installPath
@@ -248,7 +248,7 @@ Copy-Item .\ClaudeCodePolicy.bin -Destination "\\domain\SYSVOL\domain\Policies\{
 
 ### 2.4 Deployment Script for Enterprise Rollout
 
-```
+```powershell
 <#
 .SYNOPSIS
     Enterprise deployment script for Claude Code on Windows
@@ -389,7 +389,7 @@ C:\ProgramData\ClaudeCode\managed-mcp.json       (MCP Servers)
 
 Enterprise Managed Settings Example:
 
-```
+```json
 {
   "$schema": "https://api.claude.com/schemas/settings-v1.json",
   "model": "claude-sonnet-4-5",
@@ -522,7 +522,7 @@ Enterprise Managed Settings Example:
 
 PowerShell Script to Deploy and Lock:
 
-```
+```powershell
 # Deploy managed policies with read-only protection
 $managedPolicyPath = "C:\ProgramData\ClaudeCode\managed-settings.json"
 $policyContent = Get-Content "\\fileserver\IT\ClaudeCode\managed-settings.json" -Raw
@@ -565,7 +565,7 @@ $targetPath = "C:\ProgramData\ClaudeCode\managed-settings.json"
 
 Option 2: Logon Script Deployment
 
-```
+```powershell
 # In GPO > Computer Configuration > Windows Settings > Scripts > Startup
 
 # deploy-claude-settings.ps1
@@ -583,7 +583,7 @@ if (Test-Path $source) {
 
 C:\ProgramData\ClaudeCode\managed-mcp.json:
 
-```
+```json
 {
   "mcpServers": {
     "corporate-knowledge": {
@@ -619,7 +619,7 @@ Security Considerations for MCP Servers:
 
 ### 3.6 Configuration Validation Script
 
-```
+```powershell
 <#
 .SYNOPSIS
     Validates Claude Code configuration security
@@ -712,7 +712,7 @@ Exit Code Method (Simple):
 
 JSON Output Method (Advanced):
 
-```
+```json
 {
   "continue": false,
   "stopReason": "Blocked: Attempting to access sensitive file",
@@ -726,7 +726,7 @@ JSON Output Method (Advanced):
 
 Directory Structure:
 
-```
+```text
 C:\ProgramData\ClaudeCode\hooks\
 ├── validate-edit.ps1         # Pre-edit validation
 ├── validate-bash.ps1         # Bash command validation
@@ -741,7 +741,7 @@ C:\ProgramData\ClaudeCode\hooks\
 
 validate-edit.ps1:
 
-```
+```powershell
 <#
 .SYNOPSIS
     PreToolUse hook to block edits to sensitive files
@@ -859,7 +859,7 @@ exit 0
 
 validate-bash.ps1:
 
-```
+```powershell
 <#
 .SYNOPSIS
     PreToolUse hook to validate Bash commands
@@ -955,7 +955,7 @@ exit 0
 
 audit-log.ps1:
 
-```
+```powershell
 <#
 .SYNOPSIS
     PostToolUse hook for comprehensive audit logging
@@ -1033,7 +1033,7 @@ exit 0
 
 sensitive-files.json:
 
-```
+```json
 {
   "extensions": [
     "*.env",
@@ -1136,7 +1136,7 @@ sensitive-files.json:
 
 Integration with managed-settings.json:
 
-```
+```json
 {
   "hooks": {
     "PreToolUse": [
@@ -1217,7 +1217,7 @@ Integration with managed-settings.json:
 
 test-hooks.ps1:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Test suite for Claude Code security hooks
@@ -1332,7 +1332,7 @@ Categories of Sensitive Files:
 
 #### 5.1.2 Cryptographic Keys and Certificates
 
-```
+```json
 {
   "crypto_files": {
     "private_keys": [
@@ -1587,7 +1587,7 @@ Categories of Sensitive Files:
 
 validate-read-content.ps1 (Advanced hook for content scanning):
 
-```
+```powershell
 <#
 .SYNOPSIS
     Content-based sensitive data detection
@@ -1741,7 +1741,7 @@ exit 0
 
 blocked-directories.json:
 
-```
+```json
 {
   "windows_system": [
     "C:\\Windows",
@@ -1906,7 +1906,7 @@ Tier 3: Credential Stores (BLOCK ALL)
 
 validate-windows-paths.ps1:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Validates operations against Windows system directories
@@ -2147,7 +2147,7 @@ Enterprise Recommendation: Use`plan` mode by default in managed policies.
 
 1. Deny Rules (Highest Priority - Always Block)
 
-```
+```json
 {
   "deny": [
     {"tool": "Edit", "matcher": "**/.env*"},
@@ -2159,7 +2159,7 @@ Enterprise Recommendation: Use`plan` mode by default in managed policies.
 
 2. Ask Rules (Require Confirmation)
 
-```
+```json
 {
   "ask": [
     {"tool": "Edit", "matcher": "**/*.json"},
@@ -2171,7 +2171,7 @@ Enterprise Recommendation: Use`plan` mode by default in managed policies.
 
 3. Allow Rules (Permit Without Prompt)
 
-```
+```json
 {
   "allow": [
     {"tool": "Read", "matcher": "**/*.md"},
@@ -2414,7 +2414,7 @@ Path Normalization:
 
 Advanced: Context-Aware Permissions via Hooks
 
-```
+```powershell
 # validate-permission.ps1
 # Dynamic permission evaluation based on file content, user role, time of day, etc.
 
@@ -2485,7 +2485,7 @@ exit 0
 
 Test script for permission configuration:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Validates permission configuration
@@ -2592,7 +2592,7 @@ Claude Code requires connectivity to specific endpoints:
 
 Managed Settings with Proxy:
 
-```
+```json
 {
   "envVars": {
     "HTTP_PROXY": "http://proxy.corp.example.com:8080",
@@ -2605,7 +2605,7 @@ Managed Settings with Proxy:
 
 Proxy with Authentication:
 
-```
+```json
 {
   "envVars": {
     "HTTP_PROXY": "http://username:password@proxy.corp.example.com:8080",
@@ -2621,7 +2621,7 @@ Security Warning: Avoid hardcoding credentials in managed settings. Use Windows 
 
 Windows Firewall Configuration:
 
-```
+```powershell
 # Allow outbound HTTPS to Anthropic API
 New-NetFirewallRule -DisplayName "Claude Code - Anthropic API" `
     -Direction Outbound `
@@ -2653,7 +2653,7 @@ New-NetFirewallRule -DisplayName "Claude Code - Block Others" `
 
 Custom CA Certificate (Corporate MITM Proxies):
 
-```
+```json
 {
   "envVars": {
     "NODE_EXTRA_CA_CERTS": "C:\\ProgramData\\ClaudeCode\\certs\\corporate-ca.crt"
@@ -2664,7 +2664,7 @@ Custom CA Certificate (Corporate MITM Proxies):
 
 Deploy Corporate CA Certificate:
 
-```
+```powershell
 # Copy corporate CA cert
 Copy-Item "\\fileserver\IT\certs\corporate-ca.crt" `
     -Destination "C:\ProgramData\ClaudeCode\certs\corporate-ca.crt"
@@ -2680,7 +2680,7 @@ Write-Host "Valid Until: $($cert.NotAfter)"
 
 For environments requiring client certificates:
 
-```
+```json
 {
   "envVars": {
     "NODE_EXTRA_CA_CERTS": "C:\\ProgramData\\ClaudeCode\\certs\\ca.crt",
@@ -2697,7 +2697,7 @@ Note: Anthropic's API doesn't currently require mTLS, but this configuration sup
 
 Minimal Network Configuration:
 
-```
+```json
 {
   "envVars": {
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
@@ -2731,7 +2731,7 @@ Claude Code → Corporate LLM Gateway → Anthropic API
 
 Configure Gateway Proxy:
 
-```
+```json
 {
   "envVars": {
     "ANTHROPIC_API_BASE_URL": "https://llm-gateway.corp.example.com/v1",
@@ -2755,7 +2755,7 @@ Benefits of LLM Gateway:
 
 Network request validation hook:
 
-```
+```powershell
 # validate-network.ps1
 param(
     [Parameter(Mandatory=$false)]
@@ -2816,7 +2816,7 @@ exit 0
 
 Monitor Claude Code network connections:
 
-```
+```powershell
 # Monitor outbound connections from Claude Code
 Get-NetTCPConnection | Where-Object {
     $_.OwningProcess -eq (Get-Process -Name "node" | Where-Object {
@@ -2858,7 +2858,7 @@ Use Cases:
 
 .devcontainer/devcontainer.json:
 
-```
+```json
 {
   "name": "Secure Claude Code Environment",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
@@ -2906,7 +2906,7 @@ Use Cases:
 
 Dockerfile with Network Restrictions:
 
-```
+```dockerfile
 FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Install iptables and configure firewall
@@ -2945,7 +2945,7 @@ CMD ["/bin/bash"]
 
 Enhanced security with read-only container:
 
-```
+```json
 {
   "runArgs": [
     "--read-only",
@@ -2967,7 +2967,7 @@ Benefits:
 
 Option 1: Environment Variable Injection (Recommended)
 
-```
+```json
 {
   "containerEnv": {
     "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
@@ -2980,7 +2980,7 @@ Host sets environment variable, devcontainer inherits it without storing in file
 
 Option 2: Secrets via Docker Secrets
 
-```
+```bash
 # On host
 echo "sk-ant-api03-..." | docker secret create anthropic_api_key -
 
@@ -2991,7 +2991,7 @@ docker run --secret anthropic_api_key ...
 
 Option 3: Volume Mount from Secure Location
 
-```
+```json
 {
   "mounts": [
     "source=C:\\ProgramData\\ClaudeCode\\secrets,target=/secrets,type=bind,readonly"
@@ -3009,7 +3009,7 @@ Scenario: Consulting firm working on projects for multiple clients, ensuring cre
 
 Directory Structure:
 
-```
+```text
 C:\Projects\
 ├── ClientA\
 │   └── .devcontainer\
@@ -3028,7 +3028,7 @@ C:\Projects\
 
 ClientA devcontainer.json:
 
-```
+```json
 {
   "name": "Client A - Isolated Environment",
   "build": {"dockerfile": "Dockerfile"},
@@ -3138,7 +3138,7 @@ Phase 6: Rollout (Week 5+)
 
 C:\ProgramData\ClaudeCode\managed-settings.json:
 
-```
+```json
 {
   "$schema": "https://api.claude.com/schemas/settings-v1.json",
 
@@ -3285,7 +3285,7 @@ C:\ProgramData\ClaudeCode\managed-settings.json:
 
 deploy-claude-enterprise.ps1:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Enterprise deployment automation for Claude Code
@@ -3471,7 +3471,7 @@ if ($validationErrors.Count -eq 0) {
 
 Run comprehensive validation:
 
-```
+```powershell
 # Test 1: Verify installation
 claude --version
 
@@ -3519,7 +3519,7 @@ Claude Code → PostToolUse Hook → Local JSON Lines Log → SIEM Integration
 
 Standard audit entry format:
 
-```
+```json
 {
   "timestamp": "2025-10-07T14:23:45.123Z",
   "event_type": "tool_use",
@@ -3550,7 +3550,7 @@ Standard audit entry format:
 
 Splunk Integration:
 
-```
+```powershell
 # In audit-log.ps1, add Splunk forwarding
 
 $splunkHEC = "https://splunk.corp.example.com:8088/services/collector/event"
@@ -3578,7 +3578,7 @@ try {
 
 Elasticsearch Integration:
 
-```
+```powershell
 # Elasticsearch ingestion
 
 $esEndpoint = "https://elasticsearch.corp.example.com:9200/claude-audit/_doc"
@@ -3601,7 +3601,7 @@ try {
 
 GDPR Data Access Request:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Extract all Claude Code audit logs for specific user (GDPR/CCPA compliance)
@@ -3630,7 +3630,7 @@ Write-Host "Entries found: $((Get-Content $outputReport | ConvertFrom-Json).Coun
 
 SOC 2 Compliance Report:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Generate SOC 2 compliance report for Claude Code usage
@@ -3694,7 +3694,7 @@ Write-Host "SOC 2 compliance report generated: $reportFile"
 
 Security alert on suspicious activity:
 
-```
+```powershell
 # In audit-log.ps1, add alerting logic
 
 $alertThresholds = @{
@@ -3791,7 +3791,7 @@ ClaudeAuditLogs
 
 AppLocker Policy for Claude Code:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <AppLockerPolicy Version="1">
   <RuleCollection Type="Exe" EnforcementMode="Enabled">
@@ -3836,7 +3836,7 @@ AppLocker Policy for Claude Code:
 
 Deploy via Group Policy:
 
-```
+```powershell
 # Export AppLocker policy
 Get-AppLockerPolicy -Effective -Xml | Out-File "C:\Temp\ClaudeAppLockerPolicy.xml"
 
@@ -3849,7 +3849,7 @@ Set-AppLockerPolicy -XMLPolicy "C:\Temp\ClaudeAppLockerPolicy.xml" -Merge
 
 WDAC Policy XML:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <SiPolicy xmlns="urn:schemas-microsoft-com:sipolicy">
   <VersionEx>10.0.0.0</VersionEx>
@@ -3909,7 +3909,7 @@ Invoke-CimMethod -Namespace "root\Microsoft\Windows\CI" `
 
 Protect sensitive folders from Claude Code:
 
-```
+```powershell
 # Enable Controlled Folder Access
 Set-MpPreference -EnableControlledFolderAccess Enabled
 
@@ -3936,7 +3936,7 @@ Add-MpPreference -ControlledFolderAccessAllowedApplications "C:\ProgramData\Clau
 
 Log Claude Code security events to Windows Event Log:
 
-```
+```powershell
 # Create custom event log source
 New-EventLog -LogName "Application" -Source "ClaudeCodeSecurity"
 
@@ -3956,7 +3956,7 @@ Get-EventLog -LogName "Application" -Source "ClaudeCodeSecurity" -Newest 100
 
 Ensure sensitive data at rest is encrypted:
 
-```
+```powershell
 # Check if Claude Code installation drive is encrypted
 $drive = "C:"
 $bitLockerStatus = Get-BitLockerVolume -MountPoint $drive
@@ -3975,7 +3975,7 @@ if ($bitLockerStatus.ProtectionStatus -ne "On") {
 
 Create dedicated firewall profile for Claude Code:
 
-```
+```powershell
 # Create new firewall rule with application filtering
 New-NetFirewallRule -DisplayName "Claude Code - Outbound HTTPS" `
     -Direction Outbound `
@@ -4060,7 +4060,7 @@ Defense-in-depth approach with 7 security layers:
 
 Lock npm prefix system-wide (read-only):
 
-```
+```powershell
 <#
 .SYNOPSIS
     Locks npm configuration to prevent local Claude Code installations
@@ -4099,7 +4099,7 @@ Write-Host "✓ User-level npm configuration blocked" -ForegroundColor Green
 
 Deploy via Group Policy:
 
-```
+```powershell
 # Create GPO for npm lockdown
 $gpoName = "Claude Code - npm Configuration Lockdown"
 New-GPO -Name $gpoName
@@ -4121,7 +4121,7 @@ New-GPO -Name $gpoName
 
 Block execution from all user-writable locations:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <AppLockerPolicy Version="1">
   <!-- Executable Rules -->
@@ -4226,7 +4226,7 @@ Block execution from all user-writable locations:
 
 Deploy AppLocker Policy:
 
-```
+```powershell
 # Import AppLocker policy
 Set-AppLockerPolicy -XMLPolicy "C:\Temp\ClaudeAppLockerPolicy.xml" -Merge
 
@@ -4243,7 +4243,7 @@ Get-AppLockerPolicy -Effective | Format-List
 
 Enable auditing for shadow installations:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Configures file system auditing to detect Claude Code installations in user directories
@@ -4286,7 +4286,7 @@ foreach ($path in $auditPaths) {
 
 Automated Detection Script:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Scans for unauthorized Claude Code installations
@@ -4425,7 +4425,7 @@ Find-ShadowClaudeInstallations -AlertSecurity
 
 Scheduled Task for Continuous Monitoring:
 
-```
+```powershell
 # Create scheduled task to run daily
 $action = New-ScheduledTaskAction -Execute "powershell.exe" `
     -Argument "-ExecutionPolicy Bypass -File C:\ProgramData\ClaudeCode\scripts\Find-ShadowClaudeInstallations.ps1 -AlertSecurity -RemoveUnauthorized"
@@ -4451,7 +4451,7 @@ Write-Host "✓ Scheduled task created for daily shadow installation scans" -For
 
 Detect node.exe running Claude from unauthorized paths:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Monitors for Claude Code processes running from unauthorized locations
@@ -4663,7 +4663,7 @@ Alert Configuration:
 
 Even local installations can be blocked via network controls:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Network-level enforcement to block Claude API access from unauthorized installations
@@ -4733,7 +4733,7 @@ Add-DnsServerQueryResolutionPolicy -Name "Block-Claude-Unauthorized" `
 
 Windows Defender protection against AppData writes:
 
-```
+```powershell
 # Enable Controlled Folder Access
 Set-MpPreference -EnableControlledFolderAccess Enabled
 
@@ -4755,7 +4755,7 @@ Get-MpPreference | Select-Object EnableControlledFolderAccess, ControlledFolderA
 
 Comprehensive Security Script:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Complete security enforcement for Claude Code shadow installations
@@ -4983,7 +4983,7 @@ What Happens If You Violate Policy
 
 Penetration Test Scenarios:
 
-```
+```powershell
 <#
 .SYNOPSIS
     Penetration test for Claude Code shadow installation controls

@@ -178,7 +178,7 @@ Pickle deserialization is the biggest RCE vector in the ML ecosystem. In 2025 al
 
 #### Kyverno: Require Safe Model Formats
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -206,7 +206,7 @@ spec:
 
 #### OPA: Deny Pickle Formats with Detailed Violation
 
-```
+```rego
 package k8s.model_serialization
 
 import future.keywords.in
@@ -248,7 +248,7 @@ Container registry allowlists are not enough. You also need model registry allow
 
 #### OPA: Validate Model Source Against Approved Registries
 
-```
+```rego
 package k8s.model_registry
 
 import future.keywords.every
@@ -323,7 +323,7 @@ The OpenSSF AI/ML Working Group released Model Signing v1.0 in April 2025, provi
 
 #### Kyverno: Require Model Attestation
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -364,7 +364,7 @@ Results across multiple LLMs and quantization types:
 
 #### OPA: Require FP32 Backdoor Scan for Quantized Models
 
-```
+```rego
 package k8s.quantization_safety
 
 import future.keywords.in
@@ -414,7 +414,7 @@ Inference servers have their own CVEs. Policies must enforce minimum versions.
 
 #### Kyverno: Block Vulnerable Inference Versions
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -481,7 +481,7 @@ Tags can be overwritten. Digests cannot. For inference images, this matters beca
 
 #### Kyverno: Require Image Digests
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -514,7 +514,7 @@ Each inference framework has specific security considerations.
 
 #### Kyverno: Triton Model Control Restrictions
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -543,7 +543,7 @@ spec:
 
 #### Kyverno: Ollama Authentication Requirement
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -596,7 +596,7 @@ To prevent the timing attack described in Section 2.4, each tenant needs a uniqu
 
 #### Kyverno: Require Cache Salt for Multi-Tenant
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -628,7 +628,7 @@ spec:
 
 #### OPA: Disable Prefix Caching for Sensitive Data
 
-```
+```rego
 package k8s.cache_isolation
 
 violation[{"msg": msg}] {
@@ -667,7 +667,7 @@ Tokenizers are plaintext JSON files that map tokens to IDs. An attacker with fil
 
 #### Kyverno: Immutable Tokenizer Mounts
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -717,7 +717,7 @@ MIG (Multi-Instance GPU) provides hardware-enforced isolation. Time-slicing prov
 
 #### Kyverno: Require MIG for Tenant Isolation
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -778,7 +778,7 @@ The guarded agent loop pattern requires a tool proxy that validates parameters. 
 
 #### Default-Deny Egress for Agent Namespaces
 
-```
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -805,7 +805,7 @@ spec:
 
 #### Per-Agent Tool Allowlists
 
-```
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -848,7 +848,7 @@ In multi-agent systems, agents should not call each other directly. All communic
 
 #### Star Topology: All Agents to Coordinator Only
 
-```
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -892,7 +892,7 @@ spec:
 
 #### OPA: Validate Agent Topology Configuration
 
-```
+```rego
 package k8s.agent_topology
 
 violation[{"msg": msg}] {
@@ -919,7 +919,7 @@ If an agent is compromised via prompt injection, infrastructure policies limit w
 
 #### Kyverno: Enforce Agent Security Context
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -981,7 +981,7 @@ Token-flood attacks send high-token requests to trigger expensive autoscaling. T
 
 #### Kyverno: Require Token Limits
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -1041,7 +1041,7 @@ Horizontal Pod Autoscalers without maxReplicas can scale infinitely in response 
 
 #### Kyverno: Require HPA Caps
 
-```
+```yaml
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:

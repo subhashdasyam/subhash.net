@@ -473,4 +473,4 @@ Vector embeddings are a powerful tool in the world of natural language processin
 
 As you delve deeper into this field, you'll encounter more complex concepts and techniques. But remember, at its core, the idea is simple: turning words into numbers in a way that captures their meaning and relationships. This fundamental concept opens up a world of possibilities in how we can make computers understand and work with human language.
 
-Disclaimer: This AI world is vast, and I am learning as much as I can. There may be mistakes or better recommendations than what I know. If you find any, please feel free to comment and let me know—I would love to explore and learn more!
+Disclaimer: This AI world is vast, and I am learning as much as I can. There may be mistakes or better recommendations than what I know. If you find any, please feel free to comment and let me know - I would love to explore and learn more!

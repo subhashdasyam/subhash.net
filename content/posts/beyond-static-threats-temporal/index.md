@@ -5,7 +5,7 @@ lastmod: 2025-04-15T23:35:23.880+04:00
 slug: "beyond-static-threats-temporal"
 sourceURL: "https://www.subhashdasyam.com/2025/04/beyond-static-threats-temporal.html"
 ---
-Most discussions about machine learning security focus on static vulnerabilities, but there's an intriguing temporal dimension that remains underexplored. I call this concept "Temporal Vulnerability Amplification Loops" — where attackers can exploit the continuous learning nature of ML systems to gradually introduce and amplify vulnerabilities over time.
+Most discussions about machine learning security focus on static vulnerabilities, but there's an intriguing temporal dimension that remains underexplored. I call this concept "Temporal Vulnerability Amplification Loops" - where attackers can exploit the continuous learning nature of ML systems to gradually introduce and amplify vulnerabilities over time.
 
 ## The Concept: Vulnerability Amplification Loops
 
@@ -72,7 +72,7 @@ How can organizations detect and prevent these types of evolving attacks? Here's
 
 Create a monitoring system that compares model behavior not just to the previous version, but across multiple update cycles.
 
-```
+```python
 
 # Pseudocode for temporal differential analysis
 def analyze_recommendation_shifts(model_versions, product_data, time_window=8):
@@ -98,7 +98,7 @@ Regularly test the model with counterfactual inputs to detect developing biases.
 
 Track the correlation between seller identity and recommendation frequency changes.
 
-```
+```python
 
 # Monitor which sellers benefit most from model updates
 def track_seller_benefits(current_model, previous_model, seller_data):

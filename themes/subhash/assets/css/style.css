@@ -109,7 +109,7 @@ overflow-x: auto; -webkit-overflow-scrolling: touch;
 background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--accent);
 padding: 20px; margin: 2.5rem 0; font-family: var(--font-mono); font-size: 0.9rem;
 color: var(--text);
-/* FIX 1 — on subhashdasyam.com `pre` was position:static while
+/* FIX 1 - on subhashdasyam.com `pre` was position:static while
    .copy-code-button is position:absolute. Because .post sets `contain: content`
    it became the containing block, so every COPY button stacked in the card's
    top-right corner instead of sitting on its own code block. */
@@ -122,7 +122,7 @@ display: inline-block;
 padding: 12px 15px;
 font-family: var(--font-mono); font-weight: 700; color: var(--text);
 }
-/* FIX 4 — the original declared `.read-more a` twice; every property here was
+/* FIX 4 - the original declared `.read-more a` twice; every property here was
    overridden by the "TERMINAL BUTTON STYLE" block below with !important, so this
    copy was dead code. Only the layout properties that actually applied are kept. */
 .read-more a {
@@ -208,9 +208,9 @@ color: var(--accent) !important;
    background:var(--text) never takes effect. */
 .read-more a {
 /* 1. IDLE STATE: Looks like a Terminal Window */
-background-color: #000000 !important;   /* Pitch Black Background */
-color: #ff4d00 !important;              /* Matrix/Hacker Orange Text */
-border: 1px solid #ff4d00 !important;   /* Hard Border for visibility */
+background-color: #000000 !important; /* Pitch Black Background */
+color: #ff4d00 !important; /* Matrix/Hacker Orange Text */
+border: 1px solid #ff4d00 !important; /* Hard Border for visibility */
 /* Typography & Layout */
 font-family: 'JetBrains Mono', monospace !important;
 font-weight: 700;
@@ -222,8 +222,8 @@ transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 /* 2. HOVER STATE: Looks like a "Block Cursor" Selection */
 .read-more a:hover {
-background-color: #ff4d00 !important;   /* Fills with Orange */
-color: #000000 !important;              /* Text turns Black for max contrast */
+background-color: #ff4d00 !important; /* Fills with Orange */
+color: #000000 !important; /* Text turns Black for max contrast */
 box-shadow: 2px 2px 0 rgba(0,0,0,0.2) !important; /* Button 'presses' down */
 transform: translate(2px, 2px);
 cursor: pointer;
@@ -288,7 +288,7 @@ font-family: 'JetBrains Mono'; font-weight: 700; text-decoration: none;
 }
 
 /* --- Back to top --- */
-/* FIX 2 — the original hardcoded background:#fff with no dark override, so the
+/* FIX 2 - the original hardcoded background:#fff with no dark override, so the
    button stayed a white circle in dark mode. */
 #back-to-top {
 position: fixed; bottom: 30px; right: 30px;
@@ -310,7 +310,7 @@ height: 100%; background: #ff4d00; width: 0%; transition: width 0.1s;
 }
 
 /* --- Suggested protocol / related post --- */
-/* FIX 3 — the original hardcoded `border-top: 2px solid #000` here and on
+/* FIX 3 - the original hardcoded `border-top: 2px solid #000` here and on
    .comments-wrapper, which vanished against the #0a0a0a dark background. */
 #random-post-container {
 margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--border);
@@ -334,6 +334,36 @@ line-height: 1.2; margin-bottom: 5px;
 font-family: 'JetBrains Mono'; font-size: 0.8rem;
 color: #ff4d00; font-weight: 700; text-decoration: none;
 }
+
+/* --- Mermaid diagrams --- */
+/* Must NOT inherit .post-body pre styling (orange left border, mono font,
+   scrollbars) -- these hold rendered SVG, not code. */
+.post-body pre.mermaid {
+background: var(--card-bg);
+border: 1px solid var(--border);
+border-left: 1px solid var(--border);
+padding: 24px;
+margin: 2.5rem 0;
+text-align: center;
+overflow-x: auto;
+font-family: var(--font-body);
+line-height: normal;
+}
+/* Natural size, scroll if wider than the column. Constraining to max-width:100%
+   shrank the bigger flowcharts until their labels were unreadable. */
+.post-body pre.mermaid svg {
+max-width: none !important;
+height: auto;
+display: inline-block;
+}
+/* Before mermaid.js runs, show the source as plain text rather than a flash of
+   unstyled diagram markup. */
+.post-body pre.mermaid:not([data-processed]) {
+font-family: var(--font-mono); font-size: 0.85rem;
+text-align: left; white-space: pre-wrap; color: var(--text-meta);
+}
+/* The copy button belongs on code, not on a diagram. */
+.post-body pre.mermaid .copy-code-button { display: none; }
 
 /* --- Search (not in the original theme) --- */
 .search-form {

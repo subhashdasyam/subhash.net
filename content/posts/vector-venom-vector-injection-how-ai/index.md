@@ -17,7 +17,7 @@ SQL injection has long been a significant threat to database security. It occurs
 
 Consider a basic login query:
 
-```
+```sql
 SELECT * FROM users WHERE username = 'input_username' AND password = 'input_password';
 ```
 
@@ -25,7 +25,7 @@ An attacker might input the following as the username:`admin' --`
 
 This transforms the query into:
 
-```
+```sql
 SELECT * FROM users WHERE username = 'admin' -- ' AND password = 'input_password';
 ```
 
@@ -41,7 +41,7 @@ Input: 105 OR 1=1
 
 Resulting in the query:
 
-```
+```sql
 SELECT grade FROM grades WHERE student_id = 105 OR 1=1;
 ```
 
@@ -55,7 +55,7 @@ Vector databases, optimized for AI and machine learning applications, present un
 
 Vector databases typically work with numerical vectors. A normal input might look like this:
 
-```
+```json
 [0.1, 0.2, 0.3, 0.4]
 ```
 
@@ -93,7 +93,7 @@ adversarial_vector = [0.1000001, 0.2000001, 0.3000001, 0.4000001]
 
 ## Example Vulnerable Code
 
-```
+```html
 
 # main.py
 from fastapi import FastAPI, HTTPException

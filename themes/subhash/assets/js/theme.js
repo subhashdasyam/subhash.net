@@ -61,7 +61,8 @@
 
   // 4. Copy button on every code block
   function initCopyButtons() {
-    var blocks = document.querySelectorAll('.post-body pre');
+    // :not(.mermaid) -- those hold rendered diagrams, not copyable code
+    var blocks = document.querySelectorAll('.post-body pre:not(.mermaid)');
     for (var i = 0; i < blocks.length; i++) {
       if (blocks[i].querySelector('.copy-code-button')) continue;
       var button = document.createElement('button');

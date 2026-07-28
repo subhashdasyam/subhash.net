@@ -539,7 +539,7 @@ Simplified Node utility:
 
 JavaScript
 
-```
+```typescript
 import crypto from "crypto";
 
 function signMessage(payload: object, secret: string): string {
@@ -604,7 +604,7 @@ Minimal log shape:
 
 JSON
 
-```
+```json
 {
   "trace_id": "abc123",
   "timestamp": "2025-12-06T12:34:56Z",

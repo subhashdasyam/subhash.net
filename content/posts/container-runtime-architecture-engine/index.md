@@ -75,7 +75,7 @@ The lifecycle operations (create, start, stop, delete)
 
 She showed Maya a snippet of an OCI runtime configuration:
 
-```
+```json
 {
   "ociVersion": "1.0.2",
   "process": {
@@ -145,7 +145,7 @@ The content-addressable storage approach
 
 She showed Maya an example image manifest:
 
-```
+```json
 {
   "schemaVersion": 2,
   "mediaType": "application/vnd.oci.image.manifest.v1+json",
@@ -206,7 +206,7 @@ The Low-Level Runtime Control Station
 
 She demonstrated with a command:
 
-```
+```console
 # Create a bundle directory
 $ mkdir -p my-container/rootfs
 
@@ -394,7 +394,7 @@ Configuration: Runtime settings for the container
 
 She demonstrated with a command:
 
-```
+```console
 # Inspect an image's layers
 $ docker inspect --format='{{json .RootFS.Layers}}' nginx | jq
 [
@@ -429,7 +429,7 @@ Health check instructions
 
 "It's like the operating manual for the container," Connie explained. She showed Maya an example image configuration:
 
-```
+```json
 {
   "architecture": "amd64",
   "config": {
@@ -497,7 +497,7 @@ Maya worked with her team to match runtimes to different workloads:
 
 For the park's critical ticket processing system, she switched to crun for faster container startup times:
 
-```
+```bash
 # Configure containerd to use crun for ticket system containers
 cat << EOF > /etc/containerd/config.toml
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.ticket-system]
@@ -524,7 +524,7 @@ Maya reviewed their container images and implemented several optimizations:
 
 She established a multi-stage image build process that reduced image sizes by 60%:
 
-```
+```dockerfile
 # Multi-stage build for DigiLand apps
 FROM node:14 AS builder
 WORKDIR /app
@@ -542,7 +542,7 @@ CMD ["node", "dist/server.js"]
 
 She implemented proper image layer organization to maximize sharing between applications:
 
-```
+```dockerfile
 # Base image with shared dependencies
 FROM ubuntu:20.04 AS digiland-base
 RUN apt-get update && apt-get install -y python3 python3-pip
@@ -564,7 +564,7 @@ For specialized requirements, Maya bypassed Docker and worked directly with the 
 
 For custom monitoring containers that needed to start quickly, she created OCI bundles directly:
 
-```
+```bash
 # Create a minimal OCI bundle
 mkdir -p monitoring-container/rootfs
 cp -r monitoring-app/* monitoring-container/rootfs/
@@ -580,7 +580,7 @@ sudo runc run monitoring-pod
 
 For containers that needed to persist between host reboots, she configured containerd's persistent metadata:
 
-```
+```bash
 # Create a container with persistent configuration
 ctr containers create \
   --net-host \
@@ -644,7 +644,7 @@ Ready to understand container runtimes yourself? Here are some beginner-friendly
 
 Explore containerd directly:
 
-```
+```console
 # Install containerd client
 $ sudo apt install containerd
 
@@ -655,7 +655,7 @@ $ sudo ctr run --rm docker.io/library/alpine:latest alpine-test ls
 
 Work with OCI bundles and runc:
 
-```
+```console
 # Create a simple OCI bundle
 $ mkdir -p mycontainer/rootfs
 $ docker export $(docker create alpine) | tar -C mycontainer/rootfs -xf -
@@ -666,7 +666,7 @@ $ sudo runc run myalpinemachine
 
 Inspect image layers and manifests:
 
-```
+```console
 # Show image manifest
 $ skopeo inspect docker://docker.io/library/ubuntu:latest --raw | jq
 
@@ -676,7 +676,7 @@ $ skopeo inspect docker://docker.io/library/ubuntu:latest --config | jq
 
 Try different container engines:
 
-```
+```console
 # Install and try Podman (daemonless engine)
 $ sudo apt install podman
 $ podman run --rm alpine echo "Hello from Podman!"

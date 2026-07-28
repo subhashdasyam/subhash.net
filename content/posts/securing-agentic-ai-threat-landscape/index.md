@@ -33,7 +33,7 @@ Leak sensitive data out through some "helpful" API
 
 Same model, very different stakes.
 
-This part turns the big scary phrases—prompt injection, tool abuse, data exfiltration, agent collusion, supply chain attacks—into concrete stories:
+This part turns the big scary phrases - prompt injection, tool abuse, data exfiltration, agent collusion, supply chain attacks - into concrete stories:
 
 Here is how the attack starts.
 
@@ -191,7 +191,7 @@ Example tool guard (Node):
 
 JavaScript
 
-```
+```typescript
 async function updateSalaryTool(args: any, ctx: { userId: string; agentId: string }) {
   const allowedAgents = ["finance_agent", "payroll_batch_agent"];
 
@@ -233,7 +233,7 @@ Better:
 
 JavaScript
 
-```
+```javascript
 const parsed = JSON.parse(toolCall.arguments);
 const mode = "sanitize"; // fixed for this agent
 return await processFileTool({ file_id: parsed.file_id, mode });

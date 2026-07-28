@@ -292,7 +292,7 @@ Relevant CVEs:
 
 Long-context inference requires distributing KV-cache across nodes. Common architectures:
 
-```
+```text
 ┌─────────────┐    RDMA/TCP    ┌─────────────┐
 │ GPU Node 1  │ ←───────────→  │ GPU Node 2  │
 │ (Prefill)   │   KV-cache     │ (Decode)    │
@@ -315,7 +315,7 @@ Mooncake is a disaggregated KV-cache storage layer for vLLM. It moves KV-cache t
 
 Architecture:
 
-```
+```text
 ┌─────────────┐    ZeroMQ    ┌─────────────┐
 │ Inference   │ ←──────────→ │ Mooncake    │
 │ Workers     │   (pickle)   │ Store       │
@@ -420,7 +420,7 @@ Paper: "SafeKV: Privacy-Preserving KV Cache Sharing" (arXiv 2508.08438)
 
 SafeKV is the most comprehensive defense against KV-cache timing attacks. It uses a hybrid multi-tier detection pipeline:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │           Incoming Request                   │
 └─────────────────┬───────────────────────────┘
@@ -457,7 +457,7 @@ SafeKV modifies the inference engine:
 3. Per-Tenant Partitioning: Sensitive data isolated
 4. Access Pattern Monitoring: Alerts on probing attempts
 
-```
+```python
 class SafeKVCache:    def __init__(self):        self.shared_cache = RadixTree()     # Safe prefixes        self.tenant_caches = {}              # Per-tenant sensitive        self.access_monitor = EntropyMonitor()    def lookup(self, prefix, tenant_id, is_sensitive):        self.access_monitor.record(tenant_id, prefix)        if self.access_monitor.detect_probing(tenant_id):            raise SecurityAlert("Potential timing attack detected")        if is_sensitive:            # Only check tenant's private cache            return self.tenant_caches.get(tenant_id, {}).get(prefix)        else:            # Can use shared cache            return self.shared_cache.get(prefix)
 ```
 
@@ -503,13 +503,13 @@ Environment variable:
 
 Kyverno policy - require cache salt:
 
-```
+```yaml
 apiVersion: kyverno.io/v1kind: ClusterPolicymetadata:  name: require-vllm-cache-saltspec:  validationFailureAction: Enforce  rules:    - name: require-cache-salt      match:        resources:          kinds:            - Deployment          selector:            matchLabels:              app.kubernetes.io/name: vllm      validate:        message: "vLLM deployments must set VLLM_CACHE_SALT for tenant isolation"        pattern:          spec:            template:              spec:                containers:                  - name: vllm                    env:                      - name: VLLM_CACHE_SALT                        value: "?*"  # Must be non-empty
 ```
 
 OPA policy - deny prefix caching for confidential workloads:
 
-```
+```rego
 package kubernetes.admissiondeny[msg] {    input.request.kind.kind == "Deployment"    input.request.object.metadata.labels["data-classification"] == "confidential"    container := input.request.object.spec.template.spec.containers[_]    container.name == "vllm"    arg := container.args[_]    contains(arg, "--enable-prefix-caching=true")    msg := "Confidential workloads must not enable prefix caching"}
 ```
 
@@ -519,7 +519,7 @@ package kubernetes.admissiondeny[msg] {    input.request.kind.kind == "Deploymen
 
 NVIDIA Multi-Instance GPU partitions a single GPU into isolated instances:
 
-```
+```text
 ┌───────────────────────────────────────┐
 │            A100 80GB GPU              │
 ├───────────┬───────────┬───────────────┤
@@ -540,7 +540,7 @@ Properties:
 
 Kubernetes configuration:
 
-```
+```yaml
 apiVersion: v1kind: Podmetadata:  name: inference-tenant-aspec:  containers:    - name: vllm      resources:        limits:          nvidia.com/mig-3g.20gb: 1  # Request specific MIG slice
 ```
 
@@ -574,7 +574,7 @@ Paper: "KV-Cloak: Obfuscating KV-Cache for Secure LLM Inference" (arXiv 2508.094
 
 KV-Cloak applies reversible obfuscation to KV-cache entries:
 
-```
+```text
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │ Original KV │ ──→ │ Obfuscation │ ──→ │ Stored KV   │
 │   [K, V]    │     │   Matrix P  │     │  [P·K, P·V] │
@@ -630,7 +630,7 @@ TensorRT-LLM uses priority-based eviction:
 - Add randomization to eviction order
 - Non-deterministic from attacker's view
 
-```
+```python
 class SecureEvictionPolicy:    def select_victim(self):        candidates = self.get_eviction_candidates()        # Add randomization        weights = [1.0 / (c.priority + random.random()) for c in candidates]        # Probabilistic selection instead of deterministic        return random.choices(candidates, weights=weights)[0]
 ```
 
@@ -638,7 +638,7 @@ class SecureEvictionPolicy:    def select_victim(self):        candidates = self
 
 Detect unusual access patterns that indicate probing:
 
-```
+```python
 class EntropyMonitor:    def __init__(self):        self.access_log = defaultdict(list)    def record_access(self, tenant_id, prefix_hash):        self.access_log[tenant_id].append({            'prefix': prefix_hash,            'time': time.time()        })    def detect_probing(self, tenant_id):        recent = self.access_log[tenant_id][-1000:]        # Check for systematic enumeration        prefix_entropy = self.calculate_entropy([a['prefix'] for a in recent])        time_regularity = self.calculate_time_regularity(recent)        # Low entropy + high regularity = likely probing        if prefix_entropy < ENTROPY_THRESHOLD and time_regularity > REG_THRESHOLD:            return True        return False
 ```
 
@@ -668,13 +668,13 @@ Option C: Full SafeKV integration (best tradeoff)
 
 Complete Kyverno policy set:
 
-```
+```yaml
 apiVersion: kyverno.io/v1kind: ClusterPolicymetadata:  name: secure-inference-policiesspec:  validationFailureAction: Enforce  rules:    # Rule 1: Require cache salt    - name: require-cache-salt      match:        resources:          kinds: [Deployment]          selector:            matchLabels:              app.kubernetes.io/component: inference      validate:        message: "Inference deployments must set cache isolation"        anyPattern:          - spec:              template:                spec:                  containers:                    - env:                        - name: VLLM_CACHE_SALT                          value: "?*"          - spec:              template:                spec:                  containers:                    - args:                        - "--enable-prefix-caching=false"    # Rule 2: Require MIG for multi-tenant    - name: require-mig-multitenant      match:        resources:          kinds: [Deployment]          selector:            matchLabels:              tenancy: multi-tenant      validate:        message: "Multi-tenant inference requires MIG isolation"        pattern:          spec:            template:              spec:                containers:                  - resources:                      limits:                        nvidia.com/mig-*: "*"    # Rule 3: Minimum vLLM version    - name: minimum-vllm-version      match:        resources:          kinds: [Deployment]          selector:            matchLabels:              app.kubernetes.io/name: vllm      validate:        message: "vLLM must be >= 0.8.5 (CVE fixes)"        pattern:          spec:            template:              spec:                containers:                  - image: "vllm/vllm-openai:0.8.5* | vllm/vllm-openai:0.9.* | vllm/vllm-openai:1.*"
 ```
 
 NetworkPolicy for inference isolation:
 
-```
+```yaml
 apiVersion: networking.k8s.io/v1kind: NetworkPolicymetadata:  name: inference-isolation  namespace: ml-inferencespec:  podSelector:    matchLabels:      app.kubernetes.io/component: inference  policyTypes:    - Ingress    - Egress  ingress:    - from:        - podSelector:            matchLabels:              app.kubernetes.io/component: api-gateway      ports:        - port: 8000          protocol: TCP  egress:    - to:        - podSelector:            matchLabels:              app.kubernetes.io/component: model-store      ports:        - port: 9000          protocol: TCP    - to:        - namespaceSelector:            matchLabels:              name: kube-system          podSelector:            matchLabels:              k8s-app: kube-dns      ports:        - port: 53          protocol: UDP
 ```
 
@@ -693,7 +693,7 @@ Security Warning: Disable Mooncake entirely unless running in a network-isolated
 
 ### 14.1 Dedicated Instance Model
 
-```
+```text
 ┌───────────────────────────────────────────────────┐
 │                 Kubernetes Cluster                │
 ├─────────────────┬─────────────────┬───────────────┤
@@ -716,7 +716,7 @@ Properties:
 
 ### 14.2 Shared with Cache Salt
 
-```
+```text
 ┌───────────────────────────────────────────────────┐
 │              Shared Inference Cluster             │
 │  ┌─────────────────────────────────────────────┐  │
@@ -740,7 +740,7 @@ Properties:
 
 ### 14.3 SafeKV Selective Sharing
 
-```
+```text
 ┌───────────────────────────────────────────────────┐
 │           SafeKV-Enabled Inference                │
 │  ┌─────────────────────────────────────────────┐  │

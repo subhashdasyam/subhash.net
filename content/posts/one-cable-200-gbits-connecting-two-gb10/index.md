@@ -75,7 +75,7 @@ done
 
 If a tool is missing, install the relevant Ubuntu packages:
 
-```
+```bash
 sudo apt update
 sudo apt install -y rdma-core ibverbs-utils perftest ethtool
 
@@ -95,7 +95,7 @@ NVIDIA currently lists the Amphenol`NJAAKK-N911` and Luxshare`LMTQF022-SD-R` as 
 
 On your administration computer, define placeholders for your own username and management addresses. These values are examples only and are not used for ConnectX traffic:
 
-```
+```bash
 export ADMIN_USER="<your-admin-user>"
 export GIGABYTE_MGMT="<gigabyte-management-ip>"
 export ASUS_MGMT="<asus-management-ip>"
@@ -104,7 +104,7 @@ export ASUS_MGMT="<asus-management-ip>"
 
 Confirm that both systems are reachable and that sudo works:
 
-```
+```bash
 ssh -t "${ADMIN_USER}@${GIGABYTE_MGMT}" 'hostname; sudo -v'
 ssh -t "${ADMIN_USER}@${ASUS_MGMT}" 'hostname; sudo -v'
 
@@ -220,7 +220,7 @@ sudo netplan apply
 
 Run on both systems:
 
-```
+```bash
 ip -br addr show enp1s0f1np1
 ip -br addr show enP2p1s0f1np1
 ip route show
@@ -248,7 +248,7 @@ Check that peer traffic uses the intended rail.
 
 On the Gigabyte system:
 
-```
+```bash
 ip route get 192.168.200.12
 ip route get 192.168.201.12
 
@@ -286,7 +286,7 @@ All eight tests should report zero packet loss. The`8972` byte payload plus ICMP
 
 Run on both systems:
 
-```
+```bash
 rdma link show rocep1s0f1/1
 rdma link show roceP2p1s0f1/1
 show_gids
@@ -374,7 +374,7 @@ export CLUSTER_USER="<your-cluster-user>"
 
 From the Gigabyte system:
 
-```
+```bash
 ssh "${CLUSTER_USER}@192.168.200.12" hostname
 ssh "${CLUSTER_USER}@192.168.201.12" hostname
 
@@ -382,7 +382,7 @@ ssh "${CLUSTER_USER}@192.168.201.12" hostname
 
 From the ASUS system:
 
-```
+```bash
 ssh "${CLUSTER_USER}@192.168.200.13" hostname
 ssh "${CLUSTER_USER}@192.168.201.13" hostname
 
@@ -413,7 +413,7 @@ TCP`iperf3` can report much lower throughput than RoCE because its CPU and kerne
 
 After a planned reboot, reconnect through the management network and run:
 
-```
+```bash
 sudo netplan get
 ip -br addr show enp1s0f1np1
 ip -br addr show enP2p1s0f1np1
@@ -434,7 +434,7 @@ sudo ls -1t /etc/netplan/40-cx7.yaml.backup.*
 
 Choose the backup created before this setup, then restore it on the affected system:
 
-```
+```bash
 export BACKUP_FILE="<path-printed-in-step-4>"
 sudo cp -a "$BACKUP_FILE" /etc/netplan/40-cx7.yaml
 sudo chmod 600 /etc/netplan/40-cx7.yaml
@@ -462,7 +462,7 @@ Run`ibdev2netdev` on each system. Use the two interfaces that correspond to the 
 
 Check MTU on both logical interfaces at both ends:
 
-```
+```bash
 ip link show enp1s0f1np1
 ip link show enP2p1s0f1np1
 

@@ -427,7 +427,7 @@ This is framework agnostic. It shows the structure, not all the details.
 
 Python
 
-```
+```python
 from typing import Dict, Any, List
 import time
 
@@ -540,7 +540,7 @@ Same concept, but using LangChain’s tools agent and callbacks.
 
 Python
 
-```
+```python
 # pip install langchain langchain-openai
 
 from typing import Dict, Any, List
@@ -661,7 +661,7 @@ Now the same ideas in Node. We will build a simple finance agent.
 
 JavaScript
 
-```
+```typescript
 // npm install openai zod
 
 import OpenAI from "openai";

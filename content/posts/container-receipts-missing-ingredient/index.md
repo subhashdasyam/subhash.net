@@ -95,7 +95,7 @@ Let's follow a Java Spring Boot application through its journey:
 
 Step 1: Build and create SBOM
 
-```
+```bash
 # Traditional way (before OCI 1.1)
 mvn clean package
 docker build -t registry.example.com/java-app:1.0 .
@@ -106,7 +106,7 @@ docker tag registry.example.com/java-app:1.0 registry.example.com/java-app:1.0-s
 
 Step 2: The OCI 1.1 way
 
-```
+```bash
 export DOCKER_BUILDKIT=1
 docker buildx build --sbom=cyclonedx -t registry.example.com/java-app:1.0 .
 docker push registry.example.com/java-app:1.0
@@ -152,7 +152,7 @@ oras discover -o tree registry.example.com/node-app:1.0
 
 Output:
 
-```
+```text
 registry.example.com/node-app:1.0
 └── application/vnd.cyclonedx+json
     └── sha256:d4e5f6... # This is our SBOM
@@ -165,7 +165,7 @@ The SBOM might be small - just 120KB for a 300MB container - but it contains eve
 
 Here's how to integrate container receipts into a Jenkins pipeline:
 
-```
+```yaml
 pipeline {
     agent {
         kubernetes {
@@ -236,7 +236,7 @@ With this pipeline, every container built has a built-in SBOM and signature. If 
 
 For larger enterprises using OpenShift, the model extends smoothly:
 
-```
+```yaml
 # OpenShift BuildConfig with SBOM generation
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
@@ -516,7 +516,7 @@ rules:
 
 To deploy this in Kubernetes, create a DaemonSet that runs Falco with the custom plugin:
 
-```
+```yaml
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

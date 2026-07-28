@@ -95,4 +95,4 @@ Building an efficient vector database with HNSW allows for semantic searches and
 
 As this technology continues to evolve, it's exciting to consider the potential applications and new insights that can be unlocked from data. The combination of vector embeddings and HNSW indexing is proving to be a powerful tool in the data science toolkit, enabling the construction of smarter, faster, and more intuitive information retrieval systems.
 
-Disclaimer: This AI world is vast, and I am learning as much as I can. There may be mistakes or better recommendations than what I know. If you find any, please feel free to comment and let me know—I would love to explore and learn more!
+Disclaimer: This AI world is vast, and I am learning as much as I can. There may be mistakes or better recommendations than what I know. If you find any, please feel free to comment and let me know - I would love to explore and learn more!

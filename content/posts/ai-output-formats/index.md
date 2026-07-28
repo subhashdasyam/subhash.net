@@ -7,7 +7,7 @@ summary: "How this site serves the same content as HTML for humans, raw Markdown
 
 ## The Problem
 
-Most websites are built for human readers. But increasingly, AI systems — search engines, LLMs, research tools — need to read web content too. HTML is noisy for machines: navigation, styling, scripts, ads. What they really want is the clean content.
+Most websites are built for human readers. But increasingly, AI systems - search engines, LLMs, research tools - need to read web content too. HTML is noisy for machines: navigation, styling, scripts, ads. What they really want is the clean content.
 
 ## The Solution: Multiple Output Formats
 
@@ -22,8 +22,8 @@ The default. You're reading it right now. Styled with the Blowfish theme, dark m
 Every post is also available as raw Markdown by appending `index.md` to the URL:
 
 ```
-https://subhash.net/posts/hello-world/          → HTML
-https://subhash.net/posts/hello-world/index.md   → Markdown
+https://subhash.net/posts/hello-world/ → HTML
+https://subhash.net/posts/hello-world/index.md → Markdown
 ```
 
 This gives AI systems clean, structured text without any HTML noise. The Markdown includes frontmatter with title, date, and tags.
@@ -80,7 +80,7 @@ Zero content duplication. One Markdown source file, multiple output formats.
 
 ## Why Bother?
 
-1. **Better AI search results** — clean content means better indexing
-2. **Future-proofing** — as AI agents browse the web, they'll prefer structured content
-3. **Standards compliance** — llms.txt is gaining traction as a standard
-4. **It's free** — Hugo does this at build time with no runtime cost
+1. **Better AI search results** - clean content means better indexing
+2. **Future-proofing** - as AI agents browse the web, they'll prefer structured content
+3. **Standards compliance** - llms.txt is gaining traction as a standard
+4. **It's free** - Hugo does this at build time with no runtime cost

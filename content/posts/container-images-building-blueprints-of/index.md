@@ -47,7 +47,7 @@ Container Image Layer Composition
 
 She pointed to a sample image composition on a nearby screen:
 
-```
+```text
 Image: digiland/ticketing:latest
 ├── Layer 1: Base OS (ubuntu:20.04) [72MB]
 │   └── SHA256:7c9c7fed23def3653a0da5bc9ecb651ad5109b33a5aeaec56cccbf25c8b3c3df
@@ -80,7 +80,7 @@ Container Union Filesystem
 
 She demonstrated with a running container:
 
-```
+```console
 # Start a container
 $ docker run -d --name ticketing-demo digiland/ticketing:latest
 
@@ -118,7 +118,7 @@ The Image Building Process
 
 "A Dockerfile is essentially a recipe for building an image," Connie said, showing Maya a sample file:
 
-```
+```dockerfile
 # Base image - this forms the first layer
 FROM ubuntu:20.04
 
@@ -154,7 +154,7 @@ CMD ["python3", "app.py"]
 
 She demonstrated by making a small change to the application code and rebuilding:
 
-```
+```console
 # Original build
 $ docker build -t digiland/ticketing:latest .
 Step 1/7 : FROM ubuntu:20.04
@@ -194,7 +194,7 @@ Successfully built 435f9a2d7c31
 
 She showed Maya a comparison of two approaches:
 
-```
+```dockerfile
 # Suboptimal approach - code changes invalidate dependency layer
 FROM python:3.9-slim
 WORKDIR /app
@@ -224,7 +224,7 @@ Multi-stage Build Process
 
 "Multi-stage builds separate your build environment from your runtime environment," Connie said, showing Maya an example:
 
-```
+```dockerfile
 # Stage 1: Build stage
 FROM node:16 AS builder
 WORKDIR /app
@@ -259,7 +259,7 @@ Multi-stage build: 178MB (85% smaller)
 
 "You can get even more creative with multi-stage builds," Connie continued, showing Maya a more complex example:
 
-```
+```dockerfile
 # Stage 1: Development dependencies
 FROM python:3.9 AS dev-deps
 WORKDIR /app
@@ -301,7 +301,7 @@ Container Registry Architecture
 
 She showed Maya their registry's web interface:
 
-```
+```text
 Registry: registry.digiland.internal
 └── Repository: digiland/ticketing
     ├── Tag: latest → sha256:435f9a2d7c31...
@@ -315,7 +315,7 @@ Registry: registry.digiland.internal
 
 She demonstrated this concept:
 
-```
+```console
 # Pull by tag (mutable reference)
 $ docker pull digiland/ticketing:latest
 
@@ -332,7 +332,7 @@ $ docker pull digiland/ticketing@sha256:435f9a2d7c31e98c537428a05b33da4e6c272852
 
 She demonstrated with a pull command:
 
-```
+```console
 $ docker pull digiland/ticketing:v1.5.3
 v1.5.3: Pulling from digiland/ticketing
 Digest: sha256:6a92cd1fcdc8d8cdec60f33dda4db2cb1fcdcacf3410a8e05b3741f44a9b5998
@@ -359,7 +359,7 @@ Content Trust: Ensuring images haven't been tampered with
 
 "We've configured our registry to automatically scan all images for vulnerabilities," Connie explained, showing Maya a scan report:
 
-```
+```text
 Image: digiland/ticketing:latest
 Scan completed: April 12, 2023 08:45 UTC
 └── Vulnerabilities found: 3
@@ -379,7 +379,7 @@ The following week, Maya put her new understanding of container images to work, 
 
 First, Maya restructured their Dockerfiles to maximize build cache efficiency:
 
-```
+```dockerfile
 # Before: Frequent cache invalidation
 FROM python:3.9-alpine
 WORKDIR /app
@@ -401,7 +401,7 @@ This simple change reduced their average build time from 5 minutes to just over 
 
 Next, Maya converted their largest applications to use multi-stage builds:
 
-```
+```dockerfile
 # Stage 1: Build the React frontend
 FROM node:16 AS frontend-builder
 WORKDIR /app
@@ -444,7 +444,7 @@ Maya also improved their registry setup to optimize for their distributed enviro
 
 She set up a central registry with mirror caches at each edge location:
 
-```
+```yaml
 # Docker registry configuration
 version: 0.1
 storage:
@@ -462,7 +462,7 @@ proxy:
 
 She implemented a tag lifecycle policy to manage image retention:
 
-```
+```json
 {
   "rules": [
     {
@@ -486,7 +486,7 @@ This ensured that only actively used images remained in the registry, automatica
 
 Finally, Maya set up an artifact registry alongside their container registry to manage build dependencies:
 
-```
+```console
 # Configure pip to use private registry
 $ cat > ~/.pip/pip.conf << EOF
 [global]
@@ -524,7 +524,7 @@ Ready to dive deeper into container images yourself? Here are some beginner-frie
 
 Examine image layers:
 
-```
+```console
 # Install dive tool for exploring images
 $ wget https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb
 $ sudo apt install ./dive_0.9.2_linux_amd64.deb
@@ -535,7 +535,7 @@ $ dive nginx:latest
 
 Experiment with build cache:
 
-```
+```console
 # Create a simple Dockerfile
 $ echo 'FROM alpine:latest' > Dockerfile
 $ echo 'RUN apk add --no-cache python3' >> Dockerfile
@@ -555,7 +555,7 @@ $ time docker build -t test:v3 .
 
 Create a multi-stage build:
 
-```
+```dockerfile
 # Create a multi-stage Dockerfile
 $ cat > Dockerfile.multi << EOF
 FROM golang:1.19 AS builder
@@ -588,7 +588,7 @@ $ docker images app
 
 Push to and pull from a registry:
 
-```
+```console
 # Start a local registry
 $ docker run -d -p 5000:5000 --name registry registry:2
 

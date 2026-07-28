@@ -15,17 +15,17 @@ This site is built with [Hugo](https://gohugo.io/) and a custom theme. It's depl
 
 I'll be writing about:
 
-- **Security research** — findings, tools, and methodologies
-- **Engineering** — things I build, problems I solve, and lessons learned
-- **AI/ML** — experiments, observations, and practical applications
+- **Security research** - findings, tools, and methodologies
+- **Engineering** - things I build, problems I solve, and lessons learned
+- **AI/ML** - experiments, observations, and practical applications
 
 ## The Stack
 
 Nothing fancy:
 
 - Hugo for static site generation
-- A custom theme — neo-brutalist, terminal-flavoured, dark-mode-first
+- A custom theme - neo-brutalist, terminal-flavoured, dark-mode-first
 - GitHub Pages for hosting
 - GitHub Actions for CI/CD
 
-Posts are written in Markdown. The site also serves raw Markdown versions of each post for AI consumption — more on that in the next post.
+Posts are written in Markdown. The site also serves raw Markdown versions of each post for AI consumption - more on that in the next post.

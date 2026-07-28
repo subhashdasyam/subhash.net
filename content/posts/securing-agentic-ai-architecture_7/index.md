@@ -146,7 +146,7 @@ And in your agent tool wrapper (Node):
 
 JavaScript
 
-```
+```typescript
 async function refundTool(args: any, ctx: { userId: string }) {
   const { amount, transaction_id } = args;
   const mode = classifyRefund(amount);
@@ -199,7 +199,7 @@ Store risk / confidence in the agent state and make decisions based on it, not j
 
 Python
 
-```
+```python
 from enum import Enum
 
 class ConfidenceLevel(str, Enum):
@@ -243,7 +243,7 @@ Tag data and tools by classification: PUBLIC, INTERNAL, CONFIDENTIAL, HIGHLY_CON
 
 JavaScript
 
-```
+```typescript
 function requiresComplianceReview(dataClass: "PUBLIC" | "CONFIDENTIAL" | "HIGHLY_CONFIDENTIAL") {
   return dataClass === "HIGHLY_CONFIDENTIAL";
 }
@@ -332,7 +332,7 @@ Implementation basics:
 
 Python
 
-```
+```python
 def escalation_required(events) -> bool:
     failed_attempts = sum(1 for e in events if e["type"] == "failure")
     user_requested_human = any(
@@ -384,7 +384,7 @@ Node style wrapper:
 
 JavaScript
 
-```
+```typescript
 async function withApprovalGate<T>(
   actionType: string,
   payload: any,
@@ -457,7 +457,7 @@ Minimal example for payment review:
 
 Python
 
-```
+```python
 def anomaly_score(payment) -> float:
     # 0 normal, 1 very weird
     return model_predict_anomaly(payment)
