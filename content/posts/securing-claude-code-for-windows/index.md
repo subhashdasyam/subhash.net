@@ -5,8 +5,6 @@ lastmod: 2025-10-08T01:32:01.931+04:00
 slug: "securing-claude-code-for-windows"
 sourceURL: "https://www.subhashdasyam.com/2025/10/securing-claude-code-for-windows.html"
 ---
-https://www.subhashdasyam.com/2025/10/securing-claude-code-for-windows.html
-
 A Complete Guide to Enterprise-Grade Security Controls, Managed Policies, and Zero-Trust Architecture for Claude Code on Windows
 
 ## Executive Summary

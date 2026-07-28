@@ -12,8 +12,6 @@ tags:
 system: "Agentic AI"
 sourceURL: "https://www.subhashdasyam.com/2025/12/policy-as-code-for-ai-workloads-in-kubernetes.html.html"
 ---
-https://www.subhashdasyam.com/2025/12/policy-as-code-for-ai-workloads-in-kubernetes.html.html
-
 ## 1. Why This Matters
 
 Your container is signed. Your image is scanned. Your CVE count is zero.

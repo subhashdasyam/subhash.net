@@ -1,0 +1,14 @@
+{{- /*
+  Demote level-1 headings inside post bodies to <h2>.
+
+  12 of the migrated posts use `#` for their top section heading ("1. Agentic AI
+  Fundamentals", "Word Embedding Game", ...). Left alone those emit a second
+  <h1> competing with the post title, and land unstyled because the theme only
+  dresses .post-body h2/h3 -- so they rendered as large, marginless text.
+
+  Done here rather than by rewriting the markdown: it leaves the author's source
+  untouched and applies to anything written later too.
+*/ -}}
+{{- $level := .Level -}}
+{{- if eq $level 1 -}}{{- $level = 2 -}}{{- end -}}
+<h{{ $level }} id="{{ .Anchor }}">{{ .Text }}</h{{ $level }}>

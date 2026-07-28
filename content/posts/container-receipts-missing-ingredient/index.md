@@ -11,8 +11,6 @@ tags:
 system: "Container SBOM"
 sourceURL: "https://www.subhashdasyam.com/2025/05/container-receipts-missing-ingredient.html"
 ---
-https://www.subhashdasyam.com/2025/05/container-receipts-missing-ingredient.html
-
 ### The Mystery of the Missing SBOM
 
 It's 3 AM when the alert comes in. A critical vulnerability has been found in a library used across the company's microservices architecture. The security team needs to know: Which containers are affected? When were they built? Who built them? And most importantly - can they prove to auditors that the fix was complete?

@@ -259,14 +259,18 @@ z-index: 1000;
 max-width: 1400px; margin: 0 auto; padding: 0 20px;
 display: flex; justify-content: space-between; align-items: center;
 }
-#header-wrapper h1 {
+/* .site-title is an <h1> on the homepage and a <div> elsewhere -- styled
+   identically so the header looks the same on every page. */
+#header-wrapper .site-title {
 margin: 0;
 font-family: 'Space Grotesk';
+font-weight: 700;
 text-transform: uppercase;
 font-size: 1.5rem;
+line-height: 1.4;
 }
-#header-wrapper h1 a { color: #000; text-decoration: none; }
-#header-wrapper h1 .slash { color: #ff4d00; }
+#header-wrapper .site-title a { color: var(--text); text-decoration: none; }
+#header-wrapper .site-title .slash { color: #ff4d00; }
 .theme-toggle {
 cursor: pointer; display: inline-block; margin-left: 15px; padding: 5px;
 }

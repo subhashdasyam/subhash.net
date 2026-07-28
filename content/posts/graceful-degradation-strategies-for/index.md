@@ -11,8 +11,6 @@ tags:
 system: "AI"
 sourceURL: "https://www.subhashdasyam.com/2025/06/graceful-degradation-strategies-for.html"
 ---
-https://www.subhashdasyam.com/2025/06/graceful-degradation-strategies-for.html
-
 ## Introduction
 
 Graceful degradation ensures systems maintain core functionality even when components fail or face performance issues, rather than experiencing complete system failure. In GenAI and inference systems, this capability becomes mission-critical as organizations increasingly rely on AI-powered applications for business operations. The approach involves systematically reducing less critical services while preserving essential operations during high-stress conditions or failures.

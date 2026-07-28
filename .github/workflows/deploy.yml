@@ -44,11 +44,15 @@ jobs:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
           TZ: UTC
+        # No --baseURL override. configure-pages emits the http:// form of the
+        # custom domain, which was overriding the https:// baseURL in
+        # config/_default/hugo.toml -- every canonical, og:url, sitemap <loc>,
+        # RSS <link> and llms.txt entry was published as http:// even though
+        # Pages enforces https. The config file is the source of truth.
         run: |
           hugo \
             --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --minify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -58,7 +62,10 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      # Hardcoded rather than ${{ steps.deployment.outputs.page_url }}: for a
+      # custom domain that output is the http:// form, which is what made the
+      # repo report "Your site is live at http://subhash.net/".
+      url: https://subhash.net/
     runs-on: ubuntu-latest
     needs: build
     steps:

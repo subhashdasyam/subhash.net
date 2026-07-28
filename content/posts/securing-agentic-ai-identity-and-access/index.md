@@ -16,8 +16,6 @@ tags:
 system: "Agentic AI"
 sourceURL: "https://www.subhashdasyam.com/2025/12/securing-agentic-ai-identity-and-access.html"
 ---
-https://www.subhashdasyam.com/2025/12/securing-agentic-ai-identity-and-access.html
-
 # 6. Identity and Access Control for Agents
 
 ## 6.0 Why identity is the real security boundary

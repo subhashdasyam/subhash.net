@@ -5,8 +5,6 @@ lastmod: 2025-12-23T22:01:57.366+04:00
 slug: "long-context-inference-security-kv"
 sourceURL: "https://www.subhashdasyam.com/2025/12/long-context-inference-security-kv.html"
 ---
-https://www.subhashdasyam.com/2025/12/long-context-inference-security-kv.html
-
 ## 1. Why Long-Context Security Matters
 
 Your LLM can process a million tokens. Every one of them is a potential leak.
