@@ -1,20 +1,28 @@
-{{/* Mirrors the two-widget sidebar on subhashdasyam.com. "Popular Posts" there
-     was Blogger's analytics-backed widget; with no analytics here it would be a
-     lie, so this shows the most recent posts under an honest heading. */}}
+{{- $posts := where .Site.RegularPages "Section" "posts" }}
 <aside id="sidebar-wrapper">
 <div class="sidebar section" id="sidebar">
 
+  <div class="widget" id="About1">
+    <h2>About</h2>
+    <div class="widget-content">
+      <p>{{ .Site.Params.author.bio }}</p>
+      <p><a href="{{ "/about/" | relURL }}">More about Subhash</a></p>
+    </div>
+  </div>
+
+  {{- if $posts }}
   <div class="widget PopularPosts" id="PopularPosts1">
     <h2>Recent Posts</h2>
     <div class="widget-content popular-posts">
       <ul>
-        {{- range first 3 (where .Site.RegularPages "Section" "posts") }}
+        {{- range first 3 $posts }}
         <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
         {{- end }}
       </ul>
       <div class="clear"></div>
     </div>
   </div>
+  {{- end }}
 
   {{- with .Site.Taxonomies.tags }}
   <div class="widget Label" id="Label1">

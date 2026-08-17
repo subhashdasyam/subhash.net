@@ -1,10 +1,7 @@
 /* ==========================================================================
    base.css -- layout primitives the theme's geometry depends on
 
-   Provenance: reverse-engineered from Blogger's platform stylesheet
-   (css_bundle_v2.css), which the original subhashdasyam.com theme loaded before
-   its own CSS. These are not decoration -- the theme's verified measurements
-   assume them, and dropping any one visibly shifts the layout:
+   These reset rules provide the spacing assumptions used by the site theme.
 
      .section { margin: 0 15px }  ->  30px per column
      h1..h4   { margin: 0 }       ->  ~30px of extra height on every card
@@ -14,7 +11,7 @@
 
 body { margin: 0; padding: 0 0 1px; }
 
-/* Gutter on .main.section and .sidebar.section -- the single biggest delta */
+/* Gutter on the main and sidebar sections. */
 .section { margin: 0 15px; }
 
 .widget { margin: 30px 0; line-height: 1.4; }
@@ -26,7 +23,7 @@ body { margin: 0; padding: 0 0 1px; }
 .widget .post-body ul { padding: 0 2.5em; margin: .5em 0; line-height: 1.4; }
 .widget .post-body li { margin-bottom: .25em; padding-top: 0; padding-bottom: 0; }
 
-/* Heading margin reset -- without this .post-title and the sidebar h2s pick up
+/* Heading margin reset. Without it .post-title and the sidebar h2s pick up
    the UA's 0.83em top margin and every card grows by ~30px. */
 h1, h2, h3, h4 { margin: 0; position: relative; }
 
@@ -35,6 +32,6 @@ h1, h2, h3, h4 { margin: 0; position: relative; }
 .PopularPosts .item-thumbnail { float: left; margin: 0 5px 5px 0; }
 .PopularPosts img { padding-right: .4em; }
 
-/* Ordered lists in post bodies -- Blogger's bundle only styled <ul>. */
+/* Ordered lists in post bodies. */
 .widget .post-body ol { padding: 0 2.5em; margin: .5em 0; line-height: 1.4; }
 .widget .post-body ol li { margin-bottom: .25em; }

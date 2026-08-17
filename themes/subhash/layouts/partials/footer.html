@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>&copy; {{ now.Year }} {{ .Site.Params.author.name }}</p>
+    <nav aria-label="Footer navigation">
+      {{- range .Site.Menus.footer }}
+      <a href="{{ .URL }}">{{ .Name }}</a>
+      {{- end }}
+    </nav>
+  </div>
+</footer>

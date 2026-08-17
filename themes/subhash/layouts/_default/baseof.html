@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.LanguageCode | default "en" }}" dir="ltr">
+<html lang="{{ .Site.Language.Locale | default "en-US" }}" dir="ltr">
 {{ partial "head.html" . }}
 <body data-search-url="{{ "/search/" | relURL }}">
+
+<a class="skip-link" href="#main-wrapper">Skip to content</a>
 
 {{ block "progress" . }}{{ end }}
 
@@ -19,7 +21,9 @@
   {{ partial "sidebar.html" . }}
 </div>
 
-<button id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">&uarr;</button>
+<button id="back-to-top" type="button" aria-label="Back to top">&uarr;</button>
+
+{{ partial "footer.html" . }}
 
 {{/* theme.js + search.js in one request. search.js no-ops off the search page
      apart from the "/" shortcut, so there is nothing to gain by splitting. */}}

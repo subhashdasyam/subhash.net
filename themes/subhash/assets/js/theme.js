@@ -1,20 +1,21 @@
 /* ==========================================================================
    subhash theme runtime
 
-   Ported from the inline IIFE on subhashdasyam.com. Two deliberate changes:
+   Small progressive enhancements for reading and navigation:
 
-     - Block 5 (Suggested Protocol) is gone. The original fetched 50 posts from
-       the Blogger Atom feed at runtime to pick a random related post; Hugo
-       resolves related content at build time instead, so there is nothing left
-       to do on the client.
      - Theme bootstrap moved to an inline <head> script (see partials/head.html)
-       so dark-mode users don't get a white first paint. This file only owns the
+       so dark-mode users do not get a white first paint. This file only owns the
        toggle from here on.
    ========================================================================== */
 (function () {
   // 1. Reading progress + back-to-top
   var progressBar = document.getElementById('reading-progress-bar');
   var backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    backToTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
   window.addEventListener('scroll', function () {
     var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -43,6 +44,7 @@
     try { localStorage.setItem('theme', next); } catch (e) { /* private mode */ }
     paintToggle();
   };
+  if (toggle) toggle.addEventListener('click', window.toggleTheme);
 
   // 3. Dynamic content guard (tables / images)
   window.addEventListener('load', function () {

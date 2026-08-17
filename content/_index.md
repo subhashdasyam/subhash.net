@@ -1,5 +1,8 @@
 ---
 title: "Home"
+description: "Independent writing on AI security, infrastructure, containers, and systems engineering."
 ---
 
-Welcome to my corner of the internet. I write about security, engineering, and things I find interesting.
+Practical notes on AI security, infrastructure, containers, and systems engineering.
+
+Everything here is written to explain how a system works, what was tested, and what was learned.

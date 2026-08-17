@@ -2,10 +2,8 @@
   <div class="header section" id="header">
     <div class="widget Header" id="Header1">
       <div class="header-bar">
-        {{/* <h1> only on the homepage. The Blogger original used h1 for the site
-             title on every page, which left inner pages with two competing h1s
-             (site title + post title). Styled identically either way.
-             Written as a branch rather than a dynamic tag name because
+        {{/* Use h1 for the site title only on the homepage. Inner pages use
+             their content title as h1. Written as a branch because
              html/template escapes `<{{ $tag }}`. */}}
         {{- if .IsHome }}
         <h1 class="site-title">
@@ -16,7 +14,7 @@
           <a href="{{ "/" | relURL }}"><span class="slash">//</span> {{ .Site.Title }}</a>
         </div>
         {{- end }}
-        <div class="header-nav">
+        <nav class="header-nav" aria-label="Main navigation">
           {{- range .Site.Menus.main }}
             {{- if ne .Identifier "github" }}
           <a href="{{ .URL }}">{{ .Name | upper }}</a>
@@ -27,9 +25,9 @@
           <a href="{{ .URL }}" rel="me noopener" target="_blank">GITHUB</a>
             {{- end }}
           {{- end }}
-          <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" role="button" tabindex="0"
-               aria-label="Toggle colour scheme">&#9728;</div>
-        </div>
+          <button class="theme-toggle" id="theme-toggle" type="button"
+                  aria-label="Toggle colour scheme">&#9728;</button>
+        </nav>
       </div>
     </div>
   </div>

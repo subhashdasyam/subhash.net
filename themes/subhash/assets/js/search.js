@@ -2,8 +2,8 @@
    Client-side search.
 
    No external library. Fuse/lunr would each add 20-25 KB of dependency for a
-   43-post index; a weighted substring scorer is smaller, has no supply chain,
-   and is more predictable to reason about.
+   small publication; a weighted substring scorer is compact, has no external
+   dependency, and is predictable to reason about.
 
    Index fields (short keys keep the JSON small):
      t title   u url   d date   s system   g tags   e summary   b body
@@ -34,6 +34,7 @@
       })
       .then(function (data) {
         index = data;
+        if (!input.value.trim()) setStatus('AWAITING QUERY');
         return index;
       })
       .catch(function (err) {

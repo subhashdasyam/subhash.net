@@ -1,0 +1,18 @@
+/*
+  Link: </llms.txt>; rel="alternate"; type="text/plain", </index.xml>; rel="alternate"; type="application/rss+xml", </index.json>; rel="alternate"; type="application/feed+json"
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
+
+/search/*
+  X-Robots-Tag: noindex
+
+/index.json
+  X-Robots-Tag: noindex
+
+/search-index.json
+  X-Robots-Tag: noindex
+
+/*/index.md
+  X-Robots-Tag: noindex

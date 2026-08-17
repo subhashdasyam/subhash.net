@@ -1,18 +1,23 @@
 {{ define "progress" }}
+{{- if eq .Section "posts" }}
 <div class="reading-progress-track">
   <div id="reading-progress-bar"></div>
 </div>
+{{- end }}
 {{ end }}
 
 {{ define "main" }}
 <article class="post">
   <h1 class="post-title">{{ .Title }}</h1>
+  {{- if eq .Section "posts" }}
   {{ partial "post-meta.html" . }}
+  {{- end }}
 
   <div class="post-body">
     {{ .Content }}
   </div>
 
+  {{- if eq .Section "posts" }}
   {{- with .Params.tags }}
   <div class="post-tags">
     <span class="protocol-label">&gt; TAGS:</span>
@@ -36,6 +41,7 @@
   {{- if and (not $related) $others }}
     {{- $related = slice (index $others (mod (len .Title) (len $others))) }}
   {{- end }}
+  {{- if $related }}
   {{- with index $related 0 }}
   <div class="random-post-container" id="random-post-container">
     <span class="protocol-label">&gt; SUGGESTED_PROTOCOL:</span>
@@ -50,6 +56,8 @@
       </div>
     </div>
   </div>
+  {{- end }}
+  {{- end }}
   {{- end }}
 </article>
 {{ end }}

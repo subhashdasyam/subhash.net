@@ -1,10 +1,8 @@
 {{- /*
   Search index consumed by assets/js/search.js.
 
-  Content is plainified and capped per post. Uncapped this would be ~1.1 MB
-  (see /index.json, which carries full HTML) -- too much to hand a visitor who
-  just wants to find a post. The cap keeps it small while still reaching well
-  past the summary into the body.
+  Content is plainified and capped per post so the browser only downloads what
+  it needs for useful local search.
 */ -}}
 {{- $limit := 4000 -}}
 {{- $pages := where .Site.RegularPages "Section" "posts" -}}
