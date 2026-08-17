@@ -1,10 +1,6 @@
 /* ==========================================================================
-   Architecting Secure AI | Subhash Dasyam
+   subhash.net
    Neo-brutalist / terminal theme
-
-   Sections 1-11 are the verbatim Blogger page-skin CSS (<style id="page-skin-1">).
-   Section 12 collects the rules that live as inline style="" attributes in the
-   Blogger template, extracted here so the HTML stays clean.
    ========================================================================== */
 
 /* 1. VARIABLES & THEME ENGINE */
@@ -44,6 +40,16 @@ line-height: 1.6;
 }
 a { color: var(--accent); text-decoration: none; transition: 0.2s; }
 a:hover { text-decoration: underline; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+outline: 3px solid var(--accent); outline-offset: 3px;
+}
+.skip-link {
+position: fixed; top: 8px; left: 8px; z-index: 10000;
+background: var(--card-bg); color: var(--text); border: 2px solid var(--accent);
+padding: 10px 14px; transform: translateY(-160%);
+font-family: var(--font-mono); font-weight: 700;
+}
+.skip-link:focus { transform: translateY(0); }
 /* DARK MODE FORCED OVERRIDES (Fixes Header & Random Post) */
 [data-theme='dark'] #header-wrapper {
 background: var(--card-bg) !important;
@@ -109,10 +115,7 @@ overflow-x: auto; -webkit-overflow-scrolling: touch;
 background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--accent);
 padding: 20px; margin: 2.5rem 0; font-family: var(--font-mono); font-size: 0.9rem;
 color: var(--text);
-/* FIX 1 - on subhashdasyam.com `pre` was position:static while
-   .copy-code-button is position:absolute. Because .post sets `contain: content`
-   it became the containing block, so every COPY button stacked in the card's
-   top-right corner instead of sitting on its own code block. */
+/* Position copy controls relative to their own code block. */
 position: relative;
 }
 
@@ -164,11 +167,6 @@ font-family: var(--font-mono); font-size: 10px; cursor: pointer;
 .post-title { font-size: 1.8rem; word-wrap: break-word; }
 .sidebar { margin-top: 40px; }
 }
-
-/* 10. (was COMMENT SECTION FIXES)
-   Removed. The original rules styled Blogger's hosted comment iframe, including
-   a `filter: invert(1) hue-rotate(180deg)` hack to force it dark. This site has
-   no comment system, so all of it was dead weight. */
 
 /* 11. SUGGESTED PROTOCOL (related post) */
 #random-post-card {
@@ -237,14 +235,7 @@ box-shadow: 4px 4px 0 rgba(255, 77, 0, 0.15) !important; /* Orange glow shadow *
 box-shadow: 2px 2px 0 rgba(255, 77, 0, 0.3) !important; /* Brighter glow on hover */
 }
 
-/* ==========================================================================
-   12. EXTRACTED INLINE STYLES
-   On the live Blogger template these are style="" attributes in the markup.
-   Values are copied verbatim, including the hardcoded colours that do not
-   follow the theme (see README "Known defects").
-   ========================================================================== */
-
-/* --- Sticky header (was inline on #header-wrapper) --- */
+/* --- Sticky header --- */
 #header-wrapper {
 background: #fff;
 border-bottom: 2px solid #ff4d00;
@@ -253,8 +244,6 @@ position: sticky;
 top: 0;
 z-index: 1000;
 }
-/* NOTE: named .header-bar, not .header-inner -- Blogger's platform bundle
-   already claims .header-inner (`.header-inner .widget { margin: 0 30px }`). */
 .header-bar {
 max-width: 1400px; margin: 0 auto; padding: 0 20px;
 display: flex; justify-content: space-between; align-items: center;
@@ -273,6 +262,7 @@ line-height: 1.4;
 #header-wrapper .site-title .slash { color: #ff4d00; }
 .theme-toggle {
 cursor: pointer; display: inline-block; margin-left: 15px; padding: 5px;
+background: transparent; color: var(--text); border: 0; font: inherit;
 }
 
 /* --- Post card bits (were inline) --- */
@@ -418,9 +408,31 @@ font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; text-
 .post-body pre, .table-responsive { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 .post-body pre::-webkit-scrollbar, .table-responsive::-webkit-scrollbar { height: 10px; }
 .post-body pre::-webkit-scrollbar-track, .table-responsive::-webkit-scrollbar-track { background: transparent; }
+
+/* --- Site footer --- */
+.site-footer {
+border-top: 2px solid var(--accent); background: var(--card-bg);
+font-family: var(--font-mono); font-size: 0.8rem;
+}
+.site-footer-inner {
+max-width: 1400px; margin: 0 auto; padding: 24px 35px;
+display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.site-footer p { margin: 0; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; }
+
+@media (max-width: 640px) {
+.header-bar, .site-footer-inner { align-items: flex-start; flex-direction: column; }
+.header-nav { display: flex; flex-wrap: wrap; align-items: center; }
+.header-nav a { padding-left: 0; padding-right: 18px; }
+.theme-toggle { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+}
 .post-body pre::-webkit-scrollbar-thumb, .table-responsive::-webkit-scrollbar-thumb { background: var(--border); }
 .post-body pre::-webkit-scrollbar-thumb:hover, .table-responsive::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-/* NOTE: the live theme ships NO table border/padding rules. Tables on the blog
-   are styled by whatever inline markup the post itself carries, falling back to
-   Blogger's widget CSS bundle. Nothing is added here so this file stays a
-   faithful mirror -- add your own table rules if you want them themed. */
+.post-body table { border-collapse: collapse; width: 100%; }
+.post-body th, .post-body td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+.post-body th { background: var(--bg); font-family: var(--font-mono); }

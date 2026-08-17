@@ -1,9 +1,8 @@
-{{/* DATE: <iso timestamp>   SYSTEM: <primary tag>
-     Matches the mono metadata line on subhashdasyam.com. `system` is set by the
-     content converter to the post's first tag; falls back to the first tag in
-     front matter so hand-written posts work without it. */}}
+{{/* DATE: <iso timestamp>   BY: <author>   SYSTEM: <primary tag>
+     `system` is optional and falls back to the first tag. */}}
 <div class="post-meta">
-  <span>DATE: {{ .Date.Format "2006-01-02T15:04:05-07:00" }}</span>
+  <span>DATE: <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006-01-02" }}</time></span>
+  <span class="post-meta-system">BY: {{ .Site.Params.author.name }}</span>
   {{- $system := .Params.system }}
   {{- if not $system }}{{ with .Params.tags }}{{ $system = index . 0 }}{{ end }}{{ end }}
   {{- with $system }}

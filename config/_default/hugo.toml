@@ -1,24 +1,27 @@
 theme = "subhash"
 baseURL = "https://subhash.net/"
 defaultContentLanguage = "en"
+timeZone = "Asia/Dubai"
 
 enableRobotsTXT = true
-summaryLength = 30
+enableGitInfo = true
+summaryLength = 36
 buildDrafts = false
-# The newest post is dated 2026-07-18. Without this it is excluded from the
-# build whenever the clock is behind that date.
-buildFuture = true
+buildFuture = false
 enableEmoji = true
+rssLimit = 20
 
 [pagination]
-  pagerSize = 5   # matches subhashdasyam.com's 5-posts-per-page homepage
+  pagerSize = 10
 
 [imaging]
   anchor = 'Center'
 
 [taxonomies]
   tag = "tags"
-  category = "categories"
+
+[permalinks]
+  posts = "/posts/:slug/"
 
 [sitemap]
   changefreq = 'weekly'
@@ -57,10 +60,6 @@ enableEmoji = true
   page = ["HTML", "markdown"]
 
 [related]
-  # threshold 0 accepted ANY non-zero score, so the `date` index alone made two
-  # posts "related" purely for being published near each other -- every article
-  # ended up suggesting whatever was nearest in time. 80 requires real tag
-  # overlap; single.html falls back to a spread-out pick when nothing qualifies.
   threshold = 80
   toLower = true
 

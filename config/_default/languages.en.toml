@@ -1,5 +1,5 @@
-languageCode = "en"
-languageName = "English"
+locale = "en-US"
+label = "English"
 weight = 1
 title = "Subhash Dasyam"
 
@@ -7,12 +7,14 @@ title = "Subhash Dasyam"
   displayName = "English"
   isoCode = "en"
   dateFormat = "2 January 2006"
-  description = "Personal blog and notes by Subhash Dasyam"
+  description = "Independent writing on AI security, infrastructure, containers, and systems engineering by Subhash Dasyam."
 
 [params.author]
   name = "Subhash Dasyam"
-  headline = "Security Researcher & Engineer"
-  bio = "Security researcher, engineer, and builder."
+  url = "https://subhash.net/about/"
+  headline = "Security Researcher and Engineer"
+  bio = "Security researcher, engineer, and builder focused on practical systems work."
+  sameAs = ["https://github.com/subhashdasyam"]
   links = [
     { github = "https://github.com/subhashdasyam" },
   ]

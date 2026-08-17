@@ -1,8 +1,10 @@
 ---
 title: "Search"
 layout: "search"
+description: "Search articles published on subhash.net."
+robots: "noindex,follow"
 sitemap:
-  priority: 0.1
+  disable: true
 outputs:
   - HTML
 ---

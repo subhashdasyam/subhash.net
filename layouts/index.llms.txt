@@ -2,9 +2,23 @@
 
 > {{ .Site.Params.description }}
 
+## About
+
+- [About {{ .Site.Params.author.name }}]({{ "about/" | absURL }})
+
+## Feeds
+
+- [RSS]({{ "index.xml" | absURL }})
+- [JSON Feed]({{ "index.json" | absURL }})
+
 ## Posts
 
-{{ range where .Site.RegularPages "Section" "posts" -}}
+{{ $posts := where .Site.RegularPages "Section" "posts" -}}
+{{ if $posts }}
+{{ range $posts }}
 - [{{ .Title }}]({{ .Permalink }}) - {{ .Summary | plainify | truncate 100 }}
   - Raw Markdown: {{ .Permalink }}index.md
+{{ end }}
+{{ else }}
+No posts have been published yet.
 {{ end }}

@@ -3,14 +3,25 @@
   {{- if .IsHome }}{{ $pages = where .Site.RegularPages "Section" "posts" }}{{ end }}
   {{- $paginator := .Paginate $pages }}
 
+  {{- if .IsHome }}
+  <article class="post site-introduction">
+    <div class="post-body">{{ .Content }}</div>
+  </article>
+  {{- else }}
+  <article class="post section-introduction">
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- with .Content }}<div class="post-body">{{ . }}</div>{{ end }}
+  </article>
+  {{- end }}
+
   {{- range $paginator.Pages }}
     {{ partial "post-card.html" . }}
   {{- end }}
 
   {{- if not $paginator.Pages }}
   <article class="post">
-    <h2 class="post-title">Nothing here yet</h2>
-    <div class="post-body"><p>No posts in this section.</p></div>
+    <h2 class="post-title">New writing is coming soon</h2>
+    <div class="post-body"><p>No articles have been published here yet.</p></div>
   </article>
   {{- end }}
 

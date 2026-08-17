@@ -1,14 +1,5 @@
-# Params for the `subhash` theme.
-#
-# The previous Blowfish parameter block (colorScheme, homepage.layout, article.*,
-# list.*, taxonomy.*, term.*, header.layout, footer.*, sharingLinks, smartTOC,
-# enableSearch ...) is gone -- none of those keys mean anything to this theme.
-# Everything visual now lives in themes/subhash/assets/css/.
-
-# "light" or "dark". Read before first paint by the inline script in
-# partials/head.html; a visitor's saved localStorage choice always wins.
-# subhashdasyam.com itself defaults to light -- this preserves subhash.net's
-# existing dark default. Flip this one value to change it.
+# "light" or "dark". A visitor's saved preference always wins.
 defaultAppearance = "dark"
 
 mainSections = ["posts"]
+keywords = ["AI security", "systems engineering", "containers", "infrastructure"]

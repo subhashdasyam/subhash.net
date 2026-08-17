@@ -1,6 +1,4 @@
-{{/* The original had a single "NEXT >" link (Blogger's older-posts pager).
-     Hugo gives us both directions, so PREV appears once there is a page to go
-     back to. Same terminal button styling either way. */}}
+{{/* Provide both directions once the list spans more than one page. */}}
 {{- with .Paginator }}
   {{- if gt .TotalPages 1 }}
 <div class="blog-pager">
